@@ -21,12 +21,13 @@ struct WorkoutList: View {
                     Text(workout)
                 }
             }
+            .listStyle(.insetGrouped)
             .navigationTitle("Workouts")
             .navigationBarTitleDisplayMode(.large)
         }
     }
 }
 
-#Preview("Workout List") {
+#Preview("Workout List", traits: .landscapeLeft) {
     WorkoutList()
 }

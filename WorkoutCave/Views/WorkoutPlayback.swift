@@ -14,6 +14,9 @@ struct WorkoutPlayback: View {
     @Environment(\.scenePhase) private var scenePhase
     var workoutName: String
     
+    var spacing: CGFloat = 24
+    var timerFontSize: CGFloat = 128
+    
     // MARK: - Body
     
     var body: some View {
@@ -48,7 +51,7 @@ struct WorkoutPlayback: View {
     }
     
     private func errorView(error: String) -> some View {
-        VStack(spacing: 20) {
+        VStack(spacing: spacing) {
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 48))
                 .foregroundColor(.orange)
@@ -63,162 +66,58 @@ struct WorkoutPlayback: View {
     }
     
     private func playbackContent(workout: Workout) -> some View {
-        GeometryReader { geometry in
-            let isCompact = geometry.size.width < 500
-            let spacing: CGFloat = isCompact ? 20 : 40
-            let horizontalPadding: CGFloat = isCompact ? 20 : 40
-            let intervalFontSize = isCompact ? 
-                min(geometry.size.width * 0.12, 48) : 
-                min(geometry.size.width * 0.15, 72)
-            let timerFontSize = isCompact ?
-                min(geometry.size.width * 0.10, 48) :
-                min(geometry.size.width * 0.12, 64)
-            
+        ScrollView {
             VStack(spacing: spacing) {
                 Text(workout.name)
-                    .font(isCompact ? .title3 : .title2)
-                    .fontWeight(.semibold)
+                    .font(.title3)
+                    .fontWeight(.medium)
                     .foregroundColor(.secondary)
-                    .padding(.top, isCompact ? 10 : 20)
+                    .padding(.top, spacing)
                     .lineLimit(2)
-                    .minimumScaleFactor(0.8)
                 
                 Spacer()
                 
-                // Interval name (large, centered)
                 if engine.playbackState == .finished {
                     Text("Workout Complete")
-                        .font(.system(size: intervalFontSize, weight: .bold))
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                         .foregroundColor(.green)
                 } else if let interval = engine.currentInterval {
                     Text(interval.name)
-                        .font(.system(size: intervalFontSize, weight: .bold))
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                         .lineLimit(3)
-                        .minimumScaleFactor(0.7)
                     if let message = interval.message {
                         Text(message)
-                            .font(.system(size: intervalFontSize / 2, weight: .regular))
+                            .font(.title)
                     }
-                }
-                
-                // Countdown timer
-                if engine.playbackState != .finished {
-                    Text(formatTime(engine.remainingTimeInInterval))
-                        .font(.system(size: timerFontSize, weight: .medium, design: .rounded))
-                        .monospacedDigit()
-                        .foregroundColor(.primary)
-                        .padding(.vertical, isCompact ? 10 : 20)
                 }
                 
                 Spacer()
                 
-                // Controls
-                VStack(spacing: isCompact ? 12 : 20) {
-                    ProgressView(value: engine.intervalProgress)
-                    // Start/Pause button
-                    Button(action: {
-                        if engine.playbackState == .running {
-                            engine.pause()
-                        } else {
-                            engine.start()
-                        }
-                    }) {
-                        HStack {
-                            Image(systemName: engine.playbackState == .running ? "pause.fill" : "play.fill")
-                            Text(engine.playbackState == .running ? "Pause" : "Start")
-                        }
-                        .font(isCompact ? .headline : .title2)
-                        .frame(maxWidth: .infinity)
-                        .padding(isCompact ? 12 : 16)
-                        .background(engine.playbackState == .finished ? Color.gray : Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                    }
-                    .disabled(engine.playbackState == .finished)
-                    
-                    if isCompact {
-                        // Stack buttons vertically in compact width
-                        VStack(spacing: 12) {
-                            Button(action: {
-                                engine.skipInterval()
-                            }) {
-                                HStack {
-                                    Image(systemName: "forward.fill")
-                                    Text("Skip")
-                                }
-                                .font(.subheadline)
-                                .frame(maxWidth: .infinity)
-                                .padding(12)
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
-                            }
-                            .disabled(engine.playbackState == .idle || engine.playbackState == .finished)
-                            
-                            Button(action: {
-                                engine.restart()
-                            }) {
-                                HStack {
-                                    Image(systemName: "arrow.counterclockwise")
-                                    Text("Restart")
-                                }
-                                .font(.subheadline)
-                                .frame(maxWidth: .infinity)
-                                .padding(12)
-                                .background(Color.gray)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
-                            }
-                            .disabled(engine.playbackState == .idle)
-                        }
-                    } else {
-                        // Side-by-side buttons in wider layouts
-                        HStack(spacing: 20) {
-                            // Skip button
-                            Button(action: {
-                                engine.skipInterval()
-                            }) {
-                                HStack {
-                                    Image(systemName: "forward.fill")
-                                    Text("Skip")
-                                }
-                                .font(.headline)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
-                            }
-                            .disabled(engine.playbackState == .idle || engine.playbackState == .finished)
-                            
-                            // Restart button
-                            Button(action: {
-                                engine.restart()
-                            }) {
-                                HStack {
-                                    Image(systemName: "arrow.counterclockwise")
-                                    Text("Restart")
-                                }
-                                .font(.headline)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.gray)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
-                            }
-                            .disabled(engine.playbackState == .idle)
-                        }
-                    }
+                // Countdown timer
+                if engine.playbackState != .finished {
+                    Text(formatTime(engine.remainingTimeInInterval))
+                        .font(.custom("Timer", size: timerFontSize))
+                        .fontWeight(.bold)
+                        .dynamicTypeSize(.large)
+                        .monospacedDigit()
                 }
-                .padding(.horizontal, horizontalPadding)
-                .padding(.bottom, isCompact ? 20 : 40)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding([.horizontal, .bottom], spacing)
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: spacing) {
+                ProgressView(value: engine.intervalProgress)
+                Controls(engine: engine)
+            }
+        }
+        .safeAreaPadding(.bottom, spacing)
     }
     
     // MARK: - Private Methods

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7DF2EF471170047A9FC /* WorkoutList.swift */; };
 		65FBC7E22EF47C260047A9FC /* jen-intervals.zwo in Resources */ = {isa = PBXBuildFile; fileRef = 65FBC7E12EF47C200047A9FC /* jen-intervals.zwo */; };
+		65FBC7E42EF49B350047A9FC /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7E32EF49B320047A9FC /* Controls.swift */; };
 		A1000001 /* WorkoutCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002 /* WorkoutCave.swift */; };
 		A1000003 /* WorkoutPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* WorkoutPlayback.swift */; };
 		A1000005 /* WorkoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* WorkoutEngine.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		65FBC7DF2EF471170047A9FC /* WorkoutList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutList.swift; sourceTree = "<group>"; };
 		65FBC7E12EF47C200047A9FC /* jen-intervals.zwo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "jen-intervals.zwo"; sourceTree = "<group>"; };
+		65FBC7E32EF49B320047A9FC /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
 		A1000000 /* WorkoutCave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000002 /* WorkoutCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCave.swift; sourceTree = "<group>"; };
 		A1000004 /* WorkoutPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPlayback.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 		A1000027 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				65FBC7E32EF49B320047A9FC /* Controls.swift */,
 				65FBC7DF2EF471170047A9FC /* WorkoutList.swift */,
 				A1000004 /* WorkoutPlayback.swift */,
 			);
@@ -170,6 +173,7 @@
 				A1000001 /* WorkoutCave.swift in Sources */,
 				A1000003 /* WorkoutPlayback.swift in Sources */,
 				A1000005 /* WorkoutEngine.swift in Sources */,
+				65FBC7E42EF49B350047A9FC /* Controls.swift in Sources */,
 				65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */,
 				A1000007 /* ZWOParser.swift in Sources */,
 				A1000009 /* Workout.swift in Sources */,
