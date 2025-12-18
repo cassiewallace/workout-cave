@@ -1,5 +1,5 @@
 //
-//  WorkoutPlaybackView.swift
+//  WorkoutPlayback.swift
 //  WorkoutCave
 //
 //  Created by Cassie Wallace on 12/18/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WorkoutPlaybackView: View {
+struct WorkoutPlayback: View {
     // MARK: - Properties
     
     @StateObject private var engine = WorkoutEngine()
@@ -262,6 +262,6 @@ struct WorkoutPlaybackView: View {
 // MARK: - Preview
 
 #Preview {
-    WorkoutPlaybackView()
+    WorkoutPlayback()
 }
 

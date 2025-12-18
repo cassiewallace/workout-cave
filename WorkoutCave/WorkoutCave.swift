@@ -13,7 +13,7 @@ struct WorkoutCave: App {
     
     var body: some Scene {
         WindowGroup {
-            WorkoutPlaybackView()
+            WorkoutPlayback()
         }
     }
 }
