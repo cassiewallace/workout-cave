@@ -23,7 +23,7 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     private var intervalsTOffDuration: TimeInterval = 0
     private var intervalsTRepeat: Int = 0
 
-    // MARK: - Public API
+    // MARK: - Public Functions
 
     func parse(data: Data) -> Workout? {
         let parser = XMLParser(data: data)
