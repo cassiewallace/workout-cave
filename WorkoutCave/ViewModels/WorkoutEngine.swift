@@ -43,9 +43,9 @@ class WorkoutEngine: ObservableObject {
         return max(0, interval.duration - elapsedTimeInInterval)
     }
     
-    var intervalProgress: String {
-        guard let workout = workout else { return "" }
-        return "Interval \(currentIntervalIndex + 1) of \(workout.intervals.count)"
+    var intervalProgress: Double {
+        guard let workout = workout else { return 0 }
+        return Double(currentIntervalIndex) / Double(workout.intervals.count)
     }
     
     // MARK: - Lifecycle
