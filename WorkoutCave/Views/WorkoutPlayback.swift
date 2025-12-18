@@ -11,24 +11,23 @@ struct WorkoutPlayback: View {
     // MARK: - Properties
     
     @StateObject private var engine = WorkoutEngine()
-    @State private var workout: Workout?
-    @State private var errorMessage: String?
     @Environment(\.scenePhase) private var scenePhase
+    var workoutName: String
     
     // MARK: - Body
     
     var body: some View {
         Group {
-            if let workout = workout {
+            if let workout = engine.workout {
                 playbackContent(workout: workout)
-            } else if let error = errorMessage {
+            } else if let error = engine.errorMessage {
                 errorView(error: error)
             } else {
                 loadingView
             }
         }
-        .onAppear {
-            loadWorkout()
+        .task {
+            engine.loadWorkout(workoutName)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if oldPhase == .background && newPhase == .active {
@@ -236,32 +235,11 @@ struct WorkoutPlayback: View {
         let seconds = Int(time) % 60
         return String(format: "%d:%02d", minutes, seconds)
     }
-    
-    private func loadWorkout() {
-        guard let url = Bundle.main.url(forResource: "sample", withExtension: "zwo") else {
-            errorMessage = "Could not find sample.zwo file in bundle"
-            return
-        }
-        
-        guard let data = try? Data(contentsOf: url) else {
-            errorMessage = "Could not read sample.zwo file"
-            return
-        }
-        
-        let parser = ZWOParser()
-        guard let parsedWorkout = parser.parse(data: data) else {
-            errorMessage = "Could not parse ZWO file. Make sure it contains valid workout intervals."
-            return
-        }
-        
-        workout = parsedWorkout
-        engine.loadWorkout(parsedWorkout)
-    }
 }
 
 // MARK: - Preview
 
 #Preview {
-    WorkoutPlayback()
+    WorkoutPlayback(workoutName: "sample")
 }
 
