@@ -75,7 +75,6 @@ struct WorkoutPlayback: View {
                 min(geometry.size.width * 0.12, 64)
             
             VStack(spacing: spacing) {
-                // Workout name
                 Text(workout.name)
                     .font(isCompact ? .title3 : .title2)
                     .fontWeight(.semibold)
@@ -86,20 +85,9 @@ struct WorkoutPlayback: View {
                 
                 Spacer()
                 
-                // Interval progress
-                if engine.playbackState == .finished {
-                    Text("Workout Complete")
-                        .font(isCompact ? .body : .title3)
-                        .foregroundColor(.secondary)
-                } else {
-                    Text(engine.intervalProgress)
-                        .font(isCompact ? .body : .title3)
-                        .foregroundColor(.secondary)
-                }
-                
                 // Interval name (large, centered)
                 if engine.playbackState == .finished {
-                    Text("Finished")
+                    Text("Workout Complete")
                         .font(.system(size: intervalFontSize, weight: .bold))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
@@ -130,6 +118,7 @@ struct WorkoutPlayback: View {
                 
                 // Controls
                 VStack(spacing: isCompact ? 12 : 20) {
+                    ProgressView(value: engine.intervalProgress)
                     // Start/Pause button
                     Button(action: {
                         if engine.playbackState == .running {
