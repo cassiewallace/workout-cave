@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A1000001 /* WorkoutCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002 /* WorkoutCave.swift */; };
-		A1000003 /* WorkoutPlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* WorkoutPlaybackView.swift */; };
+		A1000003 /* WorkoutPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* WorkoutPlayback.swift */; };
 		A1000005 /* WorkoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* WorkoutEngine.swift */; };
 		A1000007 /* ZWOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000008 /* ZWOParser.swift */; };
 		A1000009 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000010 /* Workout.swift */; };
@@ -18,7 +18,7 @@
 /* Begin PBXFileReference section */
 		A1000000 /* WorkoutCave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000002 /* WorkoutCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCave.swift; sourceTree = "<group>"; };
-		A1000004 /* WorkoutPlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPlaybackView.swift; sourceTree = "<group>"; };
+		A1000004 /* WorkoutPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPlayback.swift; sourceTree = "<group>"; };
 		A1000006 /* WorkoutEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEngine.swift; sourceTree = "<group>"; };
 		A1000008 /* ZWOParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWOParser.swift; sourceTree = "<group>"; };
 		A1000010 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		A1000027 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A1000004 /* WorkoutPlaybackView.swift */,
+				A1000004 /* WorkoutPlayback.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -161,7 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1000001 /* WorkoutCave.swift in Sources */,
-				A1000003 /* WorkoutPlaybackView.swift in Sources */,
+				A1000003 /* WorkoutPlayback.swift in Sources */,
 				A1000005 /* WorkoutEngine.swift in Sources */,
 				A1000007 /* ZWOParser.swift in Sources */,
 				A1000009 /* Workout.swift in Sources */,
