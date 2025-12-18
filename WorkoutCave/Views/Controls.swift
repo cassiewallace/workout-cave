@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: - Enumerations
+
 private enum ControlType {
     case play
     case pause
@@ -15,7 +17,7 @@ private enum ControlType {
 }
 
 struct Controls: View {
-    // MARK: - Enumerations
+    // MARK: - Properties
     
     @ObservedObject var engine: WorkoutEngine
     private let spacing: CGFloat = 64
