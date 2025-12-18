@@ -25,6 +25,7 @@ extension Workout {
         
         let duration: TimeInterval // in seconds
         let name: String
+        let message: String?
     }
 }
 

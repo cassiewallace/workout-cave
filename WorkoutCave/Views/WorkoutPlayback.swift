@@ -111,6 +111,10 @@ struct WorkoutPlayback: View {
                         .padding(.horizontal)
                         .lineLimit(3)
                         .minimumScaleFactor(0.7)
+                    if let message = interval.message {
+                        Text(message)
+                            .font(.system(size: intervalFontSize / 2, weight: .regular))
+                    }
                 }
                 
                 // Countdown timer
@@ -155,7 +159,7 @@ struct WorkoutPlayback: View {
                             }) {
                                 HStack {
                                     Image(systemName: "forward.fill")
-                                    Text("Skip Interval")
+                                    Text("Skip")
                                 }
                                 .font(.subheadline)
                                 .frame(maxWidth: .infinity)
@@ -185,13 +189,13 @@ struct WorkoutPlayback: View {
                     } else {
                         // Side-by-side buttons in wider layouts
                         HStack(spacing: 20) {
-                            // Skip interval button
+                            // Skip button
                             Button(action: {
                                 engine.skipInterval()
                             }) {
                                 HStack {
                                     Image(systemName: "forward.fill")
-                                    Text("Skip Interval")
+                                    Text("Skip")
                                 }
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
@@ -239,7 +243,12 @@ struct WorkoutPlayback: View {
 
 // MARK: - Preview
 
-#Preview {
-    WorkoutPlayback(workoutName: "sample")
+#Preview("Landscape", traits: .landscapeLeft) {
+    WorkoutPlayback(workoutName: "jen-intervals")
+}
+
+
+#Preview("Portrait", traits: .portrait) {
+    WorkoutPlayback(workoutName: "jen-intervals")
 }
 
