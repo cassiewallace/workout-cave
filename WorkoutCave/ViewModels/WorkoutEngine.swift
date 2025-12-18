@@ -22,8 +22,9 @@ class WorkoutEngine: ObservableObject {
     @Published var currentIntervalIndex: Int = 0
     @Published var elapsedTimeInInterval: TimeInterval = 0
     @Published var playbackState: PlaybackState = .idle
+    @Published var workout: Workout?
+    @Published var errorMessage: String?
     
-    private var workout: Workout?
     private var intervalStartTime: Date?
     private var pausedElapsedTime: TimeInterval = 0
     private var timer: Timer?
@@ -56,8 +57,24 @@ class WorkoutEngine: ObservableObject {
     
     // MARK: - Public Methods
     
-    func loadWorkout(_ workout: Workout) {
-        self.workout = workout
+    func loadWorkout(_ name: String) {
+        guard let url = Bundle.main.url(forResource: name, withExtension: "zwo") else {
+            errorMessage = "Could not find \(name).zwo file in bundle"
+            return
+        }
+        
+        guard let data = try? Data(contentsOf: url) else {
+            errorMessage = "Could not read \(name).zwo file"
+            return
+        }
+        
+        let parser = ZWOParser()
+        guard let parsedWorkout = parser.parse(data: data) else {
+            errorMessage = "Could not parse ZWO file. Make sure it contains valid workout intervals."
+            return
+        }
+        
+        self.workout = parsedWorkout
         reset()
     }
     

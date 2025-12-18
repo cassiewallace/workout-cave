@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct Workout {
+struct Workout: Identifiable {
     // MARK: - Properties
     
+    var id = UUID()
     let name: String
     let intervals: [Interval]
     
