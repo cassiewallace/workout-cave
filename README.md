@@ -4,10 +4,10 @@ A personal MVP iPad app for playing structured bike trainer workouts from ZWO fi
 
 ## Features
 
-- Plays a single bundled ZWO workout file
+- Plays limited bundled ZWO workout files
 - Displays current interval name and countdown timer
 - Start/Pause, Skip Interval, and Restart controls
-- Wall-clock timing that remains accurate when app is backgrounded
+- Timing that remains accurate when app is backgrounded
 - iPad-optimized layout supporting Split View and Slide Over
 
 ## Requirements
