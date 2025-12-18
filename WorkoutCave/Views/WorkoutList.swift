@@ -10,7 +10,7 @@ import SwiftUI
 struct WorkoutList: View {
     // MARK: - Properties
     
-    private var workouts: [String] = ["sample"]
+    private var workouts: [String] = ["jen-intervals", "sample"]
     
     // MARK: - Body
     

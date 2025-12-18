@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workout_file>
+  <workout name="High Resistance RPE Intervals">
+
+    <!-- 5 min easy warm-up -->
+    <Warmup Duration="300" PowerLow="0.4" PowerHigh="0.5">
+      <textevent timeoffset="0" message="Easy pedal. Zone 1 HR. RPE 3+" />
+    </Warmup>
+
+    <!-- 10 min harder warm-up -->
+    <SteadyState Duration="600" Power="0.6">
+      <textevent timeoffset="0" message="Step-up warmup. RPE 4+" />
+    </SteadyState>
+
+    <!-- Set 1: 7 x 40s hard / 40s easy -->
+    <IntervalsT
+      Repeat="7"
+      OnDuration="40"
+      OffDuration="40"
+      OnPower="1.1"
+      OffPower="0.5">
+      <textevent timeoffset="0" message="Z5 / RPE 8–9. High resistance. 60–70 RPM" />
+    </IntervalsT>
+
+    <!-- 5 min recovery -->
+    <SteadyState Duration="300" Power="0.45">
+      <textevent timeoffset="0" message="Recovery. Zone 1 HR. Easy spin. RPE 4–5" />
+    </SteadyState>
+
+    <!-- Set 2 -->
+    <IntervalsT
+      Repeat="7"
+      OnDuration="40"
+      OffDuration="40"
+      OnPower="1.1"
+      OffPower="0.5">
+      <textevent timeoffset="0" message="Z5 / RPE 8–9. High resistance. 60–70 RPM" />
+    </IntervalsT>
+
+    <!-- 5 min recovery -->
+    <SteadyState Duration="300" Power="0.45">
+      <textevent timeoffset="0" message="Recovery. Zone 1 HR. Easy spin. RPE 4–5" />
+    </SteadyState>
+
+    <!-- Set 3 -->
+    <IntervalsT
+      Repeat="7"
+      OnDuration="40"
+      OffDuration="40"
+      OnPower="1.1"
+      OffPower="0.5">
+      <textevent timeoffset="0" message="Z5 / RPE 8–9. High resistance. 60–70 RPM" />
+    </IntervalsT>
+
+    <!-- Final recovery -->
+    <Cooldown Duration="600" PowerLow="0.45" PowerHigh="0.4">
+      <textevent timeoffset="0" message="Final recovery. Zone 1 HR. RPE 3–4" />
+    </Cooldown>
+
+  </workout>
+</workout_file>

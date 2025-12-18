@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7DF2EF471170047A9FC /* WorkoutList.swift */; };
+		65FBC7E22EF47C260047A9FC /* jen-intervals.zwo in Resources */ = {isa = PBXBuildFile; fileRef = 65FBC7E12EF47C200047A9FC /* jen-intervals.zwo */; };
 		A1000001 /* WorkoutCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002 /* WorkoutCave.swift */; };
 		A1000003 /* WorkoutPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* WorkoutPlayback.swift */; };
 		A1000005 /* WorkoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* WorkoutEngine.swift */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		65FBC7DF2EF471170047A9FC /* WorkoutList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutList.swift; sourceTree = "<group>"; };
+		65FBC7E12EF47C200047A9FC /* jen-intervals.zwo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "jen-intervals.zwo"; sourceTree = "<group>"; };
 		A1000000 /* WorkoutCave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000002 /* WorkoutCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCave.swift; sourceTree = "<group>"; };
 		A1000004 /* WorkoutPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPlayback.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				A1000012 /* sample.zwo */,
+				65FBC7E12EF47C200047A9FC /* jen-intervals.zwo */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -153,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1000011 /* sample.zwo in Resources */,
+				65FBC7E22EF47C260047A9FC /* jen-intervals.zwo in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
