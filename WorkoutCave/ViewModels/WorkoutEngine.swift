@@ -45,7 +45,17 @@ class WorkoutEngine: ObservableObject {
     
     var intervalProgress: Double {
         guard let workout = workout else { return 0 }
-        return Double(currentIntervalIndex) / Double(workout.intervals.count - 1)
+
+        let completedIntervalsTime = workout.intervals
+            .prefix(currentIntervalIndex)
+            .reduce(0) { $0 + $1.duration }
+
+        let totalElapsed = completedIntervalsTime + elapsedTimeInInterval
+        let totalDuration = workout.totalDuration
+
+        guard totalDuration > 0 else { return 0 }
+
+        return min(totalElapsed / totalDuration, 1.0)
     }
     
     // MARK: - Lifecycle
@@ -57,25 +67,14 @@ class WorkoutEngine: ObservableObject {
     
     // MARK: - Public Methods
     
-    func loadWorkout(_ name: String) {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "zwo") else {
-            errorMessage = "Could not find \(name).zwo file in bundle"
-            return
+    @MainActor
+    func load(source: WorkoutSource) {
+        do {
+            workout = try source.loadWorkout()
+            reset()
+        } catch {
+            errorMessage = error.localizedDescription
         }
-        
-        guard let data = try? Data(contentsOf: url) else {
-            errorMessage = "Could not read \(name).zwo file"
-            return
-        }
-        
-        let parser = ZWOParser()
-        guard let parsedWorkout = parser.parse(data: data) else {
-            errorMessage = "Could not parse ZWO file. Make sure it contains valid workout intervals."
-            return
-        }
-        
-        self.workout = parsedWorkout
-        reset()
     }
     
     func start() {
