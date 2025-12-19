@@ -16,12 +16,12 @@ enum WorkoutCatalog {
     static func all() -> [WorkoutItem] {
         [
             WorkoutItem(
-                id: "jen-intervals",
-                source: zwift(resource: "jen-intervals")
+                id: "40-40-2",
+                source: zwift(resource: "40-40-2")
             ),
             WorkoutItem(
-                id: "sample-zwift",
-                source: zwift(resource: "sample")
+                id: "40-40-3",
+                source: zwift(resource: "40-40-3")
             ),
             WorkoutItem(
                 id: "steady-state",

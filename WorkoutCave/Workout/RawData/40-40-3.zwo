@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workout_file>
-  <workout name=":40/:10 (3x7 minutes)">
+  <workout name=":40/:40 (3x7 minutes)">
 
     <!-- 5 min easy warm-up -->
     <Warmup Duration="300" PowerLow="0.4" PowerHigh="0.5">
