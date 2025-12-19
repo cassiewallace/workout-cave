@@ -45,7 +45,7 @@ class WorkoutEngine: ObservableObject {
     
     var intervalProgress: Double {
         guard let workout = workout else { return 0 }
-        return Double(currentIntervalIndex) / Double(workout.intervals.count)
+        return Double(currentIntervalIndex) / Double(workout.intervals.count - 1)
     }
     
     // MARK: - Lifecycle
