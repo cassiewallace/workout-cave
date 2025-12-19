@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65F559F32EF5CD66007AD1D9 /* steady-state.json in Resources */ = {isa = PBXBuildFile; fileRef = 65F559F22EF5CD62007AD1D9 /* steady-state.json */; };
+		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
+		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
+		65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */; };
 		65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7DF2EF471170047A9FC /* WorkoutList.swift */; };
 		65FBC7E22EF47C260047A9FC /* jen-intervals.zwo in Resources */ = {isa = PBXBuildFile; fileRef = 65FBC7E12EF47C200047A9FC /* jen-intervals.zwo */; };
 		65FBC7E42EF49B350047A9FC /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7E32EF49B320047A9FC /* Controls.swift */; };
@@ -19,8 +23,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		65F559F22EF5CD62007AD1D9 /* steady-state.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "steady-state.json"; sourceTree = "<group>"; };
+		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
+		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
+		65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONWorkoutSource.swift; sourceTree = "<group>"; };
 		65FBC7DF2EF471170047A9FC /* WorkoutList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutList.swift; sourceTree = "<group>"; };
-		65FBC7E12EF47C200047A9FC /* jen-intervals.zwo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "jen-intervals.zwo"; sourceTree = "<group>"; };
+		65FBC7E12EF47C200047A9FC /* jen-intervals.zwo */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "jen-intervals.zwo"; sourceTree = "<group>"; };
 		65FBC7E32EF49B320047A9FC /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
 		A1000000 /* WorkoutCave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000002 /* WorkoutCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCave.swift; sourceTree = "<group>"; };
@@ -28,11 +36,20 @@
 		A1000006 /* WorkoutEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEngine.swift; sourceTree = "<group>"; };
 		A1000008 /* ZWOParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWOParser.swift; sourceTree = "<group>"; };
 		A1000010 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
-		A1000012 /* sample.zwo */ = {isa = PBXFileReference; lastKnownFileType = text; path = sample.zwo; sourceTree = "<group>"; };
+		A1000012 /* sample.zwo */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = sample.zwo; sourceTree = "<group>"; };
 		A1000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		65F559FA2EF5D423007AD1D9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */,
+				65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
 		A1000014 = {
 			isa = PBXGroup;
 			children = (
@@ -47,9 +64,7 @@
 				A1000002 /* WorkoutCave.swift */,
 				A1000027 /* Views */,
 				A1000028 /* ViewModels */,
-				A1000029 /* Models */,
-				A1000030 /* Parser */,
-				A1000031 /* Resources */,
+				A1000029 /* Workout */,
 				A1000013 /* Info.plist */,
 			);
 			path = WorkoutCave;
@@ -81,29 +96,34 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		A1000029 /* Models */ = {
+		A1000029 /* Workout */ = {
 			isa = PBXGroup;
 			children = (
 				A1000010 /* Workout.swift */,
+				65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */,
+				65F559FA2EF5D423007AD1D9 /* Sources */,
+				A1000030 /* Parsing */,
+				A1000031 /* RawData */,
 			);
-			path = Models;
+			path = Workout;
 			sourceTree = "<group>";
 		};
-		A1000030 /* Parser */ = {
+		A1000030 /* Parsing */ = {
 			isa = PBXGroup;
 			children = (
 				A1000008 /* ZWOParser.swift */,
 			);
-			path = Parser;
+			path = Parsing;
 			sourceTree = "<group>";
 		};
-		A1000031 /* Resources */ = {
+		A1000031 /* RawData */ = {
 			isa = PBXGroup;
 			children = (
+				65F559F22EF5CD62007AD1D9 /* steady-state.json */,
 				A1000012 /* sample.zwo */,
 				65FBC7E12EF47C200047A9FC /* jen-intervals.zwo */,
 			);
-			path = Resources;
+			path = RawData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +180,7 @@
 			files = (
 				A1000011 /* sample.zwo in Resources */,
 				65FBC7E22EF47C260047A9FC /* jen-intervals.zwo in Resources */,
+				65F559F32EF5CD66007AD1D9 /* steady-state.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,9 +194,12 @@
 				A1000001 /* WorkoutCave.swift in Sources */,
 				A1000003 /* WorkoutPlayback.swift in Sources */,
 				A1000005 /* WorkoutEngine.swift in Sources */,
+				65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */,
 				65FBC7E42EF49B350047A9FC /* Controls.swift in Sources */,
 				65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */,
 				A1000007 /* ZWOParser.swift in Sources */,
+				65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */,
+				65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */,
 				A1000009 /* Workout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

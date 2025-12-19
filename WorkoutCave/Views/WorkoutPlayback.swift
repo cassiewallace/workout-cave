@@ -1,4 +1,3 @@
-//
 //  WorkoutPlayback.swift
 //  WorkoutCave
 //
@@ -12,7 +11,7 @@ struct WorkoutPlayback: View {
     
     @StateObject private var engine = WorkoutEngine()
     @Environment(\.scenePhase) private var scenePhase
-    var workoutName: String
+    var workoutSource: WorkoutSource
     
     var spacing: CGFloat = 24
     var timerFontSize: CGFloat = 128
@@ -30,7 +29,7 @@ struct WorkoutPlayback: View {
             }
         }
         .task {
-            engine.loadWorkout(workoutName)
+            engine.load(source: workoutSource)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if oldPhase == .background && newPhase == .active {
@@ -132,11 +131,25 @@ struct WorkoutPlayback: View {
 // MARK: - Preview
 
 #Preview("Landscape", traits: .landscapeLeft) {
-    WorkoutPlayback(workoutName: "jen-intervals")
-}
+    let url = Bundle.main.url(forResource: "jen-intervals", withExtension: "zwo")!
+    let data = try! Data(contentsOf: url)
 
+    WorkoutPlayback(
+        workoutSource: ZwiftWorkoutSource(
+            id: "jen-intervals",
+            data: data
+        )
+    )
+}
 
 #Preview("Portrait", traits: .portrait) {
-    WorkoutPlayback(workoutName: "jen-intervals")
-}
+    let url = Bundle.main.url(forResource: "jen-intervals", withExtension: "zwo")!
+    let data = try! Data(contentsOf: url)
 
+    WorkoutPlayback(
+        workoutSource: ZwiftWorkoutSource(
+            id: "jen-intervals",
+            data: data
+        )
+    )
+}

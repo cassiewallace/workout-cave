@@ -7,23 +7,34 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct WorkoutList: View {
     // MARK: - Properties
-    
-    private var workouts: [String] = ["jen-intervals", "sample"]
-    
+
+    private let items = WorkoutCatalog.all()
+    @State private var workouts: [(id: String, workout: Workout, source: WorkoutSource)] = []
+
     // MARK: - Body
-    
+
     var body: some View {
         NavigationStack {
-            List(workouts, id: \.self) { workout in
-                NavigationLink(destination: WorkoutPlayback(workoutName: workout)) {
-                    Text(workout)
+            List(workouts, id: \.id) { item in
+                NavigationLink(item.workout.name) {
+                    WorkoutPlayback(workoutSource: item.source)
                 }
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Workouts")
             .navigationBarTitleDisplayMode(.large)
+            .task {
+                workouts = items.compactMap { item in
+                    guard let workout = try? item.source.loadWorkout() else {
+                        return nil
+                    }
+                    return (item.id, workout, item.source)
+                }
+            }
         }
     }
 }
