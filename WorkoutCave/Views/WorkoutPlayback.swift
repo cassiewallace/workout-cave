@@ -8,16 +8,37 @@ import SwiftUI
 
 struct WorkoutPlayback: View {
     // MARK: - Properties
-    
+
     @StateObject private var engine = WorkoutEngine()
     @Environment(\.scenePhase) private var scenePhase
-    var workoutSource: WorkoutSource
-    
-    var spacing: CGFloat = 24
-    var timerFontSize: CGFloat = 128
-    
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+
+    let workoutSource: WorkoutSource
+
+    // MARK: - Layout
+
+    private var isCompactVertical: Bool {
+        verticalSizeClass == .compact
+    }
+
+    private var sectionSpacing: CGFloat {
+        isCompactVertical ? 16 : 40
+    }
+
+    private var innerSpacing: CGFloat {
+        isCompactVertical ? 6 : 12
+    }
+
+    private var horizontalPadding: CGFloat {
+        isCompactVertical ? 16 : 32
+    }
+
+    private var timerFontSize: CGFloat {
+        isCompactVertical ? 64 : 128
+    }
+
     // MARK: - Body
-    
+
     var body: some View {
         Group {
             if let workout = engine.workout {
@@ -37,90 +58,108 @@ struct WorkoutPlayback: View {
             }
         }
     }
-    
-    // MARK: - Private Views
-    
+
+    // MARK: - States
+
     private var loadingView: some View {
-        VStack {
+        VStack(spacing: 12) {
             ProgressView()
-            Text("Loading workout...")
+            Text("Loading workout…")
                 .font(.headline)
-                .padding(.top)
         }
     }
-    
+
     private func errorView(error: String) -> some View {
-        VStack(spacing: spacing) {
+        VStack(spacing: 20) {
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 48))
                 .foregroundColor(.orange)
+
             Text("Error loading workout")
                 .font(.headline)
+
             Text(error)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal)
         }
+        .padding(horizontalPadding)
     }
-    
+
+    // MARK: - Playback
+
     private func playbackContent(workout: Workout) -> some View {
-        ScrollView {
-            VStack(spacing: spacing) {
-                Text(workout.name)
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .foregroundColor(.secondary)
-                    .padding(.top, spacing)
-                    .lineLimit(2)
-                
-                Spacer()
-                
-                if engine.playbackState == .finished {
-                    Text("Workout Complete")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                        .foregroundColor(.green)
-                } else if let interval = engine.currentInterval {
-                    Text(interval.name)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                        .lineLimit(3)
-                    if let message = interval.message {
-                        Text(message)
-                            .font(.title)
-                    }
-                }
-                
-                Spacer()
-                
-                // Countdown timer
-                if engine.playbackState != .finished {
-                    Text(formatTime(engine.remainingTimeInInterval))
-                        .font(.custom("Timer", size: timerFontSize))
-                        .fontWeight(.bold)
-                        .dynamicTypeSize(.large)
-                        .monospacedDigit()
-                }
-            }
-            .padding([.horizontal, .bottom], spacing)
+        VStack(spacing: sectionSpacing) {
+            workoutName(for: workout)
+            intervalContent
+            timerView
         }
-        .scrollBounceBehavior(.basedOnSize)
+        .padding(.top, sectionSpacing)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .safeAreaInset(edge: .bottom) {
-            VStack(spacing: spacing) {
-                ProgressView(value: engine.intervalProgress)
-                Controls(engine: engine)
+            controlsTray
+        }
+    }
+
+    // MARK: - Subviews
+    
+    private func workoutName(for workout: Workout) -> some View {
+        Text(workout.name)
+            .font(.title3)
+            .foregroundColor(.secondary)
+            .multilineTextAlignment(.center)
+            .lineLimit(2)
+    }
+
+    @ViewBuilder
+    private var intervalContent: some View {
+        if engine.playbackState == .finished {
+            Text("Workout Complete")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(.green)
+                .multilineTextAlignment(.center)
+        } else if let interval = engine.currentInterval {
+            VStack(spacing: innerSpacing) {
+                Text(interval.name)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+
+                if let message = interval.message {
+                    Text(message)
+                        .font(.title3)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
             }
         }
-        .safeAreaPadding(.bottom, spacing)
     }
-    
-    // MARK: - Private Methods
-    
+
+    @ViewBuilder
+    private var timerView: some View {
+        if engine.playbackState != .finished {
+            Text(formatTime(engine.remainingTimeInInterval))
+                .font(.system(size: timerFontSize, weight: .bold))
+                // Compensate for system font descender space at large sizes
+                .padding(.bottom, isCompactVertical ? -24 : 0)
+                .monospacedDigit()
+                .dynamicTypeSize(.large)
+                .animation(.easeInOut(duration: 0.2), value: engine.remainingTimeInInterval)
+        }
+    }
+
+    private var controlsTray: some View {
+        VStack(spacing: 12) {
+            ProgressView(value: engine.intervalProgress)
+            Controls(engine: engine)
+                .padding(.vertical, 12)
+        }
+        .background(.ultraThinMaterial)
+    }
+
+    // MARK: - Helpers
+
     private func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60
@@ -131,7 +170,7 @@ struct WorkoutPlayback: View {
 // MARK: - Preview
 
 #Preview("Landscape", traits: .landscapeLeft) {
-    let url = Bundle.main.url(forResource: "jen-intervals", withExtension: "zwo")!
+    let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
     let data = try! Data(contentsOf: url)
 
     WorkoutPlayback(
@@ -143,7 +182,7 @@ struct WorkoutPlayback: View {
 }
 
 #Preview("Portrait", traits: .portrait) {
-    let url = Bundle.main.url(forResource: "jen-intervals", withExtension: "zwo")!
+    let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
     let data = try! Data(contentsOf: url)
 
     WorkoutPlayback(
