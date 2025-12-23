@@ -18,20 +18,17 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     private var currentName: String = ""
     private var currentMessages: [String] = []
     private var currentType: Workout.Interval.IntervalType = .steadyState
-
-    // Interval state
-    private var intervalsTOnDuration: TimeInterval = 0
-    private var intervalsTOffDuration: TimeInterval = 0
-    private var intervalsTRepeat: Int = 0
     private var currentPowerTarget: Workout.Interval.PowerTarget?
 
-    // Track whether we're inside <workout_file>
-    private var isParsingWorkoutFileName = false
-    private var characterBuffer = ""
+    private var intervalsTRepeat: Int = 0
+    private var intervalsTOnDuration: TimeInterval = 0
+    private var intervalsTOffDuration: TimeInterval = 0
+    private var intervalsTOnPower: Workout.Interval.PowerTarget?
+    private var intervalsTOffPower: Workout.Interval.PowerTarget?
 
     // MARK: - Public API
 
-    func parse(data: Data, id: String) -> Workout? {
+    func parse(data: Data) -> Workout? {
         let parser = XMLParser(data: data)
         parser.delegate = self
 
@@ -40,7 +37,7 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         }
 
         return Workout(
-            id: id,
+            id: UUID().uuidString,
             name: workoutName.isEmpty ? "Workout" : workoutName,
             intervals: intervals
         )
@@ -59,51 +56,71 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         switch elementName {
 
         case "name":
-            characterBuffer = ""
-            isParsingWorkoutFileName = true
-
-        case "workout":
-            // Older Zwift format fallback
-            if workoutName.isEmpty {
-                workoutName = attributeDict["name"] ?? ""
-            }
+            // handled in foundCharacters if needed
+            break
 
         case "SteadyState":
             beginInterval(
                 name: "Steady State",
                 type: .steadyState,
-                duration: attributeDict["Duration"]
+                duration: attributeDict["Duration"],
+                powerLow: attributeDict["Power"],
+                powerHigh: attributeDict["Power"]
             )
 
-        case "Ramp":
+        case "Warmup":
             beginInterval(
-                name: "Ramp",
-                type: .steadyState,
-                duration: attributeDict["Duration"]
+                name: "Warmup",
+                type: .warmup,
+                duration: attributeDict["Duration"],
+                powerLow: attributeDict["PowerLow"],
+                powerHigh: attributeDict["PowerHigh"]
             )
 
         case "Cooldown":
             beginInterval(
                 name: "Cooldown",
                 type: .cooldown,
-                duration: attributeDict["Duration"]
+                duration: attributeDict["Duration"],
+                powerLow: attributeDict["PowerLow"],
+                powerHigh: attributeDict["PowerHigh"]
             )
 
         case "FreeRide":
             beginInterval(
                 name: "Free Ride",
                 type: .freeRide,
-                duration: attributeDict["Duration"]
+                duration: attributeDict["Duration"],
+                powerLow: nil,
+                powerHigh: nil
+            )
+
+        case "Ramp":
+            beginInterval(
+                name: "Ramp",
+                type: .steadyState,
+                duration: attributeDict["Duration"],
+                powerLow: attributeDict["PowerLow"],
+                powerHigh: attributeDict["PowerHigh"]
             )
 
         case "IntervalsT":
             currentName = "Intervals"
-            currentType = .intervalOn
             currentMessages = []
 
+            intervalsTRepeat = Int(attributeDict["Repeat"] ?? "") ?? 0
             intervalsTOnDuration = TimeInterval(attributeDict["OnDuration"] ?? "") ?? 0
             intervalsTOffDuration = TimeInterval(attributeDict["OffDuration"] ?? "") ?? 0
-            intervalsTRepeat = Int(attributeDict["Repeat"] ?? "") ?? 0
+
+            intervalsTOnPower = powerTarget(
+                low: attributeDict["OnPower"],
+                high: attributeDict["OnPower"]
+            )
+
+            intervalsTOffPower = powerTarget(
+                low: attributeDict["OffPower"],
+                high: attributeDict["OffPower"]
+            )
 
         case let name where name.lowercased() == "textevent":
             if let message = attributeDict["message"] {
@@ -115,11 +132,6 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         }
     }
 
-    func parser(_ parser: XMLParser, foundCharacters string: String) {
-        guard isParsingWorkoutFileName else { return }
-        characterBuffer += string
-    }
-
     func parser(
         _ parser: XMLParser,
         didEndElement elementName: String,
@@ -129,33 +141,40 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
         switch elementName {
 
-        case "name":
-            if isParsingWorkoutFileName && workoutName.isEmpty {
-                workoutName = characterBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
-            }
-            isParsingWorkoutFileName = false
-
-        case "SteadyState", "Ramp", "Cooldown", "FreeRide":
-            appendInterval(
-                duration: currentDuration,
-                name: currentName,
-                type: currentType
-            )
+        case "SteadyState", "Warmup", "Cooldown", "FreeRide", "Ramp":
+            appendCurrentInterval()
             resetCurrentInterval()
 
         case "IntervalsT":
+            guard intervalsTRepeat > 0 else {
+                resetIntervalsT()
+                return
+            }
+
+            let message = joinedMessages
+
             for i in 1...intervalsTRepeat {
-                appendInterval(
-                    duration: intervalsTOnDuration,
-                    name: "\(currentName) On \(i)",
-                    type: .intervalOn
+                intervals.append(
+                    Workout.Interval(
+                        duration: intervalsTOnDuration,
+                        name: "\(currentName) On \(i)",
+                        message: message,
+                        type: .intervalOn,
+                        powerTarget: intervalsTOnPower
+                    )
                 )
-                appendInterval(
-                    duration: intervalsTOffDuration,
-                    name: "\(currentName) Off \(i)",
-                    type: .intervalOff
+
+                intervals.append(
+                    Workout.Interval(
+                        duration: intervalsTOffDuration,
+                        name: "\(currentName) Off \(i)",
+                        message: message,
+                        type: .intervalOff,
+                        powerTarget: intervalsTOffPower
+                    )
                 )
             }
+
             resetIntervalsT()
 
         default:
@@ -169,41 +188,30 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         name: String,
         type: Workout.Interval.IntervalType,
         duration: String?,
-        powerLow: String? = nil,
-        powerHigh: String? = nil,
-        power: String? = nil
+        powerLow: String?,
+        powerHigh: String?
     ) {
         currentName = name
         currentType = type
         currentDuration = TimeInterval(duration ?? "") ?? 0
         currentMessages = []
-
-        currentPowerTarget =
-            powerTarget(
-                low: powerLow ?? power,
-                high: powerHigh ?? power
-            )
+        currentPowerTarget = powerTarget(low: powerLow, high: powerHigh)
     }
 
-    private func appendInterval(
-        duration: TimeInterval,
-        name: String,
-        type: Workout.Interval.IntervalType
-    ) {
-        guard duration > 0 else { return }
+    private func appendCurrentInterval() {
+        guard currentDuration > 0 else { return }
 
         intervals.append(
             Workout.Interval(
-                duration: duration,
-                name: name,
-                message: currentMessages.isEmpty
-                    ? nil
-                    : currentMessages.joined(separator: "\n"),
-                type: type
+                duration: currentDuration,
+                name: currentName,
+                message: joinedMessages,
+                type: currentType,
+                powerTarget: currentPowerTarget
             )
         )
     }
-    
+
     private func powerTarget(
         low: String?,
         high: String?
@@ -219,19 +227,25 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         )
     }
 
+    private var joinedMessages: String? {
+        currentMessages.isEmpty ? nil : currentMessages.joined(separator: "\n")
+    }
+
     private func resetCurrentInterval() {
         currentDuration = 0
         currentName = ""
         currentMessages = []
         currentType = .steadyState
+        currentPowerTarget = nil
     }
 
     private func resetIntervalsT() {
+        intervalsTRepeat = 0
         intervalsTOnDuration = 0
         intervalsTOffDuration = 0
-        intervalsTRepeat = 0
+        intervalsTOnPower = nil
+        intervalsTOffPower = nil
         currentName = ""
         currentMessages = []
-        currentType = .steadyState
     }
 }

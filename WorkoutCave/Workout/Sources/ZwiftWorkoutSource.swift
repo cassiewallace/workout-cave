@@ -18,7 +18,7 @@ struct ZwiftWorkoutSource: WorkoutSource {
 
     func loadWorkout() throws -> Workout {
         let parser = ZWOParser()
-        guard let workout = parser.parse(data: data, id: id) else {
+        guard let workout = parser.parse(data: data) else {
             throw NSError(
                 domain: "ZwiftWorkoutSource",
                 code: 1,

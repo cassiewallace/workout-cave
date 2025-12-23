@@ -125,6 +125,8 @@ struct WorkoutPlayback: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
+                Text(interval.powerTarget?.lowerBound?.description ?? "")
+                Text(interval.powerTarget?.upperBound?.description ?? "")
 
                 if let message = interval.message {
                     Text(message)
