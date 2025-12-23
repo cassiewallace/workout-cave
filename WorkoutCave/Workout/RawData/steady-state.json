@@ -6,13 +6,21 @@
       "duration": 600,
       "name": "Warmup",
       "message": "Easy pedal. Zone 1 HR.",
-      "type": "warmup"
+      "type": "warmup",
+      "powerTarget": {
+        "lowerBound": 0.45,
+        "upperBound": 0.55
+      }
     },
     {
       "duration": 1200,
       "name": "Steady State",
       "message": "RPE 3/4",
-      "type": "steadyState"
+      "type": "steadyState",
+      "powerTarget": {
+        "lowerBound": 0.65,
+        "upperBound": 0.75
+      }
     }
   ]
 }

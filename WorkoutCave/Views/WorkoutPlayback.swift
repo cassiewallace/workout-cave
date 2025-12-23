@@ -169,7 +169,7 @@ struct WorkoutPlayback: View {
 
 // MARK: - Preview
 
-#Preview("Landscape", traits: .landscapeLeft) {
+#Preview("Portrait", traits: .portrait) {
     let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
     let data = try! Data(contentsOf: url)
 
@@ -181,7 +181,7 @@ struct WorkoutPlayback: View {
     )
 }
 
-#Preview("Portrait", traits: .portrait) {
+#Preview("Landscape", traits: .landscapeLeft) {
     let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
     let data = try! Data(contentsOf: url)
 

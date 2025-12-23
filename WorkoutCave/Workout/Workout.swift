@@ -39,6 +39,14 @@ extension Workout {
     struct Interval: Codable {
         // MARK: - Enumerations
         
+        enum CodingKeys: String, CodingKey {
+            case duration
+            case name
+            case message
+            case type
+            case powerTarget
+        }
+        
         enum IntervalType: String, Codable {
             case warmup
             case steadyState
@@ -49,12 +57,47 @@ extension Workout {
             case freeRide
         }
         
+        struct PowerTarget: Codable {
+            let lowerBound: Double?
+            let upperBound: Double?
+        }
+        
         // MARK: - Properties
         
-        let duration: TimeInterval // in seconds
+        let id: UUID
+        let duration: TimeInterval
         let name: String
         let message: String?
         let type: IntervalType
+        let powerTarget: PowerTarget?
+        
+        // MARK: - Inits
+
+        init(
+            id: UUID = UUID(),
+            duration: TimeInterval,
+            name: String,
+            message: String? = nil,
+            type: IntervalType,
+            powerTarget: PowerTarget? = nil
+        ) {
+            self.id = id
+            self.duration = duration
+            self.name = name
+            self.message = message
+            self.type = type
+            self.powerTarget = powerTarget
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            self.id = UUID()
+            self.duration = try container.decode(TimeInterval.self, forKey: .duration)
+            self.name = try container.decode(String.self, forKey: .name)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.type = try container.decode(IntervalType.self, forKey: .type)
+            self.powerTarget = try container.decodeIfPresent(PowerTarget.self, forKey: .powerTarget)
+        }
     }
 }
-

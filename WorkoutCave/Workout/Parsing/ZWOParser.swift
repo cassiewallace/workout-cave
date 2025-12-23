@@ -19,10 +19,11 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     private var currentMessages: [String] = []
     private var currentType: Workout.Interval.IntervalType = .steadyState
 
-    // IntervalsT state
+    // Interval state
     private var intervalsTOnDuration: TimeInterval = 0
     private var intervalsTOffDuration: TimeInterval = 0
     private var intervalsTRepeat: Int = 0
+    private var currentPowerTarget: Workout.Interval.PowerTarget?
 
     // Track whether we're inside <workout_file>
     private var isParsingWorkoutFileName = false
@@ -167,12 +168,21 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     private func beginInterval(
         name: String,
         type: Workout.Interval.IntervalType,
-        duration: String?
+        duration: String?,
+        powerLow: String? = nil,
+        powerHigh: String? = nil,
+        power: String? = nil
     ) {
         currentName = name
         currentType = type
         currentDuration = TimeInterval(duration ?? "") ?? 0
         currentMessages = []
+
+        currentPowerTarget =
+            powerTarget(
+                low: powerLow ?? power,
+                high: powerHigh ?? power
+            )
     }
 
     private func appendInterval(
@@ -191,6 +201,21 @@ final class ZWOParser: NSObject, XMLParserDelegate {
                     : currentMessages.joined(separator: "\n"),
                 type: type
             )
+        )
+    }
+    
+    private func powerTarget(
+        low: String?,
+        high: String?
+    ) -> Workout.Interval.PowerTarget? {
+        let lowVal = low.flatMap(Double.init)
+        let highVal = high.flatMap(Double.init)
+
+        guard lowVal != nil || highVal != nil else { return nil }
+
+        return Workout.Interval.PowerTarget(
+            lowerBound: lowVal,
+            upperBound: highVal ?? lowVal
         )
     }
 
