@@ -24,6 +24,10 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     private var intervalsTOffDuration: TimeInterval = 0
     private var intervalsTRepeat: Int = 0
 
+    // Track whether we're inside <workout_file>
+    private var isParsingWorkoutFileName = false
+    private var characterBuffer = ""
+
     // MARK: - Public API
 
     func parse(data: Data, id: String) -> Workout? {
@@ -48,24 +52,31 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         didStartElement elementName: String,
         namespaceURI: String?,
         qualifiedName qName: String?,
-        attributes attributeDict: [String : String] = [:]
+        attributes attributeDict: [String : String]
     ) {
 
         switch elementName {
 
-        case "workout":
-            workoutName = attributeDict["name"] ?? workoutName
+        case "name":
+            characterBuffer = ""
+            isParsingWorkoutFileName = true
 
-        case "Warmup":
-            beginInterval(
-                name: "Warmup",
-                type: .warmup,
-                duration: attributeDict["Duration"]
-            )
+        case "workout":
+            // Older Zwift format fallback
+            if workoutName.isEmpty {
+                workoutName = attributeDict["name"] ?? ""
+            }
 
         case "SteadyState":
             beginInterval(
                 name: "Steady State",
+                type: .steadyState,
+                duration: attributeDict["Duration"]
+            )
+
+        case "Ramp":
+            beginInterval(
+                name: "Ramp",
                 type: .steadyState,
                 duration: attributeDict["Duration"]
             )
@@ -103,6 +114,11 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         }
     }
 
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        guard isParsingWorkoutFileName else { return }
+        characterBuffer += string
+    }
+
     func parser(
         _ parser: XMLParser,
         didEndElement elementName: String,
@@ -112,7 +128,13 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
         switch elementName {
 
-        case "Warmup", "SteadyState", "Cooldown", "FreeRide":
+        case "name":
+            if isParsingWorkoutFileName && workoutName.isEmpty {
+                workoutName = characterBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+            isParsingWorkoutFileName = false
+
+        case "SteadyState", "Ramp", "Cooldown", "FreeRide":
             appendInterval(
                 duration: currentDuration,
                 name: currentName,
@@ -121,11 +143,6 @@ final class ZWOParser: NSObject, XMLParserDelegate {
             resetCurrentInterval()
 
         case "IntervalsT":
-            guard intervalsTRepeat > 0 else {
-                resetIntervalsT()
-                return
-            }
-
             for i in 1...intervalsTRepeat {
                 appendInterval(
                     duration: intervalsTOnDuration,
@@ -138,16 +155,11 @@ final class ZWOParser: NSObject, XMLParserDelegate {
                     type: .intervalOff
                 )
             }
-
             resetIntervalsT()
 
         default:
             break
         }
-    }
-
-    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-        print("ZWO parse error:", parseError.localizedDescription)
     }
 
     // MARK: - Helpers

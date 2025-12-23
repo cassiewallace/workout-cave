@@ -1,0 +1,21 @@
+<workout_file>
+    <author>H.Stiles</author>
+    <name>40-20s #ShredStrong</name>
+    <description>5 Min warmup, getting progressively harder, Try to maintain same cadence during hard work blocks!</description>
+    <sportType>bike</sportType>
+    <tags>
+        <tag name="INTERVALS"/>
+    </tags>
+    <workout>
+        <SteadyState Duration="240" Power="0.4427461" pace="0">
+            <textevent timeoffset="106.99997" message="Welcome to today&apos;s workout!"/>
+        </SteadyState>
+        <Ramp Duration="480.00003" PowerLow="0.4427461" PowerHigh="0.64999998" pace="0"/>
+        <IntervalsT Repeat="6" OnDuration="40" OffDuration="20" OnPower="1.2199482" OffPower="0.57227975" pace="0" Cadence="70" CadenceResting="90"/>
+        <SteadyState Duration="300" Power="0.57227975" pace="0"/>
+        <IntervalsT Repeat="6" OnDuration="40" OffDuration="20" OnPower="1.2199482" OffPower="0.57227975" pace="0" Cadence="70" CadenceResting="90"/>
+        <SteadyState Duration="300" Power="0.57227975" pace="0"/>
+        <IntervalsT Repeat="6" OnDuration="40" OffDuration="20" OnPower="1.2199482" OffPower="0.57227975" pace="0" Cadence="60" CadenceResting="90"/>
+        <Cooldown Duration="600" PowerLow="0.64999998" PowerHigh="0.3545" pace="0"/>
+    </workout>
+</workout_file>

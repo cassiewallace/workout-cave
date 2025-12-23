@@ -11,15 +11,14 @@
 		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
 		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
 		65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */; };
+		65F559FE2EFAE608007AD1D9 /* 40-20.zwo in Resources */ = {isa = PBXBuildFile; fileRef = 65F559FD2EFAE608007AD1D9 /* 40-20.zwo */; };
 		65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7DF2EF471170047A9FC /* WorkoutList.swift */; };
-		65FBC7E22EF47C260047A9FC /* 40-40-3.zwo in Resources */ = {isa = PBXBuildFile; fileRef = 65FBC7E12EF47C200047A9FC /* 40-40-3.zwo */; };
 		65FBC7E42EF49B350047A9FC /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7E32EF49B320047A9FC /* Controls.swift */; };
 		A1000001 /* WorkoutCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002 /* WorkoutCave.swift */; };
 		A1000003 /* WorkoutPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* WorkoutPlayback.swift */; };
 		A1000005 /* WorkoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* WorkoutEngine.swift */; };
 		A1000007 /* ZWOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000008 /* ZWOParser.swift */; };
 		A1000009 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000010 /* Workout.swift */; };
-		A1000011 /* 40-40-2.zwo in Resources */ = {isa = PBXBuildFile; fileRef = A1000012 /* 40-40-2.zwo */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,8 +26,8 @@
 		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
 		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
 		65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONWorkoutSource.swift; sourceTree = "<group>"; };
+		65F559FD2EFAE608007AD1D9 /* 40-20.zwo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "40-20.zwo"; sourceTree = "<group>"; };
 		65FBC7DF2EF471170047A9FC /* WorkoutList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutList.swift; sourceTree = "<group>"; };
-		65FBC7E12EF47C200047A9FC /* 40-40-3.zwo */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "40-40-3.zwo"; sourceTree = "<group>"; };
 		65FBC7E32EF49B320047A9FC /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
 		A1000000 /* WorkoutCave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000002 /* WorkoutCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCave.swift; sourceTree = "<group>"; };
@@ -36,7 +35,6 @@
 		A1000006 /* WorkoutEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEngine.swift; sourceTree = "<group>"; };
 		A1000008 /* ZWOParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWOParser.swift; sourceTree = "<group>"; };
 		A1000010 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
-		A1000012 /* 40-40-2.zwo */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "40-40-2.zwo"; sourceTree = "<group>"; };
 		A1000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,8 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				65F559F22EF5CD62007AD1D9 /* steady-state.json */,
-				A1000012 /* 40-40-2.zwo */,
-				65FBC7E12EF47C200047A9FC /* 40-40-3.zwo */,
+				65F559FD2EFAE608007AD1D9 /* 40-20.zwo */,
 			);
 			path = RawData;
 			sourceTree = "<group>";
@@ -178,8 +175,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1000011 /* 40-40-2.zwo in Resources */,
-				65FBC7E22EF47C260047A9FC /* 40-40-3.zwo in Resources */,
+				65F559FE2EFAE608007AD1D9 /* 40-20.zwo in Resources */,
 				65F559F32EF5CD66007AD1D9 /* steady-state.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
