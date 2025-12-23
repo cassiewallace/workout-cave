@@ -46,11 +46,20 @@ class WorkoutEngine: ObservableObject {
     var intervalProgress: Double {
         guard let workout = workout else { return 0 }
 
+        if playbackState == .finished {
+            return 1.0
+        }
+
         let completedIntervalsTime = workout.intervals
             .prefix(currentIntervalIndex)
             .reduce(0) { $0 + $1.duration }
 
-        let totalElapsed = completedIntervalsTime + elapsedTimeInInterval
+        let currentIntervalElapsed = min(
+            elapsedTimeInInterval,
+            workout.intervals[currentIntervalIndex].duration
+        )
+
+        let totalElapsed = completedIntervalsTime + currentIntervalElapsed
         let totalDuration = workout.totalDuration
 
         guard totalDuration > 0 else { return 0 }
