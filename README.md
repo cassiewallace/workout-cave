@@ -1,10 +1,10 @@
 # Workout Cave
 
-A personal MVP iPad app for playing structured bike trainer workouts from ZWO files.
+A personal MVP iPad app for playing structured bike trainer workouts.
 
 ## Features
 
-- Plays limited bundled ZWO workout files
+- Plays limited bundled ZWO (Zwift) and JSON workout files
 - Displays current interval name and countdown timer
 - Start/Pause, Skip Interval, and Restart controls
 - Timing that remains accurate when app is backgrounded
@@ -12,7 +12,7 @@ A personal MVP iPad app for playing structured bike trainer workouts from ZWO fi
 
 ## Requirements
 
-- iPad running iOS 17.0 or later
+- iPad or iPhone running iOS 17.0 or later
 - Xcode 15.0 or later
 - Swift 5.0+
 
@@ -49,7 +49,6 @@ Each interval must have a `Duration` attribute (in seconds). `IntervalsT` requir
 - `WorkoutEngine.swift` - Workout state management and timing logic
 - `ZWOParser.swift` - XML parser for ZWO files
 - `Workout.swift` - Data models for workouts and intervals
-- `sample.zwo` - Sample workout file (replace with your own)
 
 ## Notes
 
