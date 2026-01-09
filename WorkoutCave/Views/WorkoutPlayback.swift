@@ -90,13 +90,15 @@ struct WorkoutPlayback: View {
 
     private func playbackContent(workout: Workout) -> some View {
         VStack(spacing: sectionSpacing) {
+            ProgressView(value: engine.intervalProgress)
+                .foregroundStyle(.primary)
             intervalContent
             timerView
         }
         .padding(.top, sectionSpacing)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .safeAreaInset(edge: .bottom) {
-            controlsTray
+        .toolbar {
+            controls
         }
     }
 
@@ -151,14 +153,42 @@ struct WorkoutPlayback: View {
                 .animation(.easeInOut(duration: 0.2), value: engine.remainingTimeInInterval)
         }
     }
-
-    private var controlsTray: some View {
-        VStack(spacing: 12) {
-            ProgressView(value: engine.intervalProgress)
-            Controls(engine: engine)
-                .padding(.vertical, 12)
+    
+    @ToolbarContentBuilder
+    private var controls: some ToolbarContent {
+        ToolbarItem(placement: .bottomBar) {
+            Control(
+                controlType: .skip,
+                action: engine.skipInterval,
+                isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
+            )
         }
-        .background(.ultraThinMaterial)
+
+        if engine.playbackState == .running {
+            ToolbarItem(placement: .bottomBar) {
+                Control(
+                    controlType: .pause,
+                    action: engine.pause,
+                    isDisabled: engine.playbackState == .finished
+                )
+            }
+        } else if engine.playbackState == .paused || engine.playbackState == .idle {
+            ToolbarItem(placement: .bottomBar) {
+                Control(
+                    controlType: .play,
+                    action: engine.start,
+                    isDisabled: engine.playbackState == .finished
+                )
+            }
+        }
+
+        ToolbarItem(placement: .bottomBar) {
+            Control(
+                controlType: .restart,
+                action: engine.restart,
+                isDisabled: engine.playbackState == .idle
+            )
+        }
     }
 
     // MARK: - Helpers

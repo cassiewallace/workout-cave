@@ -9,41 +9,19 @@ import SwiftUI
 
 // MARK: - Enumerations
 
-private enum ControlType {
+enum ControlType {
     case play
     case pause
     case skip
     case restart
 }
 
-struct Controls: View {
-    // MARK: - Properties
-    
-    @ObservedObject var engine: WorkoutEngine
-    private let spacing: CGFloat = 64
-    
-    var body: some View {
-        HStack(spacing: spacing) {
-            Control(controlType: ControlType.skip, action: engine.skipInterval)
-                .disabled(engine.playbackState == .idle || engine.playbackState == .finished)
-            if engine.playbackState == .running {
-                Control(controlType: ControlType.pause, action: engine.pause)
-                    .disabled(engine.playbackState == .finished)
-            } else if engine.playbackState == .paused || engine.playbackState == .idle {
-                Control(controlType: ControlType.play, action: engine.start)
-                    .disabled(engine.playbackState == .finished)
-            }
-            Control(controlType: ControlType.restart, action: engine.restart)
-                .disabled(engine.playbackState == .idle)
-        }
-    }
-}
-
-private struct Control: View {
+struct Control: View {
     // MARK: - Properties
     
     var controlType: ControlType
     var action: () -> Void
+    var isDisabled: Bool
     
     private let buttonSize: CGFloat = 44
     
@@ -64,7 +42,7 @@ private struct Control: View {
                 .resizable()
                 .frame(width: buttonSize, height: buttonSize)
         }
-        .foregroundColor(.black)
+        .foregroundStyle(.primary)
     }
 }
 
@@ -75,6 +53,10 @@ private struct Control: View {
         return engine
     }
     
-    Controls(engine: engine)
-        .padding()
+    HStack {
+        Control(controlType: .pause, action: {}, isDisabled: false)
+        Control(controlType: .play, action: {}, isDisabled: false)
+        Control(controlType: .restart, action: {}, isDisabled: false)
+        Control(controlType: .skip, action: {}, isDisabled: false)
+    }
 }
