@@ -125,8 +125,10 @@ struct WorkoutPlayback: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
-                Text(interval.powerTarget?.lowerBound?.description ?? "")
-                Text(interval.powerTarget?.upperBound?.description ?? "")
+                
+                if let label = interval.powerTarget?.zones().zoneLabel {
+                    Text(label)
+                }
 
                 if let message = interval.message {
                     Text(message)

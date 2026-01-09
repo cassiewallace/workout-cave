@@ -60,6 +60,23 @@ extension Workout {
         struct PowerTarget: Codable {
             let lowerBound: Double?
             let upperBound: Double?
+            
+            func zones(
+                using zones: [PowerZone] = PowerZones.standard
+            ) -> [PowerZone] {
+
+                guard let lower = lowerBound,
+                      let upper = upperBound else {
+                    return []
+                }
+
+                return zones.filter { zone in
+                    let zoneLower = zone.lowerBound ?? -.infinity
+                    let zoneUpper = zone.upperBound ?? .infinity
+
+                    return upper >= zoneLower && lower <= zoneUpper
+                }
+            }
         }
         
         // MARK: - Properties
@@ -99,5 +116,23 @@ extension Workout {
             self.type = try container.decode(IntervalType.self, forKey: .type)
             self.powerTarget = try container.decodeIfPresent(PowerTarget.self, forKey: .powerTarget)
         }
+    }
+}
+
+private struct PowerZoneLabelFormatter {
+    static func label(for zones: [PowerZone]) -> String? {
+        guard !zones.isEmpty else { return nil }
+
+        if zones.count == 1 {
+            return "Z\(zones[0].id)"
+        } else {
+            return "Z\(zones.first!.id)–Z\(zones.last!.id)"
+        }
+    }
+}
+
+extension Array where Element == PowerZone {
+    var zoneLabel: String? {
+        PowerZoneLabelFormatter.label(for: self)
     }
 }
