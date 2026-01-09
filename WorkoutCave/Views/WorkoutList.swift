@@ -37,6 +37,15 @@ struct WorkoutList: View {
                     return (item.id, workout, item.source)
                 }
             }
+//            .toolbar {
+//                ToolbarItem(placement: .bottomBar) {
+//                    NavigationLink("Just Ride") {
+//                        Stats()
+//                    }
+//                    .foregroundStyle(.primary)
+//                    .bold()
+//                }
+//            }
         }
     }
 }
