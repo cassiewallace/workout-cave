@@ -90,7 +90,6 @@ struct WorkoutPlayback: View {
 
     private func playbackContent(workout: Workout) -> some View {
         VStack(spacing: sectionSpacing) {
-            workoutName(for: workout)
             intervalContent
             timerView
         }

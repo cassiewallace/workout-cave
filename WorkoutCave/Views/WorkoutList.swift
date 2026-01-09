@@ -22,6 +22,8 @@ struct WorkoutList: View {
             List(workouts, id: \.id) { item in
                 NavigationLink(item.workout.name) {
                     WorkoutPlayback(workoutSource: item.source)
+                        .navigationTitle(item.workout.name)
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             }
             .listStyle(.insetGrouped)
