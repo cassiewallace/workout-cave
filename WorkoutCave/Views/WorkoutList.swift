@@ -50,6 +50,6 @@ struct WorkoutList: View {
     }
 }
 
-#Preview("Workout List", traits: .landscapeLeft) {
+#Preview("Workout List", traits: .portrait) {
     WorkoutList()
 }
