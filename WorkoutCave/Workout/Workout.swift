@@ -60,22 +60,12 @@ extension Workout {
         struct PowerTarget: Codable {
             let lowerBound: Double?
             let upperBound: Double?
-            
-            func zones(
-                using zones: [PowerZone] = PowerZones.standard
-            ) -> [PowerZone] {
 
-                guard let lower = lowerBound,
-                      let upper = upperBound else {
-                    return []
-                }
+            func zones(using zones: [PowerZone] = PowerZone.allCases) -> [PowerZone] {
+                guard let lowerBound, let upperBound else { return [] }
 
-                return zones.filter { zone in
-                    let zoneLower = zone.lowerBound ?? -.infinity
-                    let zoneUpper = zone.upperBound ?? .infinity
-
-                    return upper >= zoneLower && lower <= zoneUpper
-                }
+                let targetRange = lowerBound ... upperBound
+                return zones.filter { targetRange.overlaps($0.range) }
             }
         }
         

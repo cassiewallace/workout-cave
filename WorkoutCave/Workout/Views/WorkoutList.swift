@@ -20,6 +20,7 @@ struct WorkoutList: View {
             Section {
                 NavigationLink("Just Ride") {
                     Metrics()
+                        .toolbar(.hidden, for: .tabBar)
                 }
             }
 
@@ -29,6 +30,7 @@ struct WorkoutList: View {
                         WorkoutPlayback(workoutSource: item.source)
                             .navigationTitle(item.workout.name)
                             .navigationBarTitleDisplayMode(.inline)
+                            .toolbar(.hidden, for: .tabBar)
                     }
                 }
             }

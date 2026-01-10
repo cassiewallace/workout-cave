@@ -27,10 +27,10 @@ struct Control: View {
     
     private var image: Image {
         switch controlType {
-        case .play: Image(systemName: "play.circle.fill")
-        case .pause: Image(systemName: "pause.circle.fill")
-        case .skip: Image(systemName: "forward.circle")
-        case .restart: Image(systemName: "arrow.counterclockwise.circle")
+        case .play: Image(systemName: "play.fill")
+        case .pause: Image(systemName: "pause.fill")
+        case .skip: Image(systemName: "forward")
+        case .restart: Image(systemName: "arrow.counterclockwise")
         }
     }
     
@@ -39,7 +39,6 @@ struct Control: View {
             action()
         }) {
             image
-                .resizable()
                 .frame(width: buttonSize, height: buttonSize)
         }
         .foregroundStyle(.primary)
