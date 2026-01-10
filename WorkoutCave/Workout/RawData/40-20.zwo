@@ -8,10 +8,12 @@
     </tags>
     <workout>
         <SteadyState Duration="240" Power="0.4427461" pace="0">
-            <textevent timeoffset="106.99997" message="Welcome to today&apos;s workout!"/>
+            <textevent timeoffset="106.99997" message="5 min warmup, getting progressively harder."/>
         </SteadyState>
         <Ramp Duration="480.00003" PowerLow="0.4427461" PowerHigh="0.64999998" pace="0"/>
-        <IntervalsT Repeat="6" OnDuration="40" OffDuration="20" OnPower="1.2199482" OffPower="0.57227975" pace="0" Cadence="70" CadenceResting="90"/>
+        <IntervalsT Repeat="6" OnDuration="40" OffDuration="20" OnPower="1.2199482" OffPower="0.57227975" pace="0" Cadence="70" CadenceResting="90">
+            <textevent timeoffset="106.99997" message="Try to maintain same cadence during hard work blocks!"/>
+        </IntervalsT>
         <SteadyState Duration="300" Power="0.57227975" pace="0"/>
         <IntervalsT Repeat="6" OnDuration="40" OffDuration="20" OnPower="1.2199482" OffPower="0.57227975" pace="0" Cadence="70" CadenceResting="90"/>
         <SteadyState Duration="300" Power="0.57227975" pace="0"/>
