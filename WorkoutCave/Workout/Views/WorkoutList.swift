@@ -17,24 +17,26 @@ struct WorkoutList: View {
 
     var body: some View {
         NavigationStack {
-            List(workouts, id: \.id) { item in
-                NavigationLink(item.workout.name) {
-                    WorkoutPlayback(workoutSource: item.source)
-                        .navigationTitle(item.workout.name)
-                        .navigationBarTitleDisplayMode(.inline)
+            List {
+                Section {
+                    NavigationLink("Just Ride") {
+                        Metrics()
+                    }
+                }
+
+                Section("Workouts") {
+                    ForEach(workouts, id: \.id) { item in
+                        NavigationLink(item.workout.name) {
+                            WorkoutPlayback(workoutSource: item.source)
+                                .navigationTitle(item.workout.name)
+                                .navigationBarTitleDisplayMode(.inline)
+                        }
+                    }
                 }
             }
             .listStyle(.insetGrouped)
             .navigationTitle("Workouts")
             .navigationBarTitleDisplayMode(.large)
-            .safeAreaInset(edge: .bottom) {
-                NavigationLink("Just Ride") {
-                    Metrics()
-                }
-                .foregroundStyle(.primary)
-                .padding()
-                .bold()
-            }
             .task {
                 workouts = items.compactMap { item in
                     guard let workout = try? item.source.loadWorkout() else {
