@@ -17,15 +17,51 @@ enum ConnectionState {
     case poweredOff
 }
 
+/// Bluetooth UUIDs used by the Fitness Machine Service (FTMS).
+///
+/// FTMS is a Bluetooth SIG–defined standard for gym equipment
+/// such as bikes, treadmills, and rowers. Schwinn IC4 uses this
+/// service to stream live workout metrics.
+enum FTMSUUID {
+
+    /// Fitness Machine Service
+    ///
+    /// UUID: 0x1826
+    /// Primary service that identifies a device as FTMS-capable.
+    /// Used during scanning and service discovery.
+    static let service = CBUUID(string: "1826")
+
+    /// Indoor Bike Data
+    ///
+    /// UUID: 0x2AD2
+    /// Streams cadence, power, speed, heart rate, etc.
+    /// This characteristic is notify-only.
+    static let indoorBikeData = CBUUID(string: "2AD2")
+
+    /// Fitness Machine Status
+    ///
+    /// UUID: 0x2ACC
+    /// Indicates state changes such as started, stopped, paused.
+    /// Optional; not all bikes populate this.
+    static let machineStatus = CBUUID(string: "2ACC")
+
+    /// Fitness Machine Control Point
+    ///
+    /// UUID: 0x2AD9
+    /// Used to control the machine (start, stop, set resistance).
+    /// Requires explicit device support and permissions.
+    static let controlPoint = CBUUID(string: "2AD9")
+}
+
 final class BluetoothManager: NSObject, ObservableObject {
     @Published var state: ConnectionState = .idle
+    @Published var metrics: BikeMetrics = BikeMetrics()
+    
+    private let parser = FTMSIndoorBikeParser()
 //    @Published var metrics = BikeMetrics()
 
     private var central: CBCentralManager!
     private var peripheral: CBPeripheral?
-
-    private let ftmsServiceUUID = CBUUID(string: "1826")
-    private let indoorBikeDataUUID = CBUUID(string: "2AD2")
 
     override init() {
         super.init()
@@ -39,7 +75,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == .poweredOn {
             state = .scanning
-            central.scanForPeripherals(withServices: [ftmsServiceUUID], options: nil)
+            central.scanForPeripherals(withServices: [FTMSUUID.service], options: nil)
         }
     }
 
@@ -58,7 +94,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager,
                         didConnect peripheral: CBPeripheral) {
         state = .connected
-        peripheral.discoverServices([ftmsServiceUUID])
+        peripheral.discoverServices([FTMSUUID.service])
     }
 }
 
@@ -77,21 +113,23 @@ extension BluetoothManager: CBPeripheralDelegate {
                     didDiscoverCharacteristicsFor service: CBService,
                     error: Error?) {
         service.characteristics?.forEach { characteristic in
-            if characteristic.uuid == indoorBikeDataUUID {
+            if characteristic.uuid == FTMSUUID.indoorBikeData {
                 peripheral.setNotifyValue(true, for: characteristic)
             }
         }
     }
 
-    // Next step: receive notifications here
-    func peripheral(_ peripheral: CBPeripheral,
-                    didUpdateValueFor characteristic: CBCharacteristic,
-                    error: Error?) {
-        guard characteristic.uuid == indoorBikeDataUUID,
+    func peripheral(
+        _ peripheral: CBPeripheral,
+        didUpdateValueFor characteristic: CBCharacteristic,
+        error: Error?
+    ) {
+        guard error == nil else { return }
+        guard characteristic.uuid == FTMSUUID.indoorBikeData,
               let data = characteristic.value else { return }
 
-        // NEXT STEP: parse bike data -> usable data
-        let hex = data.map { String(format: "%02hhx", $0) }.joined(separator: " ")
-        print("Indoor Bike Data:", hex)
+        if let parsed = parser.parse(data) {
+            metrics = parsed
+        }
     }
 }

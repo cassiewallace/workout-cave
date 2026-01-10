@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct WorkoutList: View {
     // MARK: - Properties
 
@@ -29,6 +27,14 @@ struct WorkoutList: View {
             .listStyle(.insetGrouped)
             .navigationTitle("Workouts")
             .navigationBarTitleDisplayMode(.large)
+            .safeAreaInset(edge: .bottom) {
+                NavigationLink("Just Ride") {
+                    Metrics()
+                }
+                .foregroundStyle(.primary)
+                .padding()
+                .bold()
+            }
             .task {
                 workouts = items.compactMap { item in
                     guard let workout = try? item.source.loadWorkout() else {
@@ -37,15 +43,6 @@ struct WorkoutList: View {
                     return (item.id, workout, item.source)
                 }
             }
-//            .toolbar {
-//                ToolbarItem(placement: .bottomBar) {
-//                    NavigationLink("Just Ride") {
-//                        Stats()
-//                    }
-//                    .foregroundStyle(.primary)
-//                    .bold()
-//                }
-//            }
         }
     }
 }

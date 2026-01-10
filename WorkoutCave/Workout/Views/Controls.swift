@@ -43,6 +43,7 @@ struct Control: View {
                 .frame(width: buttonSize, height: buttonSize)
         }
         .foregroundStyle(.primary)
+        .disabled(isDisabled)
     }
 }
 

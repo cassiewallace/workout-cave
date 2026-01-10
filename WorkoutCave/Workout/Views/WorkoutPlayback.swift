@@ -49,6 +49,9 @@ struct WorkoutPlayback: View {
                 loadingView
             }
         }
+        .toolbar {
+            controls
+        }
         .task {
             engine.load(source: workoutSource)
         }
@@ -97,9 +100,6 @@ struct WorkoutPlayback: View {
         }
         .padding(.top, sectionSpacing)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .toolbar {
-            controls
-        }
     }
 
     // MARK: - Subviews
@@ -156,38 +156,40 @@ struct WorkoutPlayback: View {
     
     @ToolbarContentBuilder
     private var controls: some ToolbarContent {
-        ToolbarItem(placement: .bottomBar) {
-            Control(
-                controlType: .skip,
-                action: engine.skipInterval,
-                isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
-            )
-        }
-
-        if engine.playbackState == .running {
+        if engine.workout != nil {
             ToolbarItem(placement: .bottomBar) {
                 Control(
-                    controlType: .pause,
-                    action: engine.pause,
-                    isDisabled: engine.playbackState == .finished
+                    controlType: .skip,
+                    action: engine.skipInterval,
+                    isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
                 )
             }
-        } else if engine.playbackState == .paused || engine.playbackState == .idle {
+            
+            if engine.playbackState == .running {
+                ToolbarItem(placement: .bottomBar) {
+                    Control(
+                        controlType: .pause,
+                        action: engine.pause,
+                        isDisabled: engine.playbackState == .finished
+                    )
+                }
+            } else if engine.playbackState == .paused || engine.playbackState == .idle {
+                ToolbarItem(placement: .bottomBar) {
+                    Control(
+                        controlType: .play,
+                        action: engine.start,
+                        isDisabled: engine.playbackState == .finished
+                    )
+                }
+            }
+            
             ToolbarItem(placement: .bottomBar) {
                 Control(
-                    controlType: .play,
-                    action: engine.start,
-                    isDisabled: engine.playbackState == .finished
+                    controlType: .restart,
+                    action: engine.restart,
+                    isDisabled: engine.playbackState == .idle
                 )
             }
-        }
-
-        ToolbarItem(placement: .bottomBar) {
-            Control(
-                controlType: .restart,
-                action: engine.restart,
-                isDisabled: engine.playbackState == .idle
-            )
         }
     }
 

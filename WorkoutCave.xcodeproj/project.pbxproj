@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		653F6F982F11AED4006DE91E /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F972F11AED0006DE91E /* BluetoothManager.swift */; };
-		653F6F9A2F11B17D006DE91E /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F992F11B174006DE91E /* Stats.swift */; };
+		653F6F9A2F11B17D006DE91E /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F992F11B174006DE91E /* Metrics.swift */; };
 		653F6F9C2F11B7A6006DE91E /* StatTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F9B2F11B7A4006DE91E /* StatTile.swift */; };
+		653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */; };
+		653F6FA32F11C3ED006DE91E /* FTMSIndoorBikeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FA22F11C3ED006DE91E /* FTMSIndoorBikeParser.swift */; };
 		65F559F32EF5CD66007AD1D9 /* steady-state.json in Resources */ = {isa = PBXBuildFile; fileRef = 65F559F22EF5CD62007AD1D9 /* steady-state.json */; };
 		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
 		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
@@ -29,8 +31,10 @@
 
 /* Begin PBXFileReference section */
 		653F6F972F11AED0006DE91E /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
-		653F6F992F11B174006DE91E /* Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
+		653F6F992F11B174006DE91E /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		653F6F9B2F11B7A4006DE91E /* StatTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatTile.swift; sourceTree = "<group>"; };
+		653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeMetrics.swift; sourceTree = "<group>"; };
+		653F6FA22F11C3ED006DE91E /* FTMSIndoorBikeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMSIndoorBikeParser.swift; sourceTree = "<group>"; };
 		65F559F22EF5CD62007AD1D9 /* steady-state.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "steady-state.json"; sourceTree = "<group>"; };
 		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
 		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
@@ -57,6 +61,33 @@
 				653F6F972F11AED0006DE91E /* BluetoothManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		653F6FA42F11CE57006DE91E /* Metrics */ = {
+			isa = PBXGroup;
+			children = (
+				653F6FA62F11CED5006DE91E /* Views */,
+				653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */,
+				653F6FA52F11CEBF006DE91E /* Parsing */,
+			);
+			path = Metrics;
+			sourceTree = "<group>";
+		};
+		653F6FA52F11CEBF006DE91E /* Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				653F6FA22F11C3ED006DE91E /* FTMSIndoorBikeParser.swift */,
+			);
+			path = Parsing;
+			sourceTree = "<group>";
+		};
+		653F6FA62F11CED5006DE91E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				653F6F992F11B174006DE91E /* Metrics.swift */,
+				653F6F9B2F11B7A4006DE91E /* StatTile.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		65F559FA2EF5D423007AD1D9 /* Sources */ = {
@@ -89,10 +120,9 @@
 			isa = PBXGroup;
 			children = (
 				A1000002 /* WorkoutCave.swift */,
-				A1000027 /* Views */,
-				A1000028 /* ViewModels */,
-				653F6F962F11AECA006DE91E /* Managers */,
 				A1000029 /* Workout */,
+				653F6FA42F11CE57006DE91E /* Metrics */,
+				653F6F962F11AECA006DE91E /* Managers */,
 				A1000013 /* Info.plist */,
 				65F559FF2EFAF391007AD1D9 /* README.md */,
 			);
@@ -110,11 +140,9 @@
 		A1000027 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				653F6F9B2F11B7A4006DE91E /* StatTile.swift */,
 				65FBC7E32EF49B320047A9FC /* Controls.swift */,
 				65FBC7DF2EF471170047A9FC /* WorkoutList.swift */,
 				A1000004 /* WorkoutPlayback.swift */,
-				653F6F992F11B174006DE91E /* Stats.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -132,6 +160,8 @@
 			children = (
 				A1000010 /* Workout.swift */,
 				65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */,
+				A1000027 /* Views */,
+				A1000028 /* ViewModels */,
 				65F55A012EFAFEED007AD1D9 /* Power */,
 				65F559FA2EF5D423007AD1D9 /* Sources */,
 				A1000030 /* Parsing */,
@@ -222,10 +252,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				653F6FA32F11C3ED006DE91E /* FTMSIndoorBikeParser.swift in Sources */,
 				A1000001 /* WorkoutCave.swift in Sources */,
 				A1000003 /* WorkoutPlayback.swift in Sources */,
 				653F6F982F11AED4006DE91E /* BluetoothManager.swift in Sources */,
-				653F6F9A2F11B17D006DE91E /* Stats.swift in Sources */,
+				653F6F9A2F11B17D006DE91E /* Metrics.swift in Sources */,
 				A1000005 /* WorkoutEngine.swift in Sources */,
 				653F6F9C2F11B7A6006DE91E /* StatTile.swift in Sources */,
 				65F55A052EFAFF87007AD1D9 /* PowerZones.swift in Sources */,
@@ -236,6 +267,7 @@
 				65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */,
 				65F55A032EFAFEF7007AD1D9 /* PowerZone.swift in Sources */,
 				65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */,
+				653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */,
 				A1000009 /* Workout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

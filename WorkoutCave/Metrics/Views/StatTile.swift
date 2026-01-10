@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StatTile: View {
+struct MetricTile: View {
     var name: String
     var value: String
     
@@ -36,9 +36,9 @@ struct StatTile: View {
 
 #Preview {
     HStack {
-        StatTile(name: "Cadence", value: "90")
-        StatTile(name: "Watts", value: "180")
-        StatTile(name: "Heart Rate", value: "111")
+        MetricTile(name: "Cadence", value: "90")
+        MetricTile(name: "Watts", value: "180")
+        MetricTile(name: "Heart Rate", value: "111")
     }
     .padding()
 }

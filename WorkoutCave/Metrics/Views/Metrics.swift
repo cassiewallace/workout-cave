@@ -1,0 +1,51 @@
+//
+//  Stats.swift
+//  WorkoutCave
+//
+//  Created by Cassie Wallace on 1/9/26.
+//
+
+import SwiftUI
+
+struct Metrics: View {
+    @StateObject private var bluetooth = BluetoothManager()
+
+    var body: some View {
+        VStack(spacing: 12) {
+            statusRow
+
+            HStack(spacing: 12) {
+                MetricTile(name: "Cadence", value: bluetooth.metrics.cadenceRpm.map { "\(Int($0.rounded()))" } ?? "—")
+                MetricTile(name: "Power", value: bluetooth.metrics.powerWatts.map(String.init) ?? "—")
+            }
+
+            HStack(spacing: 12) {
+                MetricTile(name: "Speed", value: bluetooth.metrics.speedKph.map { String(format: "%.1f", $0) } ?? "—")
+                MetricTile(name: "Heart Rate", value: bluetooth.metrics.heartRateBpm.map(String.init) ?? "—")
+            }
+        }
+        .padding()
+        .navigationTitle("Just Ride")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    @ViewBuilder
+    private var statusRow: some View {
+        if let statusText {
+            Text(statusText)
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    private var statusText: String? {
+        switch bluetooth.state {
+        case .idle: return "Idle"
+        case .scanning: return "Searching for bike…"
+        case .unauthorized: return "Bluetooth permission denied"
+        case .poweredOff: return "Bluetooth is off"
+        case .connecting: return "Connecting"
+        case .connected: return nil
+        }
+    }
+}
