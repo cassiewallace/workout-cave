@@ -13,7 +13,22 @@ struct WorkoutCave: App {
     
     var body: some Scene {
         WindowGroup {
-            WorkoutList()
+            TabView {
+                NavigationStack {
+                    WorkoutList()
+                }
+                    .tabItem {
+                        Label("Workouts", systemImage: "bicycle")
+                    }
+                
+                NavigationStack {
+                    Settings()
+                }
+                    .tabItem {
+                        Label("Settings", systemImage: "person")
+                    }
+            }
+            .tint(.primary)
         }
     }
 }

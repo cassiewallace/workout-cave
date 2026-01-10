@@ -16,34 +16,32 @@ struct WorkoutList: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationStack {
-            List {
-                Section {
-                    NavigationLink("Just Ride") {
-                        Metrics()
-                    }
+        List {
+            Section {
+                NavigationLink("Just Ride") {
+                    Metrics()
                 }
+            }
 
-                Section("Workouts") {
-                    ForEach(workouts, id: \.id) { item in
-                        NavigationLink(item.workout.name) {
-                            WorkoutPlayback(workoutSource: item.source)
-                                .navigationTitle(item.workout.name)
-                                .navigationBarTitleDisplayMode(.inline)
-                        }
+            Section("Workouts") {
+                ForEach(workouts, id: \.id) { item in
+                    NavigationLink(item.workout.name) {
+                        WorkoutPlayback(workoutSource: item.source)
+                            .navigationTitle(item.workout.name)
+                            .navigationBarTitleDisplayMode(.inline)
                     }
                 }
             }
-            .listStyle(.insetGrouped)
-            .navigationTitle("Workouts")
-            .navigationBarTitleDisplayMode(.large)
-            .task {
-                workouts = items.compactMap { item in
-                    guard let workout = try? item.source.loadWorkout() else {
-                        return nil
-                    }
-                    return (item.id, workout, item.source)
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Workouts")
+        .navigationBarTitleDisplayMode(.large)
+        .task {
+            workouts = items.compactMap { item in
+                guard let workout = try? item.source.loadWorkout() else {
+                    return nil
                 }
+                return (item.id, workout, item.source)
             }
         }
     }
