@@ -126,16 +126,18 @@ struct WorkoutPlayback: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
-                
-                if let label = interval.powerTarget?.zones().zoneLabel {
-                    Text(label)
-                }
 
                 if let message = interval.message {
                     Text(message)
                         .font(.title3)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
+                }
+                
+                if let label = interval.powerTarget?.zones().zoneLabel {
+                    MetricTile(name: "Target Zone", value: label)
+                        .frame(maxWidth: 160)
+                        .padding(isCompactVertical ? 4 : 24)
                 }
             }
         }
