@@ -103,14 +103,6 @@ struct WorkoutPlayback: View {
     }
 
     // MARK: - Subviews
-    
-    private func workoutName(for workout: Workout) -> some View {
-        Text(workout.name)
-            .font(.title3)
-            .foregroundColor(.secondary)
-            .multilineTextAlignment(.center)
-            .lineLimit(2)
-    }
 
     @ViewBuilder
     private var intervalContent: some View {
