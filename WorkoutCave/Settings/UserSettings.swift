@@ -19,9 +19,15 @@ final class UserSettings {
     }
 }
 
+extension UserSettings {
+    func powerZone(for watts: Int?) -> PowerZone? {
+        guard let watts, let ftpWatts, ftpWatts > 0 else { return nil }
+        return PowerZone.zone(for: watts, ftp: ftpWatts)
+    }
+}
+
 @MainActor
 enum UserSettingsStore {
-
     static func loadOrCreate(in context: ModelContext) throws -> UserSettings {
         let descriptor = FetchDescriptor<UserSettings>(
             predicate: #Predicate { $0.id == "me" }

@@ -10,49 +10,55 @@ import SwiftUI
 
 struct Settings: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var settings: UserSettings?
-    @State private var ftp: Int?
-    
+    @Bindable var settings: UserSettings
+
+    @State private var ftpText: String = ""
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Set FTP")
-                        .font(.title2)
-                        .bold()
-                    HStack {
-                        TextField("FTP", value: $ftp, format: .number)
-                            .textFieldStyle(.roundedBorder)
-                        Button("Save") {
-                            settings?.ftpWatts = ftp
-                            try? modelContext.save()
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.primary)
-                    }
-                }
+                ftpSection
                 powerZones
             }
             .padding()
         }
+        .scrollDismissesKeyboard(.interactively)
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.large)
-        .task {
-            settings = try? UserSettingsStore.loadOrCreate(in: modelContext)
-            self.ftp = settings?.ftpWatts
+        .onAppear {
+            if ftpText.isEmpty, let ftp = settings.ftpWatts {
+                ftpText = String(ftp)
+            }
         }
     }
-    
-    var powerZones: some View {
+
+    private var ftpSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Set FTP")
+                .font(.title2)
+                .bold()
+
+            HStack {
+                TextField("FTP", text: $ftpText)
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(.roundedBorder)
+
+                Button("Save") { saveFTP() }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.primary)
+                    .disabled(Int(ftpText) == nil)
+            }
+        }
+    }
+
+    private var powerZones: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Power Zones")
                 .font(.title2)
                 .bold()
 
-            if let ftp = settings?.ftpWatts, ftp > 0 {
+            if let ftp = settings.ftpWatts, ftp > 0 {
                 Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 10) {
-
-                    // Header
                     GridRow {
                         Text("Zone")
                         Text("Name")
@@ -64,7 +70,6 @@ struct Settings: View {
 
                     Divider().gridCellColumns(3)
 
-                    // Rows
                     ForEach(PowerZone.allCases) { zone in
                         GridRow {
                             Text("Z\(zone.rawValue)")
@@ -85,41 +90,31 @@ struct Settings: View {
                 .padding(.top, 4)
             } else {
                 Text("Set FTP to view zones.")
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
         }
     }
-    
-    private struct PowerZoneRow: Identifiable {
-        let id: Int
-        let zoneNumber: Int
-        let name: String
-        let watts: String
+
+    @MainActor
+    private func saveFTP() {
+        guard let ftp = Int(ftpText), ftp > 0 else { return }
+        settings.ftpWatts = ftp
+        try? modelContext.save()
     }
 }
 
 #Preview("FTP set") {
-    let container = try! ModelContainer(for: UserSettings.self)
-    let context = container.mainContext
-
     let settings = UserSettings(id: "me", ftpWatts: 250)
-    context.insert(settings)
 
     return NavigationStack {
-        Settings()
+        Settings(settings: settings)
     }
-    .modelContainer(container)
 }
 
 #Preview("No FTP set") {
-    let container = try! ModelContainer(for: UserSettings.self)
-    let context = container.mainContext
-
     let settings = UserSettings(id: "me", ftpWatts: nil)
-    context.insert(settings)
 
     return NavigationStack {
-        Settings()
+        Settings(settings: settings)
     }
-    .modelContainer(container)
 }

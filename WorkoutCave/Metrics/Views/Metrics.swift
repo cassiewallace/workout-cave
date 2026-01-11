@@ -9,18 +9,24 @@ import SwiftUI
 
 struct Metrics: View {
     @StateObject private var bluetooth = BluetoothManager()
+    @Environment(\.modelContext) private var modelContext
+    @State private var settings: UserSettings?
 
     var body: some View {
         VStack(spacing: 12) {
             statusRow
-
+            
             HStack(spacing: 12) {
-                MetricTile(name: "Cadence", value: bluetooth.metrics.cadenceRpm.map { "\(Int($0.rounded()))" } ?? "—")
                 MetricTile(name: "Power", value: bluetooth.metrics.powerWatts.map(String.init) ?? "—")
+                MetricTile(name: "Power Zone", value: settings?.powerZone(for: bluetooth.metrics.powerWatts)?.name ?? "—")
             }
 
             HStack(spacing: 12) {
+                MetricTile(name: "Cadence", value: bluetooth.metrics.cadenceRpm.map { "\(Int($0.rounded()))" } ?? "—")
                 MetricTile(name: "Speed", value: bluetooth.metrics.speedKph.map { String(format: "%.1f", $0) } ?? "—")
+            }
+
+            HStack(spacing: 12) {
                 MetricTile(name: "Heart Rate", value: bluetooth.metrics.heartRateBpm.map(String.init) ?? "—")
             }
         }
