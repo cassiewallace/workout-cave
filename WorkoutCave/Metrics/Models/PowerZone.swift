@@ -47,15 +47,24 @@ enum PowerZone: Int, CaseIterable, Identifiable {
 
     // MARK: - Helpers
 
-    func wattRange(for ftp: Double) -> ClosedRange<Double> {
-        (range.lowerBound * ftp) ... (range.upperBound * ftp)
+    func wattRange(ftp: Int) -> (lower: Int, upper: Int?) {
+        let ftpD = Double(ftp)
+        let lower = Int((ftpD * range.lowerBound).rounded())
+
+        guard range.upperBound.isFinite else {
+            return (lower: lower, upper: nil)
+        }
+
+        let upper = Int((ftpD * range.upperBound).rounded())
+        return (lower: lower, upper: upper)
     }
 
-    func contains(watts: Double, ftp: Double) -> Bool {
-        wattRange(for: ftp).contains(watts)
-    }
-
-    static func zone(for watts: Double, ftp: Double) -> PowerZone? {
-        PowerZone.allCases.first { $0.contains(watts: watts, ftp: ftp) }
+    func wattRangeLabel(ftp: Int) -> String {
+        let b = wattRange(ftp: ftp)
+        if let upper = b.upper {
+            return "\(b.lower)–\(upper) W"
+        } else {
+            return "\(b.lower)+ W"
+        }
     }
 }
