@@ -1,55 +1,27 @@
 # Workout Cave
 
-A personal MVP iPad app for playing structured bike trainer workouts.
+Workout Cave is a personal iOS app for playing structured bike workouts with a clean, focused UI.
 
 ## Features
 
-- Plays limited bundled ZWO (Zwift) and JSON workout files
-- Displays current interval name and countdown timer
-- Start/Pause, Skip Interval, and Restart controls
-- Timing that remains accurate when app is backgrounded
-- iPad-optimized layout supporting Split View and Slide Over
+- Plays bundled workouts from **Zwift ZWO** and **native JSON** files
+- Clean playback screen with interval name, cues, large timer, and progress
+- Start / Pause / Skip / Restart controls
+- Accurate wall-clock timing that survives backgrounding and screen lock
+- Supports power targets and FTP-based power zones
+- User FTP stored locally using SwiftData
+- Adaptive layout for iPhone and iPad (portrait, landscape, Split View)
 
 ## Requirements
 
-- iPad or iPhone running iOS 17.0 or later
-- Xcode 15.0 or later
-- Swift 5.0+
+- iOS 17.0+
+- Xcode 15.0+
+- Swift 5.9+
 
 ## Setup
 
 1. Open `WorkoutCave.xcodeproj` in Xcode
-2. Replace `WorkoutCave/sample.zwo` with your own ZWO file (or keep the sample)
-3. Build and run on an iPad simulator or device
-
-## ZWO File Format
-
-The app supports ZWO files with the following interval types:
-- `Warmup` - Warmup interval
-- `SteadyState` - Steady state interval
-- `IntervalsT` - Repeating intervals (expanded into On/Off pairs)
-- `Cooldown` - Cooldown interval
-- `FreeRide` - Free ride interval
-
-Each interval must have a `Duration` attribute (in seconds). `IntervalsT` requires `OnDuration`, `OffDuration`, and `Repeat` attributes.
-
-## Usage
-
-1. Launch the app - it automatically loads `sample.zwo`
-2. Tap "Start" to begin the workout
-3. The current interval name and remaining time are displayed prominently
-4. Use "Pause" to pause/resume, "Skip Interval" to move to the next interval, or "Restart" to start over
-5. The workout automatically advances through intervals
-6. Timing remains accurate even when the app is backgrounded or the screen is locked
-
-## Project Structure
-
-- `WorkoutCaveApp.swift` - App entry point
-- `WorkoutPlaybackView.swift` - Main playback screen UI
-- `WorkoutEngine.swift` - Workout state management and timing logic
-- `ZWOParser.swift` - XML parser for ZWO files
-- `Workout.swift` - Data models for workouts and intervals
-
-## Notes
-
-This is a personal MVP and is not designed for App Store distribution. It intentionally omits features like trainer control, Bluetooth/ANT+ support, workout creation, history, and analytics to focus on core playback functionality.
+2. Build and run on a simulator or device
+3. Workouts are bundled in the app:
+   - `.zwo` files for Zwift workouts
+   - `.json` files for native workouts
