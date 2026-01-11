@@ -48,7 +48,7 @@ struct WorkoutList: View {
             NavigationLink {
                 WorkoutPlayback(workoutSource: workout.source)
             } label: {
-                WorkoutCard(name: workout.workout.name, description: "TBD")
+                WorkoutCard(name: workout.workout.name, description: workout.workout.description)
             }
         }
     }

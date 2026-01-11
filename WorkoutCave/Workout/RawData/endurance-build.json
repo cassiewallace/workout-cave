@@ -1,7 +1,7 @@
 {
   "id": "endurance-build",
   "name": "Endurance Build Ride",
-  "description": "A longer endurance-focused workout designed to improve aerobic durability and efficiency.",
+  "description": "A longer endurance-focused workout to improve aerobic durability and efficiency.",
   "intervals": [
     {
       "duration": 600,

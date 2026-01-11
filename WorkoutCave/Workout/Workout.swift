@@ -18,6 +18,7 @@ struct Workout: Identifiable, Codable {
     
     let id: String
     let name: String
+    let description: String
     let intervals: [Interval]
     
     var totalDuration: TimeInterval {
@@ -27,10 +28,12 @@ struct Workout: Identifiable, Codable {
     init(
         id: String,
         name: String,
+        description: String,
         intervals: [Interval]
     ) {
         self.id = id
         self.name = name
+        self.description = description
         self.intervals = intervals
     }
 }

@@ -1,7 +1,7 @@
 {
   "id": "steady-state-base",
   "name": "Steady State Base Ride",
-  "description": "A simple aerobic workout focused on steady endurance. Low mental load and ideal for building consistency or riding on recovery-adjacent days.",
+  "description": "A simple aerobic workout focused on steady endurance.",
   "intervals": [
     {
       "duration": 600,

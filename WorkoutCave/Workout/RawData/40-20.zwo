@@ -1,7 +1,7 @@
 <workout_file>
     <author>H.Stiles</author>
     <name>#ShredStrong 40-20s</name>
-    <description>5 Min warmup, getting progressively harder, Try to maintain same cadence during hard work blocks!</description>
+    <description>40 seconds on, 20 seconds off, with a warmup.</description>
     <sportType>bike</sportType>
     <tags>
         <tag name="INTERVALS"/>

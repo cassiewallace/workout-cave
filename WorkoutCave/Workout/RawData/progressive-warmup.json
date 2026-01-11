@@ -1,7 +1,7 @@
 {
   "id": "progressive-warmup",
   "name": "Progressive Warm-Up Ride",
-  "description": "A gradual, intentional warm-up that steadily increases intensity. Useful standalone or before harder sessions.",
+  "description": "A gradual warm-up that steadily increases intensity.",
   "intervals": [
     {
       "duration": 300,

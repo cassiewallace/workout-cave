@@ -127,6 +127,7 @@ struct WorkoutPlayback: View {
                         .font(.title3)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
+                        .padding(4)
                 }
                 
                 if let label = interval.powerTarget?.zones().zoneLabel {

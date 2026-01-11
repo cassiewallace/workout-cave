@@ -15,12 +15,6 @@ struct WorkoutItem: Identifiable {
 enum WorkoutCatalog {
     static func all() -> [WorkoutItem] {
         [
-            // Zwift workouts
-            WorkoutItem(
-                id: "40-20",
-                source: zwift(resource: "40-20")
-            ),
-
             // JSON workouts
             WorkoutItem(
                 id: "steady-state-base",
@@ -45,6 +39,12 @@ enum WorkoutCatalog {
             WorkoutItem(
                 id: "endurance-build",
                 source: json(resource: "endurance-build")
+            ),
+            
+            // Zwift workouts
+            WorkoutItem(
+                id: "40-20",
+                source: zwift(resource: "40-20")
             )
         ]
     }

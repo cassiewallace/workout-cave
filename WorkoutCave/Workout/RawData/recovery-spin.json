@@ -1,7 +1,7 @@
 {
   "id": "recovery-spin",
   "name": "Recovery Spin",
-  "description": "An easy, low-intensity spin designed to promote circulation and recovery. No surges, no pressure.",
+  "description": "An easy, low-intensity spin designed to promote circulation and recovery.",
   "intervals": [
     {
       "duration": 1500,
