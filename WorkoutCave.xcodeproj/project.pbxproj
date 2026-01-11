@@ -13,7 +13,12 @@
 		653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */; };
 		653F6FA32F11C3ED006DE91E /* FTMSIndoorBikeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FA22F11C3ED006DE91E /* FTMSIndoorBikeParser.swift */; };
 		653F6FA92F11D0A4006DE91E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FA82F11D0A2006DE91E /* Settings.swift */; };
-		65F559F32EF5CD66007AD1D9 /* steady-state.json in Resources */ = {isa = PBXBuildFile; fileRef = 65F559F22EF5CD62007AD1D9 /* steady-state.json */; };
+		653F6FAB2F140DFE006DE91E /* recovery-spin.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FAA2F140DFD006DE91E /* recovery-spin.json */; };
+		653F6FAD2F140E16006DE91E /* 30-30-power-intervals.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FAC2F140E16006DE91E /* 30-30-power-intervals.json */; };
+		653F6FAF2F140E31006DE91E /* 90-60-tempo-intervals.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FAE2F140E28006DE91E /* 90-60-tempo-intervals.json */; };
+		653F6FB12F140E3D006DE91E /* progressive-warmup.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FB02F140E3D006DE91E /* progressive-warmup.json */; };
+		653F6FB32F140E4C006DE91E /* endurance-build.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FB22F140E4C006DE91E /* endurance-build.json */; };
+		65F559F32EF5CD66007AD1D9 /* steady-state-base.json in Resources */ = {isa = PBXBuildFile; fileRef = 65F559F22EF5CD62007AD1D9 /* steady-state-base.json */; };
 		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
 		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
 		65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */; };
@@ -36,7 +41,12 @@
 		653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeMetrics.swift; sourceTree = "<group>"; };
 		653F6FA22F11C3ED006DE91E /* FTMSIndoorBikeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMSIndoorBikeParser.swift; sourceTree = "<group>"; };
 		653F6FA82F11D0A2006DE91E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		65F559F22EF5CD62007AD1D9 /* steady-state.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "steady-state.json"; sourceTree = "<group>"; };
+		653F6FAA2F140DFD006DE91E /* recovery-spin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "recovery-spin.json"; sourceTree = "<group>"; };
+		653F6FAC2F140E16006DE91E /* 30-30-power-intervals.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "30-30-power-intervals.json"; sourceTree = "<group>"; };
+		653F6FAE2F140E28006DE91E /* 90-60-tempo-intervals.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "90-60-tempo-intervals.json"; sourceTree = "<group>"; };
+		653F6FB02F140E3D006DE91E /* progressive-warmup.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "progressive-warmup.json"; sourceTree = "<group>"; };
+		653F6FB22F140E4C006DE91E /* endurance-build.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "endurance-build.json"; sourceTree = "<group>"; };
+		65F559F22EF5CD62007AD1D9 /* steady-state-base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "steady-state-base.json"; sourceTree = "<group>"; };
 		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
 		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
 		65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONWorkoutSource.swift; sourceTree = "<group>"; };
@@ -189,7 +199,12 @@
 		A1000031 /* RawData */ = {
 			isa = PBXGroup;
 			children = (
-				65F559F22EF5CD62007AD1D9 /* steady-state.json */,
+				653F6FB22F140E4C006DE91E /* endurance-build.json */,
+				653F6FB02F140E3D006DE91E /* progressive-warmup.json */,
+				653F6FAE2F140E28006DE91E /* 90-60-tempo-intervals.json */,
+				653F6FAC2F140E16006DE91E /* 30-30-power-intervals.json */,
+				65F559F22EF5CD62007AD1D9 /* steady-state-base.json */,
+				653F6FAA2F140DFD006DE91E /* recovery-spin.json */,
 				65F559FD2EFAE608007AD1D9 /* 40-20.zwo */,
 			);
 			path = RawData;
@@ -247,9 +262,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				653F6FAD2F140E16006DE91E /* 30-30-power-intervals.json in Resources */,
+				653F6FAF2F140E31006DE91E /* 90-60-tempo-intervals.json in Resources */,
 				65F55A002EFAF391007AD1D9 /* README.md in Resources */,
 				65F559FE2EFAE608007AD1D9 /* 40-20.zwo in Resources */,
-				65F559F32EF5CD66007AD1D9 /* steady-state.json in Resources */,
+				653F6FAB2F140DFE006DE91E /* recovery-spin.json in Resources */,
+				65F559F32EF5CD66007AD1D9 /* steady-state-base.json in Resources */,
+				653F6FB32F140E4C006DE91E /* endurance-build.json in Resources */,
+				653F6FB12F140E3D006DE91E /* progressive-warmup.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,28 @@
+{
+  "id": "progressive-warmup",
+  "name": "Progressive Warm-Up Ride",
+  "description": "A gradual, intentional warm-up that steadily increases intensity. Useful standalone or before harder sessions.",
+  "intervals": [
+    {
+      "duration": 300,
+      "name": "Easy Spin",
+      "message": "Light effort. Relaxed cadence.",
+      "type": "warmup",
+      "powerTarget": { "lowerBound": 0.45, "upperBound": 0.55 }
+    },
+    {
+      "duration": 300,
+      "name": "Build",
+      "message": "Increase resistance slightly.",
+      "type": "steadyState",
+      "powerTarget": { "lowerBound": 0.60, "upperBound": 0.70 }
+    },
+    {
+      "duration": 300,
+      "name": "Prime",
+      "message": "Comfortably hard but controlled.",
+      "type": "steadyState",
+      "powerTarget": { "lowerBound": 0.70, "upperBound": 0.80 }
+    }
+  ]
+}

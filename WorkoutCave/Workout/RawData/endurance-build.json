@@ -1,0 +1,21 @@
+{
+  "id": "endurance-build",
+  "name": "Endurance Build Ride",
+  "description": "A longer endurance-focused workout designed to improve aerobic durability and efficiency.",
+  "intervals": [
+    {
+      "duration": 600,
+      "name": "Warmup",
+      "message": "Gradually build effort.",
+      "type": "warmup",
+      "powerTarget": { "lowerBound": 0.50, "upperBound": 0.60 }
+    },
+    {
+      "duration": 1800,
+      "name": "Endurance",
+      "message": "Sustainable pace. Focus on smooth pedaling.",
+      "type": "steadyState",
+      "powerTarget": { "lowerBound": 0.65, "upperBound": 0.75 }
+    }
+  ]
+}

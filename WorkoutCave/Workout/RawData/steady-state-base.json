@@ -1,0 +1,21 @@
+{
+  "id": "steady-state-base",
+  "name": "Steady State Base Ride",
+  "description": "A simple aerobic workout focused on steady endurance. Low mental load and ideal for building consistency or riding on recovery-adjacent days.",
+  "intervals": [
+    {
+      "duration": 600,
+      "name": "Warmup",
+      "message": "Easy pedal. Gradually build cadence and breathing.",
+      "type": "warmup",
+      "powerTarget": { "lowerBound": 0.45, "upperBound": 0.55 }
+    },
+    {
+      "duration": 1200,
+      "name": "Steady State",
+      "message": "Comfortable endurance pace. Smooth, controlled effort.",
+      "type": "steadyState",
+      "powerTarget": { "lowerBound": 0.65, "upperBound": 0.75 }
+    }
+  ]
+}
