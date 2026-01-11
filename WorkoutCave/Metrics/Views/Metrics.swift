@@ -17,17 +17,17 @@ struct Metrics: View {
             statusRow
             
             HStack(spacing: 12) {
-                MetricTile(name: "Power", value: bluetooth.metrics.powerWatts.map(String.init) ?? "—")
-                MetricTile(name: "Power Zone", value: settings?.powerZone(for: bluetooth.metrics.powerWatts)?.name ?? "—")
+                MetricCard(name: "Power", value: bluetooth.metrics.powerWatts.map(String.init) ?? "—")
+                MetricCard(name: "Power Zone", value: settings?.powerZone(for: bluetooth.metrics.powerWatts)?.name ?? "—")
             }
 
             HStack(spacing: 12) {
-                MetricTile(name: "Cadence", value: bluetooth.metrics.cadenceRpm.map { "\(Int($0.rounded()))" } ?? "—")
-                MetricTile(name: "Speed", value: bluetooth.metrics.speedKph.map { String(format: "%.1f", $0) } ?? "—")
+                MetricCard(name: "Cadence", value: bluetooth.metrics.cadenceRpm.map { "\(Int($0.rounded()))" } ?? "—")
+                MetricCard(name: "Speed", value: bluetooth.metrics.speedKph.map { String(format: "%.1f", $0) } ?? "—")
             }
 
             HStack(spacing: 12) {
-                MetricTile(name: "Heart Rate", value: bluetooth.metrics.heartRateBpm.map(String.init) ?? "—")
+                MetricCard(name: "Heart Rate", value: bluetooth.metrics.heartRateBpm.map(String.init) ?? "—")
             }
         }
         .padding()

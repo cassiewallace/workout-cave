@@ -1,5 +1,5 @@
 //
-//  StatTile.swift
+//  MetricCard.swift
 //  WorkoutCave
 //
 //  Created by Cassie Wallace on 1/9/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MetricTile: View {
+struct MetricCard: View {
     var name: String
     var value: String
     
@@ -26,9 +26,9 @@ struct MetricTile: View {
         .frame(maxWidth: .infinity, minHeight: tileMinHeight)
         .fixedSize(horizontal: false, vertical: true)
         .background(.quaternary)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
         .overlay(
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.primary, lineWidth: 1)
         )
     }
@@ -36,9 +36,9 @@ struct MetricTile: View {
 
 #Preview {
     HStack {
-        MetricTile(name: "Cadence", value: "90")
-        MetricTile(name: "Watts", value: "180")
-        MetricTile(name: "Heart Rate", value: "111")
+        MetricCard(name: "Cadence", value: "90")
+        MetricCard(name: "Watts", value: "180")
+        MetricCard(name: "Heart Rate", value: "111")
     }
     .padding()
 }

@@ -49,6 +49,9 @@ struct WorkoutPlayback: View {
                 loadingView
             }
         }
+        .navigationTitle(engine.workout?.name ?? "")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             controls
         }
@@ -127,7 +130,7 @@ struct WorkoutPlayback: View {
                 }
                 
                 if let label = interval.powerTarget?.zones().zoneLabel {
-                    MetricTile(name: "Target Zone", value: label)
+                    MetricCard(name: "Target Zone", value: label)
                         .frame(maxWidth: 160)
                         .padding(isCompactVertical ? 4 : 24)
                 }
