@@ -5,6 +5,8 @@
 //  Created by Cassie Wallace on 12/23/25.
 //
 
+import Foundation
+
 enum PowerZone: Int, CaseIterable, Identifiable {
     case recovery = 1
     case endurance
@@ -15,6 +17,8 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     case neuromuscular
 
     var id: Int { rawValue }
+
+    // MARK: - Display
 
     var name: String {
         switch self {
@@ -28,10 +32,10 @@ enum PowerZone: Int, CaseIterable, Identifiable {
         }
     }
 
-    /// Fraction of FTP
-    var range: ClosedRange<Double> {
+    /// Fraction of FTP (e.g. 0.75 = 75% FTP)
+    var fractionRange: ClosedRange<Double> {
         switch self {
-        case .recovery:        return 0.0 ... 0.55
+        case .recovery:        return 0.00 ... 0.55
         case .endurance:       return 0.56 ... 0.75
         case .tempo:           return 0.76 ... 0.90
         case .threshold:       return 0.91 ... 1.05
@@ -39,5 +43,19 @@ enum PowerZone: Int, CaseIterable, Identifiable {
         case .anaerobic:       return 1.21 ... 1.50
         case .neuromuscular:   return 1.51 ... .infinity
         }
+    }
+
+    // MARK: - Helpers
+
+    func wattRange(for ftp: Double) -> ClosedRange<Double> {
+        (fractionRange.lowerBound * ftp) ... (fractionRange.upperBound * ftp)
+    }
+
+    func contains(watts: Double, ftp: Double) -> Bool {
+        wattRange(for: ftp).contains(watts)
+    }
+
+    static func zone(for watts: Double, ftp: Double) -> PowerZone? {
+        PowerZone.allCases.first { $0.contains(watts: watts, ftp: ftp) }
     }
 }

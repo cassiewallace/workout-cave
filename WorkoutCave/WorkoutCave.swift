@@ -30,6 +30,7 @@ struct WorkoutCave: App {
             }
             .tint(.primary)
         }
+        .modelContainer(for: [UserSettings.self])
     }
 }
 

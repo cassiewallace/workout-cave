@@ -18,6 +18,7 @@
 		653F6FAF2F140E31006DE91E /* 90-60-tempo-intervals.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FAE2F140E28006DE91E /* 90-60-tempo-intervals.json */; };
 		653F6FB12F140E3D006DE91E /* progressive-warmup.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FB02F140E3D006DE91E /* progressive-warmup.json */; };
 		653F6FB32F140E4C006DE91E /* endurance-build.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FB22F140E4C006DE91E /* endurance-build.json */; };
+		653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB42F141145006DE91E /* UserSettings.swift */; };
 		65F559F32EF5CD66007AD1D9 /* steady-state-base.json in Resources */ = {isa = PBXBuildFile; fileRef = 65F559F22EF5CD62007AD1D9 /* steady-state-base.json */; };
 		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
 		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
@@ -46,6 +47,7 @@
 		653F6FAE2F140E28006DE91E /* 90-60-tempo-intervals.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "90-60-tempo-intervals.json"; sourceTree = "<group>"; };
 		653F6FB02F140E3D006DE91E /* progressive-warmup.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "progressive-warmup.json"; sourceTree = "<group>"; };
 		653F6FB22F140E4C006DE91E /* endurance-build.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "endurance-build.json"; sourceTree = "<group>"; };
+		653F6FB42F141145006DE91E /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		65F559F22EF5CD62007AD1D9 /* steady-state-base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "steady-state-base.json"; sourceTree = "<group>"; };
 		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
 		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		653F6FA72F11D094006DE91E /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				653F6FB42F141145006DE91E /* UserSettings.swift */,
 				653F6FA82F11D0A2006DE91E /* Settings.swift */,
 			);
 			path = Settings;
@@ -294,6 +297,7 @@
 				A1000007 /* ZWOParser.swift in Sources */,
 				65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */,
 				65F55A032EFAFEF7007AD1D9 /* PowerZone.swift in Sources */,
+				653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */,
 				65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */,
 				653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */,
 				A1000009 /* Workout.swift in Sources */,
