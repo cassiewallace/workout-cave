@@ -33,7 +33,7 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     }
 
     /// Fraction of FTP (e.g. 0.75 = 75% FTP)
-    var fractionRange: ClosedRange<Double> {
+    var range: ClosedRange<Double> {
         switch self {
         case .recovery:        return 0.00 ... 0.55
         case .endurance:       return 0.56 ... 0.75
@@ -48,7 +48,7 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     // MARK: - Helpers
 
     func wattRange(for ftp: Double) -> ClosedRange<Double> {
-        (fractionRange.lowerBound * ftp) ... (fractionRange.upperBound * ftp)
+        (range.lowerBound * ftp) ... (range.upperBound * ftp)
     }
 
     func contains(watts: Double, ftp: Double) -> Bool {
