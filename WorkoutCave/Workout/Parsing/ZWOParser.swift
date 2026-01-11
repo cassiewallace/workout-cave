@@ -26,6 +26,10 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     private var intervalsTOnPower: Workout.Interval.PowerTarget?
     private var intervalsTOffPower: Workout.Interval.PowerTarget?
 
+    // workout_file <name> support
+    private var isReadingWorkoutFileName: Bool = false
+    private var nameBuffer: String = ""
+
     // MARK: - Public API
 
     func parse(data: Data) -> Workout? {
@@ -56,8 +60,10 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         switch elementName {
 
         case "name":
-            // handled in foundCharacters if needed
-            break
+            // <workout_file><name>...</name></workout_file>
+            // (Zwift uses this, not <workout name="...">)
+            isReadingWorkoutFileName = true
+            nameBuffer = ""
 
         case "SteadyState":
             beginInterval(
@@ -132,6 +138,11 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         }
     }
 
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        guard isReadingWorkoutFileName else { return }
+        nameBuffer += string
+    }
+
     func parser(
         _ parser: XMLParser,
         didEndElement elementName: String,
@@ -140,6 +151,14 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     ) {
 
         switch elementName {
+
+        case "name":
+            isReadingWorkoutFileName = false
+            let trimmed = nameBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty {
+                workoutName = trimmed
+            }
+            nameBuffer = ""
 
         case "SteadyState", "Warmup", "Cooldown", "FreeRide", "Ramp":
             appendCurrentInterval()
