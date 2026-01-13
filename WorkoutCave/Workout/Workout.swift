@@ -111,21 +111,3 @@ extension Workout {
         }
     }
 }
-
-private struct PowerZoneLabelFormatter {
-    static func label(for zones: [PowerZone]) -> String? {
-        guard !zones.isEmpty else { return nil }
-
-        if zones.count == 1 {
-            return "Z\(zones[0].id)"
-        } else {
-            return "Z\(zones.first!.id)–Z\(zones.last!.id)"
-        }
-    }
-}
-
-extension Array where Element == PowerZone {
-    var zoneLabel: String? {
-        PowerZoneLabelFormatter.label(for: self)
-    }
-}

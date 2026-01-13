@@ -5,20 +5,23 @@
 //  Created by Cassie Wallace on 1/9/26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct Metrics: View {
     @StateObject private var bluetooth = BluetoothManager()
     @Environment(\.modelContext) private var modelContext
-    @State private var settings: UserSettings?
+    @Query(filter: #Predicate<UserSettings> { $0.id == "me" })
+    private var settings: [UserSettings]
+    private var userSettings: UserSettings? { settings.first }
 
     var body: some View {
         VStack(spacing: 12) {
             statusRow
             
             HStack(spacing: 12) {
+                MetricCard(name: "Power Zone", value: userSettings?.powerZone(for: bluetooth.metrics.powerWatts)?.name ?? "—")
                 MetricCard(name: "Power", value: bluetooth.metrics.powerWatts.map(String.init) ?? "—")
-                MetricCard(name: "Power Zone", value: settings?.powerZone(for: bluetooth.metrics.powerWatts)?.name ?? "—")
             }
 
             HStack(spacing: 12) {

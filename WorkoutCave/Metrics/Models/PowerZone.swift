@@ -21,6 +21,10 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     // MARK: - Display
     
     var name: String {
+        "Z\(id)"
+    }
+    
+    var label: String {
         switch self {
         case .recovery:        return "Recovery"
         case .endurance:       return "Endurance"
@@ -35,7 +39,7 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     /// Fraction of FTP (e.g. 0.75 = 75% FTP)
     var range: ClosedRange<Double> {
         switch self {
-        case .recovery:        return 0.00 ... 0.55
+        case .recovery:        return 0.01 ... 0.55
         case .endurance:       return 0.56 ... 0.75
         case .tempo:           return 0.76 ... 0.90
         case .threshold:       return 0.91 ... 1.05
@@ -96,5 +100,17 @@ enum PowerZone: Int, CaseIterable, Identifiable {
         
         let upper = Int((ftpD * range.upperBound).rounded())
         return (lower: lower, upper: upper)
+    }
+}
+
+extension Array where Element == PowerZone {
+    var zoneLabel: String? {
+        guard let first, let last else { return nil }
+
+        if first == last {
+            return first.name
+        } else {
+            return "\(first.name)–\(last.name)"
+        }
     }
 }

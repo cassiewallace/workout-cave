@@ -10,7 +10,9 @@ import SwiftUI
 
 struct Settings: View {
     @Environment(\.modelContext) private var modelContext
-    @Bindable var settings: UserSettings
+    @Query(filter: #Predicate<UserSettings> { $0.id == "me" })
+    private var settings: [UserSettings]
+    private var userSettings: UserSettings? { settings.first }
 
     @State private var ftpText: String = ""
 
@@ -26,7 +28,7 @@ struct Settings: View {
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.large)
         .onAppear {
-            if ftpText.isEmpty, let ftp = settings.ftpWatts {
+            if ftpText.isEmpty, let ftp = userSettings?.ftpWatts {
                 ftpText = String(ftp)
             }
         }
@@ -57,7 +59,7 @@ struct Settings: View {
                 .font(.title2)
                 .bold()
 
-            if let ftp = settings.ftpWatts, ftp > 0 {
+            if let ftp = userSettings?.ftpWatts, ftp > 0 {
                 Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 10) {
                     GridRow {
                         Text("Zone")
@@ -98,7 +100,7 @@ struct Settings: View {
     @MainActor
     private func saveFTP() {
         guard let ftp = Int(ftpText), ftp > 0 else { return }
-        settings.ftpWatts = ftp
+        userSettings?.ftpWatts = ftp
         try? modelContext.save()
     }
 }
@@ -107,7 +109,7 @@ struct Settings: View {
     let settings = UserSettings(id: "me", ftpWatts: 250)
 
     return NavigationStack {
-        Settings(settings: settings)
+        Settings()
     }
 }
 
@@ -115,6 +117,6 @@ struct Settings: View {
     let settings = UserSettings(id: "me", ftpWatts: nil)
 
     return NavigationStack {
-        Settings(settings: settings)
+        Settings()
     }
 }

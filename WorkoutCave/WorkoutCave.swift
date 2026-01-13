@@ -33,7 +33,7 @@ private struct RootView: View {
                         Label("Workouts", systemImage: "bicycle")
                     }
                     NavigationStack {
-                        Settings(settings: settings)
+                        Settings()
                     }
                     .tabItem {
                         Label("Settings", systemImage: "person")
