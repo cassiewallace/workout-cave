@@ -21,9 +21,7 @@ struct Metrics: View {
             
             HStack(spacing: 12) {
                 MetricCard(name: "Power Zone",
-                           value: powerZoneLabel(
-                           watts: bluetooth.metrics.powerWatts,
-                           settings: userSettings))
+                           value: powerZoneLabel(watts: bluetooth.metrics.powerWatts))
                 MetricCard(name: "Power", value: bluetooth.metrics.powerWatts.map(String.init) ?? "—")
             }
 
@@ -61,18 +59,8 @@ struct Metrics: View {
         }
     }
     
-    private func powerZoneLabel(
-        watts: Int?,
-        settings: UserSettings?
-    ) -> String {
-        guard
-            let watts,
-            watts > 0,
-            let zone = settings?.powerZone(for: watts)
-        else {
-            return "—"
-        }
-
+    private func powerZoneLabel(watts: Int?) -> String {
+        guard let watts, watts > 0, let zone = userSettings?.powerZone(for: watts) else { return "—" }
         return zone.name
     }
 }
