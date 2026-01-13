@@ -78,7 +78,7 @@ struct Settings: View {
                                 .fontWeight(.semibold)
                                 .frame(width: 44, alignment: .leading)
 
-                            Text(zone.name)
+                            Text(zone.label)
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.9)
 
@@ -100,23 +100,31 @@ struct Settings: View {
     @MainActor
     private func saveFTP() {
         guard let ftp = Int(ftpText), ftp > 0 else { return }
-        userSettings?.ftpWatts = ftp
+
+        if let userSettings {
+            userSettings.ftpWatts = ftp
+        } else {
+            modelContext.insert(UserSettings(id: "me", ftpWatts: ftp))
+        }
+
         try? modelContext.save()
     }
 }
 
 #Preview("FTP set") {
-    let settings = UserSettings(id: "me", ftpWatts: 250)
+    let container = try! ModelContainer(for: UserSettings.self)
+    let context = container.mainContext
+    context.insert(UserSettings(id: "me", ftpWatts: 250))
 
-    return NavigationStack {
-        Settings()
-    }
+    return NavigationStack { Settings() }
+        .modelContainer(container)
 }
 
 #Preview("No FTP set") {
-    let settings = UserSettings(id: "me", ftpWatts: nil)
+    let container = try! ModelContainer(for: UserSettings.self)
+    let context = container.mainContext
+    context.insert(UserSettings(id: "me", ftpWatts: nil))
 
-    return NavigationStack {
-        Settings()
-    }
+    return NavigationStack { Settings() }
+        .modelContainer(container)
 }

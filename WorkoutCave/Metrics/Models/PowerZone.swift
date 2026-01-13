@@ -39,7 +39,7 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     /// Fraction of FTP (e.g. 0.75 = 75% FTP)
     var range: ClosedRange<Double> {
         switch self {
-        case .recovery:        return 0.01 ... 0.55
+        case .recovery:        return 0.00 ... 0.55
         case .endurance:       return 0.56 ... 0.75
         case .tempo:           return 0.76 ... 0.90
         case .threshold:       return 0.91 ... 1.05
