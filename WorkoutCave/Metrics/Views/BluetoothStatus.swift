@@ -8,7 +8,7 @@
 import SwiftUI
 
 private struct BluetoothStatusIndicator: View {
-    @State var bluetooth: BluetoothManager
+    @ObservedObject var bluetooth: BluetoothManager
     
     var body: some View {
         statusIcon

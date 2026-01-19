@@ -21,6 +21,7 @@ struct WorkoutCave: App {
 private struct RootView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var settingsRows: [UserSettings]
+    @StateObject private var bluetooth = BluetoothManager()
 
     var body: some View {
         Group {
@@ -40,6 +41,7 @@ private struct RootView: View {
                     }
                 }
                 .tint(.primary)
+                .environmentObject(bluetooth)
             } else {
                 ProgressView()
                     .task {

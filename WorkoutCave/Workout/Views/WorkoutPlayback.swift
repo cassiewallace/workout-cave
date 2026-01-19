@@ -4,6 +4,7 @@
 //  Created by Cassie Wallace on 12/18/25.
 //
 
+import Foundation
 import SwiftData
 import SwiftUI
 
@@ -11,7 +12,7 @@ struct WorkoutPlayback: View {
     // MARK: - Properties
 
     @StateObject private var engine = WorkoutEngine()
-    @StateObject private var bluetooth = BluetoothManager()
+    @EnvironmentObject private var bluetooth: BluetoothManager
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     
@@ -22,6 +23,13 @@ struct WorkoutPlayback: View {
     private var userSettings: UserSettings? { settings.first }
 
     let workoutSource: WorkoutSource
+    
+    // MARK: - Power averaging (excluding 0 W)
+    
+    @State private var avgWattSeconds: Double = 0
+    @State private var avgValidSeconds: Double = 0
+    @State private var avgLastSampleDate: Date?
+    @State private var avgSampleTimer: Timer?
 
     // MARK: - Layout
 
@@ -65,11 +73,15 @@ struct WorkoutPlayback: View {
         }
         .task {
             engine.load(source: workoutSource)
+            resetAveragePower()
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if oldPhase == .background && newPhase == .active {
                 engine.updateForForeground()
             }
+        }
+        .onChange(of: engine.playbackState) { oldState, newState in
+            handlePlaybackStateChange(oldState: oldState, newState: newState)
         }
         .bluetoothStatus(using: bluetooth)
     }
@@ -117,14 +129,19 @@ struct WorkoutPlayback: View {
                 .padding(.top, sectionSpacing)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 
-                if let interval = engine.currentInterval {
-                    metrics(for: interval)
+                if engine.playbackState != .finished,
+                   let interval = engine.currentInterval,
+                   let targetZoneLabel = interval.powerTarget?.zones().zoneLabel {
+                    metrics(targetZoneLabel: targetZoneLabel)
                 }
             } else {
                 VStack(spacing: sectionSpacing) {
                     intervalContent
                     if let interval = engine.currentInterval {
-                        metrics(for: interval)
+                        if engine.playbackState != .finished,
+                           let targetZoneLabel = interval.powerTarget?.zones().zoneLabel {
+                            metrics(targetZoneLabel: targetZoneLabel)
+                        }
                         Spacer()
                     }
                     timer
@@ -144,11 +161,17 @@ struct WorkoutPlayback: View {
     @ViewBuilder
     private var intervalContent: some View {
         if engine.playbackState == .finished {
-            Text(Copy.workoutPlayback.workoutComplete)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(.green)
-                .multilineTextAlignment(.center)
+            VStack(spacing: innerSpacing) {
+                Text(Copy.workoutPlayback.workoutComplete)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.green)
+                    .multilineTextAlignment(.center)
+                
+                Text("Average Power: \(averagePowerLabel)")
+                    .font(.title3)
+                    .monospacedDigit()
+            }
         } else if let interval = engine.currentInterval {
             VStack(spacing: innerSpacing) {
                 Text(interval.name)
@@ -173,7 +196,7 @@ struct WorkoutPlayback: View {
             Text(formatTime(engine.remainingTimeInInterval))
                 .font(.system(size: timerFontSize, weight: .bold))
                 // Compensate for system font descender space at large sizes
-                .padding(.bottom, isCompactVertical ? -24 : 0)
+                .padding(.bottom, isCompactVertical ? -Constants.xl : Constants.none)
                 .monospacedDigit()
                 .dynamicTypeSize(.large)
                 .animation(.easeInOut(duration: 0.2), value: engine.remainingTimeInInterval)
@@ -181,33 +204,43 @@ struct WorkoutPlayback: View {
     }
     
     @ViewBuilder
-    private func metrics(for interval: Workout.Interval) -> some View {
+    private func metrics(targetZoneLabel: String) -> some View {
         if isCompactVertical {
             VStack(spacing: Constants.xs) {
-                metricCards(for: interval)
+                MetricCard(
+                    name: Copy.metrics.targetZone,
+                    value: targetZoneLabel,
+                    fontSize: isCompactVertical ? 12 : 18,
+                    maxHeight: isCompactVertical ? 80 : 120,
+                    maxWidth: isCompactVertical ? 100 : 160
+                )
+                
+                MetricCard(
+                    name: Copy.metrics.currentZone,
+                    value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts),
+                    fontSize: isCompactVertical ? 12 : 18,
+                    maxHeight: isCompactVertical ? 80 : 120,
+                    maxWidth: isCompactVertical ? 100 : 160
+                )
             }
         } else {
-            HStack(spacing: Constants.xs) {
-                metricCards(for: interval)
+            HStack(spacing: Constants.m) {
+                MetricCard(
+                    name: Copy.metrics.targetZone,
+                    value: targetZoneLabel,
+                    fontSize: isCompactVertical ? 12 : 18,
+                    maxHeight: isCompactVertical ? 80 : 120,
+                    maxWidth: isCompactVertical ? 100 : 160
+                )
+                
+                MetricCard(
+                    name: Copy.metrics.currentZone,
+                    value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts),
+                    fontSize: isCompactVertical ? 12 : 18,
+                    maxHeight: isCompactVertical ? 80 : 120,
+                    maxWidth: isCompactVertical ? 100 : 160
+                )
             }
-        }
-    }
-    
-    @ViewBuilder
-    private func metricCards(for interval: Workout.Interval) -> some View {
-        if let label = interval.powerTarget?.zones().zoneLabel {
-            MetricCard(name: Copy.metrics.targetZone,
-                       value: label,
-                       fontSize: isCompactVertical ? 12 : 18,
-                       maxHeight: isCompactVertical ? 80 : 120,
-                       maxWidth: isCompactVertical ? 100 : 160)
-            MetricCard(
-                name: Copy.metrics.currentZone,
-                value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts),
-                fontSize: isCompactVertical ? 12 : 18,
-                maxHeight: isCompactVertical ? 80 : 120,
-                maxWidth: isCompactVertical ? 100 : 160
-            )
         }
     }
     
@@ -243,7 +276,7 @@ struct WorkoutPlayback: View {
             ToolbarItem(placement: .bottomBar) {
                 Control(
                     controlType: .restart,
-                    action: engine.restart,
+                    action: restart,
                     isDisabled: engine.playbackState == .idle
                 )
             }
@@ -257,34 +290,110 @@ struct WorkoutPlayback: View {
         let seconds = Int(time) % 60
         return String(format: Copy.format.timeMinutesSeconds, minutes, seconds)
     }
+    
+    private var averagePowerLabel: String {
+        guard avgValidSeconds > 0 else { return Copy.placeholder.missingValue }
+        let avg = (avgWattSeconds / avgValidSeconds).rounded()
+        return "\(Int(avg)) W"
+    }
+    
+    private func handlePlaybackStateChange(oldState: PlaybackState, newState: PlaybackState) {
+        switch (oldState, newState) {
+        case (_, .running):
+            if oldState == .idle {
+                resetAveragePower()
+            }
+            startAverageTimer()
+        case (_, .paused), (_, .idle):
+            stopAverageTimer()
+        case (_, .finished):
+            stopAverageTimer()
+        }
+    }
+    
+    private func startAverageTimer() {
+        guard avgSampleTimer == nil else { return }
+        avgLastSampleDate = Date()
+        avgSampleTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            recordAverageSample()
+        }
+    }
+    
+    private func stopAverageTimer() {
+        avgSampleTimer?.invalidate()
+        avgSampleTimer = nil
+        avgLastSampleDate = nil
+    }
+    
+    private func recordAverageSample() {
+        guard engine.playbackState == .running else { return }
+        
+        let now = Date()
+        guard let last = avgLastSampleDate else {
+            avgLastSampleDate = now
+            return
+        }
+        
+        var dt = now.timeIntervalSince(last)
+        if dt <= 0 {
+            avgLastSampleDate = now
+            return
+        }
+        
+        dt = min(dt, 2.0)
+        
+        if let watts = bluetooth.metrics.powerWatts, watts > 0 {
+            avgWattSeconds += Double(watts) * dt
+            avgValidSeconds += dt
+        }
+        
+        avgLastSampleDate = now
+    }
+    
+    private func resetAveragePower() {
+        stopAverageTimer()
+        avgWattSeconds = 0
+        avgValidSeconds = 0
+    }
+    
+    private func restart() {
+        engine.restart()
+        resetAveragePower()
+    }
 }
 
 // MARK: - Preview
 
 #Preview("Portrait", traits: .portrait) {
-    let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
-    let data = try! Data(contentsOf: url)
-
-    NavigationStack {
-        WorkoutPlayback(
-            workoutSource: ZwiftWorkoutSource(
-                id: "jen-intervals",
-                data: data
-            )
-        )
-    }
+    WorkoutPlaybackPreviewHost()
 }
 
 #Preview("Landscape", traits: .landscapeLeft) {
-    let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
-    let data = try! Data(contentsOf: url)
+    WorkoutPlaybackPreviewHost()
+}
 
-    NavigationStack {
-        WorkoutPlayback(
-            workoutSource: ZwiftWorkoutSource(
-                id: "jen-intervals",
-                data: data
-            )
-        )
+private struct WorkoutPlaybackPreviewHost: View {
+    @StateObject private var bluetooth = BluetoothManager()
+
+    private let container: ModelContainer = {
+        let c = try! ModelContainer(for: UserSettings.self)
+        let context = c.mainContext
+        context.insert(UserSettings(id: "me", ftpWatts: 250))
+        try? context.save()
+        return c
+    }()
+
+    private let workoutSource: WorkoutSource = {
+        let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
+        let data = try! Data(contentsOf: url)
+        return ZwiftWorkoutSource(id: "jen-intervals", data: data)
+    }()
+
+    var body: some View {
+        NavigationStack {
+            WorkoutPlayback(workoutSource: workoutSource)
+        }
+        .modelContainer(container)
+        .environmentObject(bluetooth)
     }
 }

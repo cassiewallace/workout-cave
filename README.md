@@ -12,6 +12,7 @@ Workout Cave is a personal iOS app for playing structured bike workouts with a c
 - Live metrics via Bluetooth FTMS (speed, cadence, power; heart rate when available)
 - “Just Ride” mode for metrics-only
 - Target Zone and Current Zone shown during workouts
+- Workout summary on completion (currently: **Average Power**)
 - User FTP stored locally using SwiftData
 - Adaptive layout for iPhone and iPad (portrait, landscape, Split View)
 
@@ -36,6 +37,7 @@ Workout Cave can connect to indoor bikes that support the Bluetooth **Fitness Ma
 
 - The app shows a Bluetooth status icon in the toolbar.
 - Tap the icon to prompt for Bluetooth permission and connect.
+- Bluetooth is managed by a **single shared** `BluetoothManager` across the app (Workouts + Just Ride), so connection state and metrics are consistent between screens.
 
 Notes:
 - Simulator won’t provide real FTMS data.

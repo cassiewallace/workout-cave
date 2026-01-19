@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct Metrics: View {
-    @StateObject var bluetooth = BluetoothManager()
+    @EnvironmentObject private var bluetooth: BluetoothManager
     @Environment(\.modelContext) private var modelContext
     @Query(filter: #Predicate<UserSettings> { $0.id == "me" })
     private var settings: [UserSettings]
@@ -40,7 +40,24 @@ struct Metrics: View {
 }
 
 #Preview {
-    NavigationStack {
-        Metrics()
+    MetricsPreviewHost()
+}
+
+private struct MetricsPreviewHost: View {
+    @StateObject private var bluetooth = BluetoothManager()
+    private let container: ModelContainer = {
+        let c = try! ModelContainer(for: UserSettings.self)
+        let context = c.mainContext
+        context.insert(UserSettings(id: "me", ftpWatts: 250))
+        try? context.save()
+        return c
+    }()
+    
+    var body: some View {
+        NavigationStack {
+            Metrics()
+        }
+        .modelContainer(container)
+        .environmentObject(bluetooth)
     }
 }

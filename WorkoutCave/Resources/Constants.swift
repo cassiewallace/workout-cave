@@ -9,6 +9,8 @@ import SwiftUI
 
 /// Core constants for spacing and layout.
 enum Constants {
+    /// 0pt
+    static let none: CGFloat = 0
     /// 4pt — micro spacing (tight vertical rhythm, small gaps).
     static let xxs: CGFloat = 4
     /// 6pt — extra small spacing.
