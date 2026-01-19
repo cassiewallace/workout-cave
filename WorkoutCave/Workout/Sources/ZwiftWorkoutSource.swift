@@ -20,10 +20,10 @@ struct ZwiftWorkoutSource: WorkoutSource {
         let parser = ZWOParser()
         guard let workout = parser.parse(data: data) else {
             throw NSError(
-                domain: "ZwiftWorkoutSource",
+                domain: Constants.ErrorDomain.zwiftWorkoutSource,
                 code: 1,
                 userInfo: [
-                    NSLocalizedDescriptionKey: "Could not parse Zwift workout file."
+                    NSLocalizedDescriptionKey: Constants.ErrorMessage.couldNotParseZwiftWorkout
                 ]
             )
         }

@@ -21,18 +21,18 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     // MARK: - Display
     
     var name: String {
-        "Z\(id)"
+        String(format: Constants.Format.zoneNumber, id)
     }
     
     var label: String {
         switch self {
-        case .recovery:        return "Recovery"
-        case .endurance:       return "Endurance"
-        case .tempo:           return "Tempo"
-        case .threshold:       return "Threshold"
-        case .vo2Max:          return "VO₂ Max"
-        case .anaerobic:       return "Anaerobic"
-        case .neuromuscular:   return "Neuromuscular"
+        case .recovery:        return Constants.PowerZone.Label.recovery
+        case .endurance:       return Constants.PowerZone.Label.endurance
+        case .tempo:           return Constants.PowerZone.Label.tempo
+        case .threshold:       return Constants.PowerZone.Label.threshold
+        case .vo2Max:          return Constants.PowerZone.Label.vo2Max
+        case .anaerobic:       return Constants.PowerZone.Label.anaerobic
+        case .neuromuscular:   return Constants.PowerZone.Label.neuromuscular
         }
     }
     
@@ -62,9 +62,12 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     func wattRangeLabel(ftp: Int) -> String {
         let b = wattRange(ftp: ftp)
         if let upper = b.upper {
-            return "\(b.lower)–\(upper) W"
+            return String(b.lower)
+            + Constants.Units.wattsRangeSeparator
+            + String(upper)
+            + Constants.Units.wattsSuffix
         } else {
-            return "\(b.lower)+ W"
+            return String(b.lower) + Constants.Units.wattsPlusSuffix
         }
     }
     
@@ -85,9 +88,9 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     /// Convenience helper for UI: returns a zone name like "Z3", or a friendly
     /// fallback when watts / FTP are unavailable.
     static func zoneNameLabel(for watts: Int?, ftp: Int?) -> String {
-        guard let watts else { return "—" }
-        guard let ftp, ftp > 0 else { return "Set FTP" }
-        return Self.zone(for: watts, ftp: ftp)?.name ?? "—"
+        guard let watts else { return Constants.Placeholder.missingValue }
+        guard let ftp, ftp > 0 else { return Constants.PowerZone.setFTP }
+        return Self.zone(for: watts, ftp: ftp)?.name ?? Constants.Placeholder.missingValue
     }
     
     // MARK: - Private Helpers
@@ -120,7 +123,7 @@ extension Array where Element == PowerZone {
         if first == last {
             return first.name
         } else {
-            return "\(first.name)-\(last.name)"
+            return first.name + Constants.Separator.hyphen + last.name
         }
     }
 }

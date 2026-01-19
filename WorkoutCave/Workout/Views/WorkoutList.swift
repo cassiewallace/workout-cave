@@ -21,7 +21,10 @@ struct WorkoutList: View {
                 Metrics()
                     .toolbar(.hidden, for: .tabBar)
             } label: {
-                WorkoutCard(name: "Just Ride", description: "No workout, no time, just metrics.")
+                WorkoutCard(
+                    name: Constants.NavigationTitle.justRide,
+                    description: Constants.WorkoutList.justRideDescription
+                )
             }
                 .listRowInsets(.init(top: 6, leading: 16, bottom: 6, trailing: 16))
                 .listRowSeparator(.hidden)
@@ -31,7 +34,7 @@ struct WorkoutList: View {
         }
         .listStyle(.plain)
         .navigationLinkIndicatorVisibility(.hidden)
-        .navigationTitle("Workouts")
+        .navigationTitle(Constants.NavigationTitle.workouts)
         .navigationBarTitleDisplayMode(.large)
         .task {
             workouts = items.compactMap { item in

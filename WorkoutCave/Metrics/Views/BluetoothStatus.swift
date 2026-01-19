@@ -33,28 +33,28 @@ private struct BluetoothStatusIndicator: View {
     private var statusIcon: Image {
         switch bluetooth.state {
         case .idle:
-            return Image("bluetooth")
+            return Image(Constants.AssetImage.bluetooth)
         case .scanning:
-            return Image("bluetooth")
+            return Image(Constants.AssetImage.bluetooth)
         case .unauthorized:
-            return Image("bluetooth-x")
+            return Image(Constants.AssetImage.bluetoothX)
         case .poweredOff:
-            return Image("bluetooth-slash")
+            return Image(Constants.AssetImage.bluetoothSlash)
         case .connecting:
-            return Image("bluetooth")
+            return Image(Constants.AssetImage.bluetooth)
         case .connected:
-            return Image("bluetooth-connected")
+            return Image(Constants.AssetImage.bluetoothConnected)
         }
     }
 
     private var statusText: String {
         switch bluetooth.state {
-        case .idle: return "Idle"
-        case .scanning: return "Searching for bike"
-        case .unauthorized: return "Bluetooth permission denied"
-        case .poweredOff: return "Bluetooth is off"
-        case .connecting: return "Connecting"
-        case .connected: return "Connected"
+        case .idle: return Constants.Bluetooth.StatusText.idle
+        case .scanning: return Constants.Bluetooth.StatusText.scanning
+        case .unauthorized: return Constants.Bluetooth.StatusText.unauthorized
+        case .poweredOff: return Constants.Bluetooth.StatusText.poweredOff
+        case .connecting: return Constants.Bluetooth.StatusText.connecting
+        case .connected: return Constants.Bluetooth.StatusText.connected
         }
     }
 

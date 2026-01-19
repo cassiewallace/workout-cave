@@ -56,9 +56,9 @@ struct MetricCard: View {
 
 #Preview {
     HStack {
-        MetricCard(name: "Cadence", value: "90")
-        MetricCard(name: "Watts", value: "180")
-        MetricCard(name: "Heart Rate", value: "111")
+        MetricCard(name: Constants.Metrics.cadence, value: String(90))
+        MetricCard(name: Constants.Metrics.power, value: String(180))
+        MetricCard(name: Constants.Metrics.heartRate, value: String(111))
     }
     .padding()
 }

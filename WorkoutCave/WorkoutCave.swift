@@ -30,13 +30,13 @@ private struct RootView: View {
                         WorkoutList()
                     }
                     .tabItem {
-                        Label("Workouts", systemImage: "bicycle")
+                        Label(Constants.TabBar.workouts, systemImage: Constants.SFSymbol.bicycle)
                     }
                     NavigationStack {
                         Settings()
                     }
                     .tabItem {
-                        Label("Settings", systemImage: "person")
+                        Label(Constants.TabBar.settings, systemImage: Constants.SFSymbol.person)
                     }
                 }
                 .tint(.primary)

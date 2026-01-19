@@ -14,7 +14,7 @@ struct Settings: View {
     private var settings: [UserSettings]
     private var userSettings: UserSettings? { settings.first }
 
-    @State private var ftpText: String = ""
+    @State private var ftpText: String = Constants.Placeholder.empty
 
     var body: some View {
         ScrollView {
@@ -25,7 +25,7 @@ struct Settings: View {
             .padding()
         }
         .scrollDismissesKeyboard(.interactively)
-        .navigationTitle("Settings")
+        .navigationTitle(Constants.NavigationTitle.settings)
         .navigationBarTitleDisplayMode(.large)
         .onAppear {
             if ftpText.isEmpty, let ftp = userSettings?.ftpWatts {
@@ -36,16 +36,16 @@ struct Settings: View {
 
     private var ftpSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Set FTP")
+            Text(Constants.Settings.setFTP)
                 .font(.title2)
                 .bold()
 
             HStack {
-                TextField("FTP", text: $ftpText)
+                TextField(Constants.Settings.ftpPlaceholder, text: $ftpText)
                     .keyboardType(.numberPad)
                     .textFieldStyle(.roundedBorder)
 
-                Button("Save") { saveFTP() }
+                Button(Constants.Settings.save) { saveFTP() }
                     .buttonStyle(.borderedProminent)
                     .tint(.primary)
                     .disabled(Int(ftpText) == nil)
@@ -55,16 +55,16 @@ struct Settings: View {
 
     private var powerZones: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Power Zones")
+            Text(Constants.Settings.powerZones)
                 .font(.title2)
                 .bold()
 
             if let ftp = userSettings?.ftpWatts, ftp > 0 {
                 Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 10) {
                     GridRow {
-                        Text("Zone")
-                        Text("Name")
-                        Text("Target")
+                        Text(Constants.Settings.gridZone)
+                        Text(Constants.Settings.gridName)
+                        Text(Constants.Settings.gridTarget)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                     .font(.caption)
@@ -74,7 +74,7 @@ struct Settings: View {
 
                     ForEach(PowerZone.allCases) { zone in
                         GridRow {
-                            Text("Z\(zone.rawValue)")
+                            Text(String(format: Constants.Format.zoneNumber, zone.rawValue))
                                 .fontWeight(.semibold)
                                 .frame(width: 44, alignment: .leading)
 
@@ -91,7 +91,7 @@ struct Settings: View {
                 }
                 .padding(.top, 4)
             } else {
-                Text("Set FTP to view zones.")
+                Text(Constants.Settings.setFTPToViewZones)
                     .foregroundStyle(.secondary)
             }
         }

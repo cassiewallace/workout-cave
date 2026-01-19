@@ -57,7 +57,7 @@ struct WorkoutPlayback: View {
                 loadingView
             }
         }
-        .navigationTitle(engine.workout?.name ?? "")
+        .navigationTitle(engine.workout?.name ?? Constants.Placeholder.empty)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
         .toolbar {
@@ -79,18 +79,18 @@ struct WorkoutPlayback: View {
     private var loadingView: some View {
         VStack(spacing: 12) {
             ProgressView()
-            Text("Loading workout…")
+            Text(Constants.WorkoutPlayback.loadingWorkout)
                 .font(.headline)
         }
     }
 
     private func errorView(error: String) -> some View {
         VStack(spacing: 20) {
-            Image(systemName: "exclamationmark.triangle")
+            Image(systemName: Constants.SFSymbol.warningTriangle)
                 .font(.system(size: 48))
                 .foregroundColor(.orange)
 
-            Text("Error loading workout")
+            Text(Constants.WorkoutPlayback.errorLoadingWorkout)
                 .font(.headline)
 
             Text(error)
@@ -144,7 +144,7 @@ struct WorkoutPlayback: View {
     @ViewBuilder
     private var intervalContent: some View {
         if engine.playbackState == .finished {
-            Text("Workout Complete")
+            Text(Constants.WorkoutPlayback.workoutComplete)
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.green)
@@ -161,7 +161,7 @@ struct WorkoutPlayback: View {
                         .font(.title3)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
-                        .padding(4)
+                        .padding(12)
                 }
             }
         }
@@ -196,13 +196,13 @@ struct WorkoutPlayback: View {
     @ViewBuilder
     private func metricCards(for interval: Workout.Interval) -> some View {
         if let label = interval.powerTarget?.zones().zoneLabel {
-            MetricCard(name: "Target Zone",
+            MetricCard(name: Constants.Metrics.targetZone,
                        value: label,
                        fontSize: isCompactVertical ? 12 : 18,
                        maxHeight: isCompactVertical ? 80 : 120,
                        maxWidth: isCompactVertical ? 100 : 160)
             MetricCard(
-                name: "Current Zone",
+                name: Constants.Metrics.currentZone,
                 value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts),
                 fontSize: isCompactVertical ? 12 : 18,
                 maxHeight: isCompactVertical ? 80 : 120,
@@ -255,7 +255,7 @@ struct WorkoutPlayback: View {
     private func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60
-        return String(format: "%d:%02d", minutes, seconds)
+        return String(format: Constants.Format.timeMinutesSeconds, minutes, seconds)
     }
 }
 

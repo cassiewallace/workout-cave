@@ -29,28 +29,28 @@ enum FTMSUUID {
     /// UUID: 0x1826
     /// Primary service that identifies a device as FTMS-capable.
     /// Used during scanning and service discovery.
-    static let service = CBUUID(string: "1826")
+    static let service = CBUUID(string: Constants.Bluetooth.FTMSUUIDString.service)
 
     /// Indoor Bike Data
     ///
     /// UUID: 0x2AD2
     /// Streams cadence, power, speed, heart rate, etc.
     /// This characteristic is notify-only.
-    static let indoorBikeData = CBUUID(string: "2AD2")
+    static let indoorBikeData = CBUUID(string: Constants.Bluetooth.FTMSUUIDString.indoorBikeData)
 
     /// Fitness Machine Status
     ///
     /// UUID: 0x2ACC
     /// Indicates state changes such as started, stopped, paused.
     /// Optional; not all bikes populate this.
-    static let machineStatus = CBUUID(string: "2ACC")
+    static let machineStatus = CBUUID(string: Constants.Bluetooth.FTMSUUIDString.machineStatus)
 
     /// Fitness Machine Control Point
     ///
     /// UUID: 0x2AD9
     /// Used to control the machine (start, stop, set resistance).
     /// Requires explicit device support and permissions.
-    static let controlPoint = CBUUID(string: "2AD9")
+    static let controlPoint = CBUUID(string: Constants.Bluetooth.FTMSUUIDString.controlPoint)
 }
 
 final class BluetoothManager: NSObject, ObservableObject {
@@ -68,7 +68,7 @@ final class BluetoothManager: NSObject, ObservableObject {
     
     func activateAndConnect() {
         if central == nil {
-            print("Prompt will happen here.")
+            print(Constants.Bluetooth.Debug.activationPrompt)
             central = CBCentralManager(delegate: self, queue: .main)
         } else {
             startScanningOrReconnect()

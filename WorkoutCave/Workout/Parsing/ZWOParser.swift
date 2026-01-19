@@ -11,20 +11,20 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
     // MARK: - Properties
 
-    private var workoutName: String = ""
-    private var workoutDescription: String = ""
+    private var workoutName: String = Constants.Placeholder.empty
+    private var workoutDescription: String = Constants.Placeholder.empty
 
     // Buffers for workout_file text nodes
     private var isReadingWorkoutName = false
     private var isReadingWorkoutDescription = false
-    private var textBuffer: String = ""
+    private var textBuffer: String = Constants.Placeholder.empty
 
     // MARK: - Interval state
 
     private var intervals: [Workout.Interval] = []
 
     private var currentDuration: TimeInterval = 0
-    private var currentName: String = ""
+    private var currentName: String = Constants.Placeholder.empty
     private var currentMessages: [String] = []
     private var currentType: Workout.Interval.IntervalType = .steadyState
     private var currentPowerTarget: Workout.Interval.PowerTarget?
@@ -48,7 +48,7 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
         return Workout(
             id: UUID().uuidString,
-            name: workoutName.isEmpty ? "Workout" : workoutName,
+            name: workoutName.isEmpty ? Constants.ZWO.IntervalName.workoutFallback : workoutName,
             description: workoutDescription,
             intervals: intervals
         )
@@ -68,81 +68,81 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
         // ---- Workout-level metadata ----
 
-        case "name":
+        case Constants.ZWO.Element.name:
             isReadingWorkoutName = true
-            textBuffer = ""
+            textBuffer = Constants.Placeholder.empty
 
-        case "description":
+        case Constants.ZWO.Element.description:
             isReadingWorkoutDescription = true
-            textBuffer = ""
+            textBuffer = Constants.Placeholder.empty
 
         // ---- Intervals ----
 
-        case "SteadyState":
+        case Constants.ZWO.Element.steadyState:
             beginInterval(
-                name: "Steady State",
+                name: Constants.ZWO.IntervalName.steadyState,
                 type: .steadyState,
-                duration: attributeDict["Duration"],
-                powerLow: attributeDict["Power"],
-                powerHigh: attributeDict["Power"]
+                duration: attributeDict[Constants.ZWO.Attribute.duration],
+                powerLow: attributeDict[Constants.ZWO.Attribute.power],
+                powerHigh: attributeDict[Constants.ZWO.Attribute.power]
             )
 
-        case "Warmup":
+        case Constants.ZWO.Element.warmup:
             beginInterval(
-                name: "Warmup",
+                name: Constants.ZWO.IntervalName.warmup,
                 type: .warmup,
-                duration: attributeDict["Duration"],
-                powerLow: attributeDict["PowerLow"],
-                powerHigh: attributeDict["PowerHigh"]
+                duration: attributeDict[Constants.ZWO.Attribute.duration],
+                powerLow: attributeDict[Constants.ZWO.Attribute.powerLow],
+                powerHigh: attributeDict[Constants.ZWO.Attribute.powerHigh]
             )
 
-        case "Cooldown":
+        case Constants.ZWO.Element.cooldown:
             beginInterval(
-                name: "Cooldown",
+                name: Constants.ZWO.IntervalName.cooldown,
                 type: .cooldown,
-                duration: attributeDict["Duration"],
-                powerLow: attributeDict["PowerLow"],
-                powerHigh: attributeDict["PowerHigh"]
+                duration: attributeDict[Constants.ZWO.Attribute.duration],
+                powerLow: attributeDict[Constants.ZWO.Attribute.powerLow],
+                powerHigh: attributeDict[Constants.ZWO.Attribute.powerHigh]
             )
 
-        case "FreeRide":
+        case Constants.ZWO.Element.freeRide:
             beginInterval(
-                name: "Free Ride",
+                name: Constants.ZWO.IntervalName.freeRide,
                 type: .freeRide,
-                duration: attributeDict["Duration"],
+                duration: attributeDict[Constants.ZWO.Attribute.duration],
                 powerLow: nil,
                 powerHigh: nil
             )
 
-        case "Ramp":
+        case Constants.ZWO.Element.ramp:
             beginInterval(
-                name: "Ramp",
+                name: Constants.ZWO.IntervalName.ramp,
                 type: .steadyState,
-                duration: attributeDict["Duration"],
-                powerLow: attributeDict["PowerLow"],
-                powerHigh: attributeDict["PowerHigh"]
+                duration: attributeDict[Constants.ZWO.Attribute.duration],
+                powerLow: attributeDict[Constants.ZWO.Attribute.powerLow],
+                powerHigh: attributeDict[Constants.ZWO.Attribute.powerHigh]
             )
 
-        case "IntervalsT":
-            currentName = "Intervals"
+        case Constants.ZWO.Element.intervalsT:
+            currentName = Constants.ZWO.IntervalName.intervals
             currentMessages = []
 
-            intervalsTRepeat = Int(attributeDict["Repeat"] ?? "") ?? 0
-            intervalsTOnDuration = TimeInterval(attributeDict["OnDuration"] ?? "") ?? 0
-            intervalsTOffDuration = TimeInterval(attributeDict["OffDuration"] ?? "") ?? 0
+            intervalsTRepeat = Int(attributeDict[Constants.ZWO.Attribute.repeatCount] ?? Constants.Placeholder.empty) ?? 0
+            intervalsTOnDuration = TimeInterval(attributeDict[Constants.ZWO.Attribute.onDuration] ?? Constants.Placeholder.empty) ?? 0
+            intervalsTOffDuration = TimeInterval(attributeDict[Constants.ZWO.Attribute.offDuration] ?? Constants.Placeholder.empty) ?? 0
 
             intervalsTOnPower = powerTarget(
-                low: attributeDict["OnPower"],
-                high: attributeDict["OnPower"]
+                low: attributeDict[Constants.ZWO.Attribute.onPower],
+                high: attributeDict[Constants.ZWO.Attribute.onPower]
             )
 
             intervalsTOffPower = powerTarget(
-                low: attributeDict["OffPower"],
-                high: attributeDict["OffPower"]
+                low: attributeDict[Constants.ZWO.Attribute.offPower],
+                high: attributeDict[Constants.ZWO.Attribute.offPower]
             )
 
-        case let name where name.lowercased() == "textevent":
-            if let message = attributeDict["message"] {
+        case let name where name.lowercased() == Constants.ZWO.Element.textEventLowercased:
+            if let message = attributeDict[Constants.ZWO.Attribute.message] {
                 currentMessages.append(message)
             }
 
@@ -168,26 +168,30 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
         // ---- Workout-level metadata ----
 
-        case "name":
+        case Constants.ZWO.Element.name:
             isReadingWorkoutName = false
             let trimmed = textBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
             if !trimmed.isEmpty {
                 workoutName = trimmed
             }
-            textBuffer = ""
+            textBuffer = Constants.Placeholder.empty
 
-        case "description":
+        case Constants.ZWO.Element.description:
             isReadingWorkoutDescription = false
             workoutDescription = textBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
-            textBuffer = ""
+            textBuffer = Constants.Placeholder.empty
 
         // ---- Intervals ----
 
-        case "SteadyState", "Warmup", "Cooldown", "FreeRide", "Ramp":
+        case Constants.ZWO.Element.steadyState,
+             Constants.ZWO.Element.warmup,
+             Constants.ZWO.Element.cooldown,
+             Constants.ZWO.Element.freeRide,
+             Constants.ZWO.Element.ramp:
             appendCurrentInterval()
             resetCurrentInterval()
 
-        case "IntervalsT":
+        case Constants.ZWO.Element.intervalsT:
             guard intervalsTRepeat > 0 else {
                 resetIntervalsT()
                 return
@@ -199,7 +203,11 @@ final class ZWOParser: NSObject, XMLParserDelegate {
                 intervals.append(
                     Workout.Interval(
                         duration: intervalsTOnDuration,
-                        name: "\(currentName) On \(i)",
+                        name: currentName
+                        + Constants.Separator.space
+                        + Constants.ZWO.IntervalToken.on
+                        + Constants.Separator.space
+                        + String(i),
                         message: message,
                         type: .intervalOn,
                         powerTarget: intervalsTOnPower
@@ -209,7 +217,11 @@ final class ZWOParser: NSObject, XMLParserDelegate {
                 intervals.append(
                     Workout.Interval(
                         duration: intervalsTOffDuration,
-                        name: "\(currentName) Off \(i)",
+                        name: currentName
+                        + Constants.Separator.space
+                        + Constants.ZWO.IntervalToken.off
+                        + Constants.Separator.space
+                        + String(i),
                         message: message,
                         type: .intervalOff,
                         powerTarget: intervalsTOffPower
@@ -235,7 +247,7 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     ) {
         currentName = name
         currentType = type
-        currentDuration = TimeInterval(duration ?? "") ?? 0
+        currentDuration = TimeInterval(duration ?? Constants.Placeholder.empty) ?? 0
         currentMessages = []
         currentPowerTarget = powerTarget(low: powerLow, high: powerHigh)
     }
@@ -270,12 +282,12 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     }
 
     private var joinedMessages: String? {
-        currentMessages.isEmpty ? nil : currentMessages.joined(separator: "\n")
+        currentMessages.isEmpty ? nil : currentMessages.joined(separator: Constants.Format.newline)
     }
 
     private func resetCurrentInterval() {
         currentDuration = 0
-        currentName = ""
+        currentName = Constants.Placeholder.empty
         currentMessages = []
         currentType = .steadyState
         currentPowerTarget = nil
@@ -287,7 +299,7 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         intervalsTOffDuration = 0
         intervalsTOnPower = nil
         intervalsTOffPower = nil
-        currentName = ""
+        currentName = Constants.Placeholder.empty
         currentMessages = []
     }
 }
