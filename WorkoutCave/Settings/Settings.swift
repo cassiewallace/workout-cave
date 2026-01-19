@@ -14,18 +14,18 @@ struct Settings: View {
     private var settings: [UserSettings]
     private var userSettings: UserSettings? { settings.first }
 
-    @State private var ftpText: String = Constants.Placeholder.empty
+    @State private var ftpText: String = Copy.placeholder.empty
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: Constants.xl) {
                 ftpSection
                 powerZones
             }
             .padding()
         }
         .scrollDismissesKeyboard(.interactively)
-        .navigationTitle(Constants.NavigationTitle.settings)
+        .navigationTitle(Copy.navigationTitle.settings)
         .navigationBarTitleDisplayMode(.large)
         .onAppear {
             if ftpText.isEmpty, let ftp = userSettings?.ftpWatts {
@@ -35,17 +35,17 @@ struct Settings: View {
     }
 
     private var ftpSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(Constants.Settings.setFTP)
+        VStack(alignment: .leading, spacing: Constants.s) {
+            Text(Copy.settings.setFTP)
                 .font(.title2)
                 .bold()
 
             HStack {
-                TextField(Constants.Settings.ftpPlaceholder, text: $ftpText)
+                TextField(Copy.settings.ftpPlaceholder, text: $ftpText)
                     .keyboardType(.numberPad)
                     .textFieldStyle(.roundedBorder)
 
-                Button(Constants.Settings.save) { saveFTP() }
+                Button(Copy.settings.save) { saveFTP() }
                     .buttonStyle(.borderedProminent)
                     .tint(.primary)
                     .disabled(Int(ftpText) == nil)
@@ -54,17 +54,21 @@ struct Settings: View {
     }
 
     private var powerZones: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(Constants.Settings.powerZones)
+        VStack(alignment: .leading, spacing: Constants.s) {
+            Text(Copy.settings.powerZones)
                 .font(.title2)
                 .bold()
 
             if let ftp = userSettings?.ftpWatts, ftp > 0 {
-                Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 10) {
+                Grid(
+                    alignment: .leading,
+                    horizontalSpacing: Constants.m,
+                    verticalSpacing: Constants.xs + Constants.xxs
+                ) {
                     GridRow {
-                        Text(Constants.Settings.gridZone)
-                        Text(Constants.Settings.gridName)
-                        Text(Constants.Settings.gridTarget)
+                        Text(Copy.settings.gridZone)
+                        Text(Copy.settings.gridName)
+                        Text(Copy.settings.gridTarget)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                     .font(.caption)
@@ -74,7 +78,7 @@ struct Settings: View {
 
                     ForEach(PowerZone.allCases) { zone in
                         GridRow {
-                            Text(String(format: Constants.Format.zoneNumber, zone.rawValue))
+                            Text(String(format: Copy.format.zoneNumber, zone.rawValue))
                                 .fontWeight(.semibold)
                                 .frame(width: 44, alignment: .leading)
 
@@ -89,9 +93,9 @@ struct Settings: View {
                         }
                     }
                 }
-                .padding(.top, 4)
+                .padding(.top, Constants.xxs)
             } else {
-                Text(Constants.Settings.setFTPToViewZones)
+                Text(Copy.settings.setFTPToViewZones)
                     .foregroundStyle(.secondary)
             }
         }

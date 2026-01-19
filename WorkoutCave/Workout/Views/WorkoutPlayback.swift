@@ -30,15 +30,15 @@ struct WorkoutPlayback: View {
     }
 
     private var sectionSpacing: CGFloat {
-        isCompactVertical ? 16 : 40
+        isCompactVertical ? Constants.l : (Constants.xxl + Constants.s)
     }
 
     private var innerSpacing: CGFloat {
-        isCompactVertical ? 6 : 12
+        isCompactVertical ? Constants.xs : Constants.m
     }
 
     private var horizontalPadding: CGFloat {
-        isCompactVertical ? 16 : 32
+        isCompactVertical ? Constants.l : Constants.xxl
     }
 
     private var timerFontSize: CGFloat {
@@ -57,7 +57,7 @@ struct WorkoutPlayback: View {
                 loadingView
             }
         }
-        .navigationTitle(engine.workout?.name ?? Constants.Placeholder.empty)
+        .navigationTitle(engine.workout?.name ?? Copy.placeholder.empty)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
         .toolbar {
@@ -77,20 +77,20 @@ struct WorkoutPlayback: View {
     // MARK: - States
 
     private var loadingView: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: Constants.m) {
             ProgressView()
-            Text(Constants.WorkoutPlayback.loadingWorkout)
+            Text(Copy.workoutPlayback.loadingWorkout)
                 .font(.headline)
         }
     }
 
     private func errorView(error: String) -> some View {
-        VStack(spacing: 20) {
-            Image(systemName: Constants.SFSymbol.warningTriangle)
+        VStack(spacing: Constants.l + Constants.xxs) {
+            Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 48))
                 .foregroundColor(.orange)
 
-            Text(Constants.WorkoutPlayback.errorLoadingWorkout)
+            Text(Copy.workoutPlayback.errorLoadingWorkout)
                 .font(.headline)
 
             Text(error)
@@ -112,7 +112,7 @@ struct WorkoutPlayback: View {
                     Spacer()
                     ProgressView(value: engine.intervalProgress)
                         .foregroundStyle(.primary)
-                        .padding(.bottom, 8)
+                        .padding(.bottom, Constants.s)
                 }
                 .padding(.top, sectionSpacing)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -131,7 +131,7 @@ struct WorkoutPlayback: View {
                     Spacer()
                     ProgressView(value: engine.intervalProgress)
                         .foregroundStyle(.primary)
-                        .padding(.bottom, 8)
+                        .padding(.bottom, Constants.s)
                 }
                 .padding(.top, sectionSpacing)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -144,7 +144,7 @@ struct WorkoutPlayback: View {
     @ViewBuilder
     private var intervalContent: some View {
         if engine.playbackState == .finished {
-            Text(Constants.WorkoutPlayback.workoutComplete)
+            Text(Copy.workoutPlayback.workoutComplete)
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.green)
@@ -161,7 +161,7 @@ struct WorkoutPlayback: View {
                         .font(.title3)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
-                        .padding(12)
+                        .padding(Constants.m)
                 }
             }
         }
@@ -183,11 +183,11 @@ struct WorkoutPlayback: View {
     @ViewBuilder
     private func metrics(for interval: Workout.Interval) -> some View {
         if isCompactVertical {
-            VStack(spacing: 6) {
+            VStack(spacing: Constants.xs) {
                 metricCards(for: interval)
             }
         } else {
-            HStack(spacing: 6) {
+            HStack(spacing: Constants.xs) {
                 metricCards(for: interval)
             }
         }
@@ -196,13 +196,13 @@ struct WorkoutPlayback: View {
     @ViewBuilder
     private func metricCards(for interval: Workout.Interval) -> some View {
         if let label = interval.powerTarget?.zones().zoneLabel {
-            MetricCard(name: Constants.Metrics.targetZone,
+            MetricCard(name: Copy.metrics.targetZone,
                        value: label,
                        fontSize: isCompactVertical ? 12 : 18,
                        maxHeight: isCompactVertical ? 80 : 120,
                        maxWidth: isCompactVertical ? 100 : 160)
             MetricCard(
-                name: Constants.Metrics.currentZone,
+                name: Copy.metrics.currentZone,
                 value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts),
                 fontSize: isCompactVertical ? 12 : 18,
                 maxHeight: isCompactVertical ? 80 : 120,
@@ -255,7 +255,7 @@ struct WorkoutPlayback: View {
     private func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60
-        return String(format: Constants.Format.timeMinutesSeconds, minutes, seconds)
+        return String(format: Copy.format.timeMinutesSeconds, minutes, seconds)
     }
 }
 

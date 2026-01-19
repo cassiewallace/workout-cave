@@ -15,14 +15,14 @@ struct MetricCard: View {
     @ScaledMetric(relativeTo: .body) var maxHeight: CGFloat = 120
     @ScaledMetric(relativeTo: .body) var maxWidth: CGFloat = .infinity
     
-    private let cornerRadius: CGFloat = 8
+    private let cornerRadius: CGFloat = Constants.s
 
     var body: some View {
         styledCard(baseCard)
     }
     
     private var baseCard: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: Constants.xxs) {
             Text(name)
                 .font(.system(size: fontSize, weight: .semibold))
                 .lineLimit(1)
@@ -56,9 +56,9 @@ struct MetricCard: View {
 
 #Preview {
     HStack {
-        MetricCard(name: Constants.Metrics.cadence, value: String(90))
-        MetricCard(name: Constants.Metrics.power, value: String(180))
-        MetricCard(name: Constants.Metrics.heartRate, value: String(111))
+        MetricCard(name: Copy.metrics.cadence, value: String(90))
+        MetricCard(name: Copy.metrics.power, value: String(180))
+        MetricCard(name: Copy.metrics.heartRate, value: String(111))
     }
     .padding()
 }

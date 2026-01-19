@@ -21,18 +21,18 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     // MARK: - Display
     
     var name: String {
-        String(format: Constants.Format.zoneNumber, id)
+        String(format: Copy.format.zoneNumber, id)
     }
     
     var label: String {
         switch self {
-        case .recovery:        return Constants.PowerZone.Label.recovery
-        case .endurance:       return Constants.PowerZone.Label.endurance
-        case .tempo:           return Constants.PowerZone.Label.tempo
-        case .threshold:       return Constants.PowerZone.Label.threshold
-        case .vo2Max:          return Constants.PowerZone.Label.vo2Max
-        case .anaerobic:       return Constants.PowerZone.Label.anaerobic
-        case .neuromuscular:   return Constants.PowerZone.Label.neuromuscular
+        case .recovery:        return Copy.powerZone.label.recovery
+        case .endurance:       return Copy.powerZone.label.endurance
+        case .tempo:           return Copy.powerZone.label.tempo
+        case .threshold:       return Copy.powerZone.label.threshold
+        case .vo2Max:          return Copy.powerZone.label.vo2Max
+        case .anaerobic:       return Copy.powerZone.label.anaerobic
+        case .neuromuscular:   return Copy.powerZone.label.neuromuscular
         }
     }
     
@@ -63,11 +63,11 @@ enum PowerZone: Int, CaseIterable, Identifiable {
         let b = wattRange(ftp: ftp)
         if let upper = b.upper {
             return String(b.lower)
-            + Constants.Units.wattsRangeSeparator
+            + Copy.units.wattsRangeSeparator
             + String(upper)
-            + Constants.Units.wattsSuffix
+            + Copy.units.wattsSuffix
         } else {
-            return String(b.lower) + Constants.Units.wattsPlusSuffix
+            return String(b.lower) + Copy.units.wattsPlusSuffix
         }
     }
     
@@ -88,9 +88,9 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     /// Convenience helper for UI: returns a zone name like "Z3", or a friendly
     /// fallback when watts / FTP are unavailable.
     static func zoneNameLabel(for watts: Int?, ftp: Int?) -> String {
-        guard let watts else { return Constants.Placeholder.missingValue }
-        guard let ftp, ftp > 0 else { return Constants.PowerZone.setFTP }
-        return Self.zone(for: watts, ftp: ftp)?.name ?? Constants.Placeholder.missingValue
+        guard let watts else { return Copy.placeholder.missingValue }
+        guard let ftp, ftp > 0 else { return Copy.powerZone.setFTP }
+        return Self.zone(for: watts, ftp: ftp)?.name ?? Copy.placeholder.missingValue
     }
     
     // MARK: - Private Helpers
@@ -123,7 +123,7 @@ extension Array where Element == PowerZone {
         if first == last {
             return first.name
         } else {
-            return first.name + Constants.Separator.hyphen + last.name
+            return first.name + Copy.separator.hyphen + last.name
         }
     }
 }

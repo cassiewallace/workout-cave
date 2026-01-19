@@ -27,10 +27,10 @@ struct Control: View {
     
     private var image: Image {
         switch controlType {
-        case .play: Image(systemName: Constants.SFSymbol.playFill)
-        case .pause: Image(systemName: Constants.SFSymbol.pauseFill)
-        case .skip: Image(systemName: Constants.SFSymbol.forward)
-        case .restart: Image(systemName: Constants.SFSymbol.restart)
+        case .play: Image(systemName: "play.fill")
+        case .pause: Image(systemName: "pause.fill")
+        case .skip: Image(systemName: "forward")
+        case .restart: Image(systemName: "arrow.counterclockwise")
         }
     }
     

@@ -11,20 +11,20 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
     // MARK: - Properties
 
-    private var workoutName: String = Constants.Placeholder.empty
-    private var workoutDescription: String = Constants.Placeholder.empty
+    private var workoutName: String = Copy.placeholder.empty
+    private var workoutDescription: String = Copy.placeholder.empty
 
     // Buffers for workout_file text nodes
     private var isReadingWorkoutName = false
     private var isReadingWorkoutDescription = false
-    private var textBuffer: String = Constants.Placeholder.empty
+    private var textBuffer: String = Copy.placeholder.empty
 
     // MARK: - Interval state
 
     private var intervals: [Workout.Interval] = []
 
     private var currentDuration: TimeInterval = 0
-    private var currentName: String = Constants.Placeholder.empty
+    private var currentName: String = Copy.placeholder.empty
     private var currentMessages: [String] = []
     private var currentType: Workout.Interval.IntervalType = .steadyState
     private var currentPowerTarget: Workout.Interval.PowerTarget?
@@ -48,7 +48,7 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
         return Workout(
             id: UUID().uuidString,
-            name: workoutName.isEmpty ? Constants.ZWO.IntervalName.workoutFallback : workoutName,
+            name: workoutName.isEmpty ? Copy.zwo.intervalName.workoutFallback : workoutName,
             description: workoutDescription,
             intervals: intervals
         )
@@ -68,81 +68,81 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
         // ---- Workout-level metadata ----
 
-        case Constants.ZWO.Element.name:
+        case Copy.zwo.element.name:
             isReadingWorkoutName = true
-            textBuffer = Constants.Placeholder.empty
+            textBuffer = Copy.placeholder.empty
 
-        case Constants.ZWO.Element.description:
+        case Copy.zwo.element.description:
             isReadingWorkoutDescription = true
-            textBuffer = Constants.Placeholder.empty
+            textBuffer = Copy.placeholder.empty
 
         // ---- Intervals ----
 
-        case Constants.ZWO.Element.steadyState:
+        case Copy.zwo.element.steadyState:
             beginInterval(
-                name: Constants.ZWO.IntervalName.steadyState,
+                name: Copy.zwo.intervalName.steadyState,
                 type: .steadyState,
-                duration: attributeDict[Constants.ZWO.Attribute.duration],
-                powerLow: attributeDict[Constants.ZWO.Attribute.power],
-                powerHigh: attributeDict[Constants.ZWO.Attribute.power]
+                duration: attributeDict[Copy.zwo.attribute.duration],
+                powerLow: attributeDict[Copy.zwo.attribute.power],
+                powerHigh: attributeDict[Copy.zwo.attribute.power]
             )
 
-        case Constants.ZWO.Element.warmup:
+        case Copy.zwo.element.warmup:
             beginInterval(
-                name: Constants.ZWO.IntervalName.warmup,
+                name: Copy.zwo.intervalName.warmup,
                 type: .warmup,
-                duration: attributeDict[Constants.ZWO.Attribute.duration],
-                powerLow: attributeDict[Constants.ZWO.Attribute.powerLow],
-                powerHigh: attributeDict[Constants.ZWO.Attribute.powerHigh]
+                duration: attributeDict[Copy.zwo.attribute.duration],
+                powerLow: attributeDict[Copy.zwo.attribute.powerLow],
+                powerHigh: attributeDict[Copy.zwo.attribute.powerHigh]
             )
 
-        case Constants.ZWO.Element.cooldown:
+        case Copy.zwo.element.cooldown:
             beginInterval(
-                name: Constants.ZWO.IntervalName.cooldown,
+                name: Copy.zwo.intervalName.cooldown,
                 type: .cooldown,
-                duration: attributeDict[Constants.ZWO.Attribute.duration],
-                powerLow: attributeDict[Constants.ZWO.Attribute.powerLow],
-                powerHigh: attributeDict[Constants.ZWO.Attribute.powerHigh]
+                duration: attributeDict[Copy.zwo.attribute.duration],
+                powerLow: attributeDict[Copy.zwo.attribute.powerLow],
+                powerHigh: attributeDict[Copy.zwo.attribute.powerHigh]
             )
 
-        case Constants.ZWO.Element.freeRide:
+        case Copy.zwo.element.freeRide:
             beginInterval(
-                name: Constants.ZWO.IntervalName.freeRide,
+                name: Copy.zwo.intervalName.freeRide,
                 type: .freeRide,
-                duration: attributeDict[Constants.ZWO.Attribute.duration],
+                duration: attributeDict[Copy.zwo.attribute.duration],
                 powerLow: nil,
                 powerHigh: nil
             )
 
-        case Constants.ZWO.Element.ramp:
+        case Copy.zwo.element.ramp:
             beginInterval(
-                name: Constants.ZWO.IntervalName.ramp,
+                name: Copy.zwo.intervalName.ramp,
                 type: .steadyState,
-                duration: attributeDict[Constants.ZWO.Attribute.duration],
-                powerLow: attributeDict[Constants.ZWO.Attribute.powerLow],
-                powerHigh: attributeDict[Constants.ZWO.Attribute.powerHigh]
+                duration: attributeDict[Copy.zwo.attribute.duration],
+                powerLow: attributeDict[Copy.zwo.attribute.powerLow],
+                powerHigh: attributeDict[Copy.zwo.attribute.powerHigh]
             )
 
-        case Constants.ZWO.Element.intervalsT:
-            currentName = Constants.ZWO.IntervalName.intervals
+        case Copy.zwo.element.intervalsT:
+            currentName = Copy.zwo.intervalName.intervals
             currentMessages = []
 
-            intervalsTRepeat = Int(attributeDict[Constants.ZWO.Attribute.repeatCount] ?? Constants.Placeholder.empty) ?? 0
-            intervalsTOnDuration = TimeInterval(attributeDict[Constants.ZWO.Attribute.onDuration] ?? Constants.Placeholder.empty) ?? 0
-            intervalsTOffDuration = TimeInterval(attributeDict[Constants.ZWO.Attribute.offDuration] ?? Constants.Placeholder.empty) ?? 0
+            intervalsTRepeat = Int(attributeDict[Copy.zwo.attribute.repeatCount] ?? Copy.placeholder.empty) ?? 0
+            intervalsTOnDuration = TimeInterval(attributeDict[Copy.zwo.attribute.onDuration] ?? Copy.placeholder.empty) ?? 0
+            intervalsTOffDuration = TimeInterval(attributeDict[Copy.zwo.attribute.offDuration] ?? Copy.placeholder.empty) ?? 0
 
             intervalsTOnPower = powerTarget(
-                low: attributeDict[Constants.ZWO.Attribute.onPower],
-                high: attributeDict[Constants.ZWO.Attribute.onPower]
+                low: attributeDict[Copy.zwo.attribute.onPower],
+                high: attributeDict[Copy.zwo.attribute.onPower]
             )
 
             intervalsTOffPower = powerTarget(
-                low: attributeDict[Constants.ZWO.Attribute.offPower],
-                high: attributeDict[Constants.ZWO.Attribute.offPower]
+                low: attributeDict[Copy.zwo.attribute.offPower],
+                high: attributeDict[Copy.zwo.attribute.offPower]
             )
 
-        case let name where name.lowercased() == Constants.ZWO.Element.textEventLowercased:
-            if let message = attributeDict[Constants.ZWO.Attribute.message] {
+        case let name where name.lowercased() == Copy.zwo.element.textEventLowercased:
+            if let message = attributeDict[Copy.zwo.attribute.message] {
                 currentMessages.append(message)
             }
 
@@ -168,30 +168,30 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
         // ---- Workout-level metadata ----
 
-        case Constants.ZWO.Element.name:
+        case Copy.zwo.element.name:
             isReadingWorkoutName = false
             let trimmed = textBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
             if !trimmed.isEmpty {
                 workoutName = trimmed
             }
-            textBuffer = Constants.Placeholder.empty
+            textBuffer = Copy.placeholder.empty
 
-        case Constants.ZWO.Element.description:
+        case Copy.zwo.element.description:
             isReadingWorkoutDescription = false
             workoutDescription = textBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
-            textBuffer = Constants.Placeholder.empty
+            textBuffer = Copy.placeholder.empty
 
         // ---- Intervals ----
 
-        case Constants.ZWO.Element.steadyState,
-             Constants.ZWO.Element.warmup,
-             Constants.ZWO.Element.cooldown,
-             Constants.ZWO.Element.freeRide,
-             Constants.ZWO.Element.ramp:
+        case Copy.zwo.element.steadyState,
+             Copy.zwo.element.warmup,
+             Copy.zwo.element.cooldown,
+             Copy.zwo.element.freeRide,
+             Copy.zwo.element.ramp:
             appendCurrentInterval()
             resetCurrentInterval()
 
-        case Constants.ZWO.Element.intervalsT:
+        case Copy.zwo.element.intervalsT:
             guard intervalsTRepeat > 0 else {
                 resetIntervalsT()
                 return
@@ -204,9 +204,9 @@ final class ZWOParser: NSObject, XMLParserDelegate {
                     Workout.Interval(
                         duration: intervalsTOnDuration,
                         name: currentName
-                        + Constants.Separator.space
-                        + Constants.ZWO.IntervalToken.on
-                        + Constants.Separator.space
+                        + Copy.separator.space
+                        + Copy.zwo.intervalToken.on
+                        + Copy.separator.space
                         + String(i),
                         message: message,
                         type: .intervalOn,
@@ -218,9 +218,9 @@ final class ZWOParser: NSObject, XMLParserDelegate {
                     Workout.Interval(
                         duration: intervalsTOffDuration,
                         name: currentName
-                        + Constants.Separator.space
-                        + Constants.ZWO.IntervalToken.off
-                        + Constants.Separator.space
+                        + Copy.separator.space
+                        + Copy.zwo.intervalToken.off
+                        + Copy.separator.space
                         + String(i),
                         message: message,
                         type: .intervalOff,
@@ -247,7 +247,7 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     ) {
         currentName = name
         currentType = type
-        currentDuration = TimeInterval(duration ?? Constants.Placeholder.empty) ?? 0
+        currentDuration = TimeInterval(duration ?? Copy.placeholder.empty) ?? 0
         currentMessages = []
         currentPowerTarget = powerTarget(low: powerLow, high: powerHigh)
     }
@@ -282,12 +282,12 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     }
 
     private var joinedMessages: String? {
-        currentMessages.isEmpty ? nil : currentMessages.joined(separator: Constants.Format.newline)
+        currentMessages.isEmpty ? nil : currentMessages.joined(separator: Copy.format.newline)
     }
 
     private func resetCurrentInterval() {
         currentDuration = 0
-        currentName = Constants.Placeholder.empty
+        currentName = Copy.placeholder.empty
         currentMessages = []
         currentType = .steadyState
         currentPowerTarget = nil
@@ -299,7 +299,7 @@ final class ZWOParser: NSObject, XMLParserDelegate {
         intervalsTOffDuration = 0
         intervalsTOnPower = nil
         intervalsTOffPower = nil
-        currentName = Constants.Placeholder.empty
+        currentName = Copy.placeholder.empty
         currentMessages = []
     }
 }

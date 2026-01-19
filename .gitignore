@@ -22,3 +22,6 @@ Package.resolved
 .swiftpm
 
 .build/
+
+# Cursor
+.cursor/

@@ -17,40 +17,40 @@ enum WorkoutCatalog {
         [
             // JSON workouts
             WorkoutItem(
-                id: Constants.WorkoutResource.steadyStateBase,
-                source: json(resource: Constants.WorkoutResource.steadyStateBase)
+                id: Copy.workoutResource.steadyStateBase,
+                source: json(resource: Copy.workoutResource.steadyStateBase)
             ),
             WorkoutItem(
-                id: Constants.WorkoutResource.recoverySpin,
-                source: json(resource: Constants.WorkoutResource.recoverySpin)
+                id: Copy.workoutResource.recoverySpin,
+                source: json(resource: Copy.workoutResource.recoverySpin)
             ),
             WorkoutItem(
-                id: Constants.WorkoutResource.powerIntervals3030,
-                source: json(resource: Constants.WorkoutResource.powerIntervals3030)
+                id: Copy.workoutResource.powerIntervals3030,
+                source: json(resource: Copy.workoutResource.powerIntervals3030)
             ),
             WorkoutItem(
-                id: Constants.WorkoutResource.tempoIntervals9060,
-                source: json(resource: Constants.WorkoutResource.tempoIntervals9060)
+                id: Copy.workoutResource.tempoIntervals9060,
+                source: json(resource: Copy.workoutResource.tempoIntervals9060)
             ),
             WorkoutItem(
-                id: Constants.WorkoutResource.progressiveWarmup,
-                source: json(resource: Constants.WorkoutResource.progressiveWarmup)
+                id: Copy.workoutResource.progressiveWarmup,
+                source: json(resource: Copy.workoutResource.progressiveWarmup)
             ),
             WorkoutItem(
-                id: Constants.WorkoutResource.enduranceBuild,
-                source: json(resource: Constants.WorkoutResource.enduranceBuild)
+                id: Copy.workoutResource.enduranceBuild,
+                source: json(resource: Copy.workoutResource.enduranceBuild)
             ),
             
             // Zwift workouts
             WorkoutItem(
-                id: Constants.WorkoutResource.fortyTwenty,
-                source: zwift(resource: Constants.WorkoutResource.fortyTwenty)
+                id: Copy.workoutResource.fortyTwenty,
+                source: zwift(resource: Copy.workoutResource.fortyTwenty)
             )
         ]
     }
 
     private static func zwift(resource: String) -> WorkoutSource {
-        let url = Bundle.main.url(forResource: resource, withExtension: Constants.FileExtension.zwo)!
+        let url = Bundle.main.url(forResource: resource, withExtension: Copy.fileExtension.zwo)!
         let data = try! Data(contentsOf: url)
 
         return ZwiftWorkoutSource(

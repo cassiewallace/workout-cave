@@ -12,8 +12,8 @@ struct JSONWorkoutSource: WorkoutSource {
     let resourceName: String
 
     func loadWorkout() throws -> Workout {
-        guard let url = Bundle.main.url(forResource: resourceName, withExtension: Constants.FileExtension.json) else {
-            throw NSError(domain: Constants.ErrorDomain.jsonWorkoutSource, code: 1)
+        guard let url = Bundle.main.url(forResource: resourceName, withExtension: Copy.fileExtension.json) else {
+            throw NSError(domain: Copy.errorDomain.jsonWorkoutSource, code: 1)
         }
 
         let data = try Data(contentsOf: url)
@@ -21,7 +21,7 @@ struct JSONWorkoutSource: WorkoutSource {
         do {
             return try JSONDecoder().decode(Workout.self, from: data)
         } catch {
-            print(Constants.DebugLog.jsonDecodeErrorPrefix, error)
+            print(Copy.debugLog.jsonDecodeErrorPrefix, error)
             throw error
         }
     }

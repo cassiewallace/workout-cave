@@ -22,19 +22,33 @@ struct WorkoutList: View {
                     .toolbar(.hidden, for: .tabBar)
             } label: {
                 WorkoutCard(
-                    name: Constants.NavigationTitle.justRide,
-                    description: Constants.WorkoutList.justRideDescription
+                    name: Copy.navigationTitle.justRide,
+                    description: Copy.workoutList.justRideDescription
                 )
             }
-                .listRowInsets(.init(top: 6, leading: 16, bottom: 6, trailing: 16))
+                .listRowInsets(
+                    .init(
+                        top: Constants.xs,
+                        leading: Constants.l,
+                        bottom: Constants.xs,
+                        trailing: Constants.l
+                    )
+                )
                 .listRowSeparator(.hidden)
             workoutList
-                .listRowInsets(.init(top: 6, leading: 16, bottom: 6, trailing: 16))
+                .listRowInsets(
+                    .init(
+                        top: Constants.xs,
+                        leading: Constants.l,
+                        bottom: Constants.xs,
+                        trailing: Constants.l
+                    )
+                )
                 .listRowSeparator(.hidden)
         }
         .listStyle(.plain)
         .navigationLinkIndicatorVisibility(.hidden)
-        .navigationTitle(Constants.NavigationTitle.workouts)
+        .navigationTitle(Copy.navigationTitle.workouts)
         .navigationBarTitleDisplayMode(.large)
         .task {
             workouts = items.compactMap { item in
