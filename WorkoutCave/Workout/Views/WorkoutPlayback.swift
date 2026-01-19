@@ -71,6 +71,7 @@ struct WorkoutPlayback: View {
                 engine.updateForForeground()
             }
         }
+        .bluetoothStatus(using: bluetooth)
     }
 
     // MARK: - States
@@ -103,16 +104,39 @@ struct WorkoutPlayback: View {
     // MARK: - Playback
 
     private func playbackContent(workout: Workout) -> some View {
-        VStack(spacing: sectionSpacing) {
-            intervalContent
-            timer
-            ProgressView(value: engine.intervalProgress)
-                .foregroundStyle(.primary)
-                .padding(.bottom, 8)
+        ZStack(alignment: .topLeading) {
+            if isCompactVertical {
+                VStack(spacing: sectionSpacing) {
+                    intervalContent
+                    timer
+                    Spacer()
+                    ProgressView(value: engine.intervalProgress)
+                        .foregroundStyle(.primary)
+                        .padding(.bottom, 8)
+                }
+                .padding(.top, sectionSpacing)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                
+                if let interval = engine.currentInterval {
+                    metrics(for: interval)
+                }
+            } else {
+                VStack(spacing: sectionSpacing) {
+                    intervalContent
+                    if let interval = engine.currentInterval {
+                        metrics(for: interval)
+                        Spacer()
+                    }
+                    timer
+                    Spacer()
+                    ProgressView(value: engine.intervalProgress)
+                        .foregroundStyle(.primary)
+                        .padding(.bottom, 8)
+                }
+                .padding(.top, sectionSpacing)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            }
         }
-        .padding(.top, sectionSpacing)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .bluetoothStatus(using: bluetooth)
     }
 
     // MARK: - Subviews
@@ -139,10 +163,6 @@ struct WorkoutPlayback: View {
                         .multilineTextAlignment(.center)
                         .padding(4)
                 }
-                
-                Spacer()
-                metrics(for: interval)
-                Spacer()
             }
         }
     }
@@ -162,18 +182,32 @@ struct WorkoutPlayback: View {
     
     @ViewBuilder
     private func metrics(for interval: Workout.Interval) -> some View {
-        if let label = interval.powerTarget?.zones().zoneLabel {
-            HStack {
-                MetricCard(name: "Target Zone", value: label)
-                    .frame(maxWidth: 160)
-                    .padding(6)
-                MetricCard(
-                    name: "Current Zone",
-                    value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts)
-                )
-                    .frame(maxWidth: 160)
-                    .padding(6)
+        if isCompactVertical {
+            VStack(spacing: 6) {
+                metricCards(for: interval)
             }
+        } else {
+            HStack(spacing: 6) {
+                metricCards(for: interval)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func metricCards(for interval: Workout.Interval) -> some View {
+        if let label = interval.powerTarget?.zones().zoneLabel {
+            MetricCard(name: "Target Zone",
+                       value: label,
+                       fontSize: isCompactVertical ? 12 : 18,
+                       maxHeight: isCompactVertical ? 80 : 120,
+                       maxWidth: isCompactVertical ? 100 : 160)
+            MetricCard(
+                name: "Current Zone",
+                value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts),
+                fontSize: isCompactVertical ? 12 : 18,
+                maxHeight: isCompactVertical ? 80 : 120,
+                maxWidth: isCompactVertical ? 100 : 160
+            )
         }
     }
     

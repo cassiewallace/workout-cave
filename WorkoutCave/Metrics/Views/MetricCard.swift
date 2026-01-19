@@ -11,20 +11,22 @@ struct MetricCard: View {
     var name: String
     var value: String
     
-    @ScaledMetric(relativeTo: .body) private var tileMinHeight: CGFloat = 120
+    @ScaledMetric(relativeTo: .body) var fontSize: CGFloat = 18
+    @ScaledMetric(relativeTo: .body) var maxHeight: CGFloat = 120
+    @ScaledMetric(relativeTo: .body) var maxWidth: CGFloat = .infinity
 
     var body: some View {
         if #available(iOS 26.0, *) {
             VStack(spacing: 4) {
                 Text(name)
-                    .bold()
+                    .font(.system(size: fontSize, weight: .semibold))
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
                 Text(value)
-                    .font(Font.largeTitle.bold())
+                    .font(.system(size: fontSize * 2, weight: .bold))
             }
             .padding()
-            .frame(maxWidth: .infinity, minHeight: tileMinHeight)
+            .frame(maxWidth: maxWidth, maxHeight: maxHeight)
             .fixedSize(horizontal: false, vertical: true)
             .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 8))
         } else {
@@ -37,7 +39,7 @@ struct MetricCard: View {
                     .font(Font.largeTitle.bold())
             }
             .padding()
-            .frame(maxWidth: .infinity, minHeight: tileMinHeight)
+            .frame(maxWidth: maxWidth, maxHeight: maxHeight)
             .fixedSize(horizontal: false, vertical: true)
             .background(.quaternary)
             .clipShape(RoundedRectangle(cornerRadius: 8))
