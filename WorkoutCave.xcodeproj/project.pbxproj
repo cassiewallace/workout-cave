@@ -21,6 +21,7 @@
 		653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB42F141145006DE91E /* UserSettings.swift */; };
 		653F6FB72F14244E006DE91E /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB62F142447006DE91E /* WorkoutCard.swift */; };
 		658197292F16CF5D0004C85A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658197282F16CF5D0004C85A /* Icons.xcassets */; };
+		65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */; };
 		65F559F32EF5CD66007AD1D9 /* steady-state-base.json in Resources */ = {isa = PBXBuildFile; fileRef = 65F559F22EF5CD62007AD1D9 /* steady-state-base.json */; };
 		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
 		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
@@ -52,6 +53,7 @@
 		653F6FB42F141145006DE91E /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		653F6FB62F142447006DE91E /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		658197282F16CF5D0004C85A /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatus.swift; sourceTree = "<group>"; };
 		65F559F22EF5CD62007AD1D9 /* steady-state-base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "steady-state-base.json"; sourceTree = "<group>"; };
 		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
 		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 		653F6FA62F11CED5006DE91E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */,
 				653F6F992F11B174006DE91E /* Metrics.swift */,
 				653F6F9B2F11B7A4006DE91E /* MetricCard.swift */,
 			);
@@ -316,6 +319,7 @@
 				653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */,
 				65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */,
 				653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */,
+				65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */,
 				A1000009 /* Workout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

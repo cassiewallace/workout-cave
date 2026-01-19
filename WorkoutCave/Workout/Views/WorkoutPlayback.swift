@@ -4,14 +4,22 @@
 //  Created by Cassie Wallace on 12/18/25.
 //
 
+import SwiftData
 import SwiftUI
 
 struct WorkoutPlayback: View {
     // MARK: - Properties
 
     @StateObject private var engine = WorkoutEngine()
+    @StateObject private var bluetooth = BluetoothManager()
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    
+    // UserSettings
+    @Environment(\.modelContext) private var modelContext
+    @Query(filter: #Predicate<UserSettings> { $0.id == "me" })
+    private var settings: [UserSettings]
+    private var userSettings: UserSettings? { settings.first }
 
     let workoutSource: WorkoutSource
 
@@ -103,6 +111,7 @@ struct WorkoutPlayback: View {
         }
         .padding(.top, sectionSpacing)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .bluetoothStatus(using: bluetooth)
     }
 
     // MARK: - Subviews
@@ -130,11 +139,22 @@ struct WorkoutPlayback: View {
                         .padding(4)
                 }
                 
+                Spacer()
+                
                 if let label = interval.powerTarget?.zones().zoneLabel {
-                    MetricCard(name: "Target Zone", value: label)
-                        .frame(maxWidth: 160)
-                        .padding(isCompactVertical ? 4 : 24)
+                    HStack {
+                        MetricCard(name: "Target Zone", value: label)
+                            .frame(maxWidth: 160)
+                            .padding(6)
+                        MetricCard(
+                            name: "Current Zone",
+                            value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts)
+                        )
+                            .frame(maxWidth: 160)
+                            .padding(6)
+                    }
                 }
+                Spacer()
             }
         }
     }
@@ -206,22 +226,26 @@ struct WorkoutPlayback: View {
     let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
     let data = try! Data(contentsOf: url)
 
-    WorkoutPlayback(
-        workoutSource: ZwiftWorkoutSource(
-            id: "jen-intervals",
-            data: data
+    NavigationStack {
+        WorkoutPlayback(
+            workoutSource: ZwiftWorkoutSource(
+                id: "jen-intervals",
+                data: data
+            )
         )
-    )
+    }
 }
 
 #Preview("Landscape", traits: .landscapeLeft) {
     let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
     let data = try! Data(contentsOf: url)
 
-    WorkoutPlayback(
-        workoutSource: ZwiftWorkoutSource(
-            id: "jen-intervals",
-            data: data
+    NavigationStack {
+        WorkoutPlayback(
+            workoutSource: ZwiftWorkoutSource(
+                id: "jen-intervals",
+                data: data
+            )
         )
-    )
+    }
 }

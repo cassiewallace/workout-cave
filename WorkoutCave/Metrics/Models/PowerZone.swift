@@ -73,11 +73,21 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     ///   - watts: Current power in watts.
     ///   - ftp: Athlete FTP in watts.
     /// - Returns: The matching `PowerZone`, or nil if FTP is invalid.
-    static func zone(for watts: Int, ftp: Int) -> PowerZone? {
-        guard ftp > 0 else { return nil }
+    static func zone(for watts: Int?, ftp: Int) -> PowerZone? {
+        guard let watts, ftp > 0 else { return nil }
 
         let fraction = Double(watts) / Double(ftp)
         return Self.allCases.first { $0.range.contains(fraction) }
+    }
+
+    // MARK: - UI Helpers
+
+    /// Convenience helper for UI: returns a zone name like "Z3", or a friendly
+    /// fallback when watts / FTP are unavailable.
+    static func zoneNameLabel(for watts: Int?, ftp: Int?) -> String {
+        guard let watts else { return "—" }
+        guard let ftp, ftp > 0 else { return "Set FTP" }
+        return Self.zone(for: watts, ftp: ftp)?.name ?? "—"
     }
     
     // MARK: - Private Helpers
@@ -110,7 +120,7 @@ extension Array where Element == PowerZone {
         if first == last {
             return first.name
         } else {
-            return "\(first.name)–\(last.name)"
+            return "\(first.name)-\(last.name)"
         }
     }
 }
