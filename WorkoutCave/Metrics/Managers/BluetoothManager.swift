@@ -58,14 +58,25 @@ final class BluetoothManager: NSObject, ObservableObject {
     @Published var metrics: BikeMetrics = BikeMetrics()
     
     private let parser = FTMSIndoorBikeParser()
-//    @Published var metrics = BikeMetrics()
 
     private var central: CBCentralManager!
     private var peripheral: CBPeripheral?
 
     override init() {
         super.init()
-        central = CBCentralManager(delegate: self, queue: .main)
+    }
+    
+    func activateAndConnect() {
+        if central == nil {
+            print("Prompt will happen here.")
+            central = CBCentralManager(delegate: self, queue: .main)
+        } else {
+            startScanningOrReconnect()
+        }
+    }
+
+    private func startScanningOrReconnect() {
+        central?.scanForPeripherals(withServices: [FTMSUUID.service], options: nil)
     }
 }
 

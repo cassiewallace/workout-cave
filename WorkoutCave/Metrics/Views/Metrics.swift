@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct Metrics: View {
-    @StateObject private var bluetooth = BluetoothManager()
+    @StateObject var bluetooth = BluetoothManager()
     @Environment(\.modelContext) private var modelContext
     @Query(filter: #Predicate<UserSettings> { $0.id == "me" })
     private var settings: [UserSettings]
@@ -17,8 +17,6 @@ struct Metrics: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            statusRow
-            
             HStack(spacing: 12) {
                 MetricCard(name: "Power Zone",
                            value: powerZoneLabel(watts: bluetooth.metrics.powerWatts))
@@ -37,30 +35,68 @@ struct Metrics: View {
         .padding()
         .navigationTitle("Just Ride")
         .navigationBarTitleDisplayMode(.inline)
-    }
-
-    @ViewBuilder
-    private var statusRow: some View {
-        if let statusText {
-            Text(statusText)
-                .font(.headline)
-                .frame(maxWidth: .infinity, alignment: .leading)
+        .toolbar {
+            bluetoothStatusIndicator
         }
     }
 
-    private var statusText: String? {
+    @ViewBuilder
+    private var bluetoothStatusIndicator: some View {
+        statusIcon
+            .resizable()
+            .frame(width: 24, height: 24)
+            .foregroundColor(statusIconTint)
+            .accessibilityHint(statusText)
+            .onTapGesture {
+                bluetooth.activateAndConnect()
+            }
+    }
+    
+    private var statusIconTint: Color {
+        switch bluetooth.state {
+        case .connecting, .connected:
+            return .blue
+        default:
+            return .gray
+        }
+    }
+    
+    private var statusIcon: Image {
+        switch bluetooth.state {
+        case .idle:
+            return Image("bluetooth")
+        case .scanning:
+            return Image("bluetooth")
+        case .unauthorized:
+            return Image("bluetooth-x")
+        case .poweredOff:
+            return Image("bluetooth-slash")
+        case .connecting:
+            return Image("bluetooth")
+        case .connected:
+            return Image("bluetooth-connected")
+        }
+    }
+
+    private var statusText: String {
         switch bluetooth.state {
         case .idle: return "Idle"
         case .scanning: return "Searching for bike…"
         case .unauthorized: return "Bluetooth permission denied"
         case .poweredOff: return "Bluetooth is off"
         case .connecting: return "Connecting"
-        case .connected: return nil
+        case .connected: return "Connected"
         }
     }
     
     private func powerZoneLabel(watts: Int?) -> String {
         guard let watts, watts > 0, let zone = userSettings?.powerZone(for: watts) else { return "—" }
         return zone.name
+    }
+}
+
+#Preview {
+    NavigationStack {
+        Metrics()
     }
 }
