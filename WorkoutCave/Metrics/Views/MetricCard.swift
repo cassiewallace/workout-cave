@@ -14,23 +14,38 @@ struct MetricCard: View {
     @ScaledMetric(relativeTo: .body) private var tileMinHeight: CGFloat = 120
 
     var body: some View {
-        VStack(spacing: 4) {
-            Text(name)
-                .bold()
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
-            Text(value)
-                .font(Font.largeTitle.bold())
+        if #available(iOS 26.0, *) {
+            VStack(spacing: 4) {
+                Text(name)
+                    .bold()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                Text(value)
+                    .font(Font.largeTitle.bold())
+            }
+            .padding()
+            .frame(maxWidth: .infinity, minHeight: tileMinHeight)
+            .fixedSize(horizontal: false, vertical: true)
+            .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 8))
+        } else {
+            VStack(spacing: 4) {
+                Text(name)
+                    .bold()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                Text(value)
+                    .font(Font.largeTitle.bold())
+            }
+            .padding()
+            .frame(maxWidth: .infinity, minHeight: tileMinHeight)
+            .fixedSize(horizontal: false, vertical: true)
+            .background(.quaternary)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.primary, lineWidth: 1)
+            )
         }
-        .padding()
-        .frame(maxWidth: .infinity, minHeight: tileMinHeight)
-        .fixedSize(horizontal: false, vertical: true)
-        .background(.quaternary)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.primary, lineWidth: 1)
-        )
     }
 }
 

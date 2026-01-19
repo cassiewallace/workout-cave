@@ -105,9 +105,10 @@ struct WorkoutPlayback: View {
     private func playbackContent(workout: Workout) -> some View {
         VStack(spacing: sectionSpacing) {
             intervalContent
-            timerView
+            timer
             ProgressView(value: engine.intervalProgress)
                 .foregroundStyle(.primary)
+                .padding(.bottom, 8)
         }
         .padding(.top, sectionSpacing)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -140,27 +141,14 @@ struct WorkoutPlayback: View {
                 }
                 
                 Spacer()
-                
-                if let label = interval.powerTarget?.zones().zoneLabel {
-                    HStack {
-                        MetricCard(name: "Target Zone", value: label)
-                            .frame(maxWidth: 160)
-                            .padding(6)
-                        MetricCard(
-                            name: "Current Zone",
-                            value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts)
-                        )
-                            .frame(maxWidth: 160)
-                            .padding(6)
-                    }
-                }
+                metrics(for: interval)
                 Spacer()
             }
         }
     }
 
     @ViewBuilder
-    private var timerView: some View {
+    private var timer: some View {
         if engine.playbackState != .finished {
             Text(formatTime(engine.remainingTimeInInterval))
                 .font(.system(size: timerFontSize, weight: .bold))
@@ -169,6 +157,23 @@ struct WorkoutPlayback: View {
                 .monospacedDigit()
                 .dynamicTypeSize(.large)
                 .animation(.easeInOut(duration: 0.2), value: engine.remainingTimeInInterval)
+        }
+    }
+    
+    @ViewBuilder
+    private func metrics(for interval: Workout.Interval) -> some View {
+        if let label = interval.powerTarget?.zones().zoneLabel {
+            HStack {
+                MetricCard(name: "Target Zone", value: label)
+                    .frame(maxWidth: 160)
+                    .padding(6)
+                MetricCard(
+                    name: "Current Zone",
+                    value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts)
+                )
+                    .frame(maxWidth: 160)
+                    .padding(6)
+            }
         }
     }
     
