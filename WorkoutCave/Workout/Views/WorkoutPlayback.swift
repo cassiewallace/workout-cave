@@ -104,10 +104,10 @@ struct WorkoutPlayback: View {
 
     private func playbackContent(workout: Workout) -> some View {
         VStack(spacing: sectionSpacing) {
-            ProgressView(value: engine.intervalProgress)
-                .foregroundStyle(.primary)
             intervalContent
             timerView
+            ProgressView(value: engine.intervalProgress)
+                .foregroundStyle(.primary)
         }
         .padding(.top, sectionSpacing)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
