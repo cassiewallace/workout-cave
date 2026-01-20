@@ -30,8 +30,8 @@ struct WorkoutPlayback: View {
 
     // MARK: - Layout
     
-    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightRegular: CGFloat = 64
-    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightCompact: CGFloat = 48
+    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightRegular: CGFloat = 48
+    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightCompact: CGFloat = 32
 
     private var isCompactVertical: Bool {
         verticalSizeClass == .compact
@@ -123,28 +123,21 @@ struct WorkoutPlayback: View {
 
     private func playbackContent(workout: Workout) -> some View {
         ZStack(alignment: .topLeading) {
-            if isCompactVertical {
-                VStack(spacing: sectionSpacing) {
-                    intervalContent
-                    timer
-                    progressBar
-                }
-                .padding(.top, sectionSpacing)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            VStack(spacing: sectionSpacing) {
+                intervalContent
                 
-                if engine.playbackState != .finished { compactMetricsOverlay
+                if !isCompactVertical, engine.playbackState != .finished {
+                    workoutMetricsBlock
                 }
-            } else {
-                VStack(spacing: sectionSpacing) {
-                    intervalContent
-                    if engine.playbackState != .finished {
-                        workoutMetricsBlock
-                    }
-                    timer
-                    progressBar
-                }
-                .padding(.top, sectionSpacing)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                
+                timer
+                progressBar
+            }
+            .padding(.top, sectionSpacing + Constants.m)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            
+            if isCompactVertical, engine.playbackState != .finished {
+                compactMetricsOverlay
             }
         }
     }
@@ -153,11 +146,11 @@ struct WorkoutPlayback: View {
     
     @ViewBuilder
     private var progressBar: some View {
-        Spacer()
+        if isCompactVertical { Spacer(minLength: Constants.m) }
         ProgressView(value: engine.intervalProgress)
             .foregroundStyle(.primary)
             .padding(.bottom, Constants.s)
-        Spacer()
+        Spacer(minLength: Constants.s)
     }
 
     @ViewBuilder
@@ -212,7 +205,7 @@ struct WorkoutPlayback: View {
             Text(formatElapsedTime(engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
                 .font(.system(size: timerFontSize, weight: .bold))
                 // Compensate for system font descender space at large sizes
-                .padding(.bottom, isCompactVertical ? -Constants.xl : Constants.none)
+                .padding(.bottom, isCompactVertical ? -(Constants.xl - Constants.s) : Constants.none)
                 .monospacedDigit()
                 .dynamicTypeSize(.large)
                 .animation(.easeInOut(duration: 0.2), value: engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
