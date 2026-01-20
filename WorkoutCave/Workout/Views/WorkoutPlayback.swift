@@ -124,7 +124,9 @@ struct WorkoutPlayback: View {
     private func playbackContent(workout: Workout) -> some View {
         ZStack(alignment: .topLeading) {
             VStack(spacing: sectionSpacing) {
-                intervalContent
+                if !engine.isJustRide {
+                    intervalContent
+                }
                 
                 if !isCompactVertical, engine.playbackState != .finished {
                     workoutMetricsBlock
@@ -146,11 +148,13 @@ struct WorkoutPlayback: View {
     
     @ViewBuilder
     private var progressBar: some View {
-        if isCompactVertical { Spacer(minLength: Constants.m) }
+        Spacer(minLength: Constants.s)
         ProgressView(value: engine.intervalProgress)
             .foregroundStyle(.primary)
             .padding(.bottom, Constants.s)
-        Spacer(minLength: Constants.s)
+        if !isCompactVertical {
+            Spacer(minLength: Constants.s)
+        }
     }
 
     @ViewBuilder
@@ -167,8 +171,6 @@ struct WorkoutPlayback: View {
                     .font(.title3)
                     .monospacedDigit()
             }
-        } else if engine.isJustRide {
-            EmptyView()
         } else if let interval = engine.currentInterval {
             VStack(spacing: innerSpacing) {
                 Text(interval.name)
@@ -204,8 +206,6 @@ struct WorkoutPlayback: View {
         if engine.playbackState != .finished {
             Text(formatElapsedTime(engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
                 .font(.system(size: timerFontSize, weight: .bold))
-                // Compensate for system font descender space at large sizes
-                .padding(.bottom, isCompactVertical ? -(Constants.xl - Constants.s) : Constants.none)
                 .monospacedDigit()
                 .dynamicTypeSize(.large)
                 .animation(.easeInOut(duration: 0.2), value: engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
@@ -213,13 +213,11 @@ struct WorkoutPlayback: View {
     }
     
     private var workoutMetricsBlock: some View {
-        VStack(spacing: Constants.m) {
-            LiveMetricsGrid(
-                targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
-                zoneTitle: Copy.metrics.currentZone,
-                metrics: [.targetZone, .zone, .power, .cadence, .speed, .heartRate]
-            )
-        }
+        LiveMetricsGrid(
+            targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
+            zoneTitle: Copy.metrics.currentZone,
+            metrics: [.targetZone, .zone, .power, .cadence, .speed, .heartRate]
+        )
         .padding(.horizontal, horizontalPadding)
     }
     
