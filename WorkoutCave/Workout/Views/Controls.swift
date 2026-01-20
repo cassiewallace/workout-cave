@@ -10,7 +10,8 @@ import SwiftUI
 struct Controls: ToolbarContent {
     @ObservedObject var engine: WorkoutEngine
     var isJustRide: Bool
-    var onStopTap: () -> Void
+    @Binding var isStopConfirmationPresented: Bool
+    var onStopConfirmed: () -> Void
     var onRestart: () -> Void
     
     @ToolbarContentBuilder
@@ -48,9 +49,19 @@ struct Controls: ToolbarContent {
                 ToolbarItem(placement: .bottomBar) {
                     Control(
                         controlType: .stop,
-                        action: onStopTap,
+                        action: { isStopConfirmationPresented = true },
                         isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
                     )
+                    .confirmationDialog(
+                        Copy.workoutPlayback.stopRideDialogTitle,
+                        isPresented: $isStopConfirmationPresented,
+                        titleVisibility: .visible
+                    ) {
+                        Button(Copy.workoutPlayback.stopRideDialogStop, role: .destructive) {
+                            onStopConfirmed()
+                        }
+                        Button(Copy.workoutPlayback.stopRideDialogCancel, role: .cancel) {}
+                    }
                 }
             }
             

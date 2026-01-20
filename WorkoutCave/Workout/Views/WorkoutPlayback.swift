@@ -79,7 +79,8 @@ struct WorkoutPlayback: View {
             Controls(
                 engine: engine,
                 isJustRide: engine.isJustRide,
-                onStopTap: { isStopConfirmationPresented = true },
+                isStopConfirmationPresented: $isStopConfirmationPresented,
+                onStopConfirmed: stopRide,
                 onRestart: restart
             )
         }
@@ -94,16 +95,6 @@ struct WorkoutPlayback: View {
         }
         .onChange(of: engine.playbackState) { oldState, newState in
             handlePlaybackStateChange(oldState: oldState, newState: newState)
-        }
-        .confirmationDialog(
-            "End ride?",
-            isPresented: $isStopConfirmationPresented,
-            titleVisibility: .visible
-        ) {
-            Button("Stop", role: .destructive) {
-                stopRide()
-            }
-            Button("Cancel", role: .cancel) {}
         }
         .bluetoothStatus(using: bluetooth)
     }

@@ -53,6 +53,10 @@ enum Copy {
         static let loadingWorkout = "Loading workout…"
         static let errorLoadingWorkout = "Error loading workout"
         static let workoutComplete = "Workout Complete"
+
+        static let stopRideDialogTitle = "End ride?"
+        static let stopRideDialogStop = "Stop"
+        static let stopRideDialogCancel = "Cancel"
     }
 
     enum bluetooth {
