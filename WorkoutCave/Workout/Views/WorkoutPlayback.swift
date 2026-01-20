@@ -36,6 +36,9 @@ struct WorkoutPlayback: View {
     @State private var isStopConfirmationPresented: Bool = false
 
     // MARK: - Layout
+    
+    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightRegular: CGFloat = 64
+    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightCompact: CGFloat = 48
 
     private var isCompactVertical: Bool {
         verticalSizeClass == .compact
@@ -195,15 +198,27 @@ struct WorkoutPlayback: View {
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
 
-                if let message = interval.message {
-                    Text(message)
-                        .font(.title3)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .padding(Constants.m)
-                }
+                intervalMessage(message: interval.message)
             }
         }
+    }
+
+    private func intervalMessage(message: String?) -> some View {
+        Text(message ?? Copy.placeholder.empty)
+            .font(.title3)
+            .foregroundColor(.secondary)
+            .multilineTextAlignment(.center)
+            .lineLimit(3)
+            .minimumScaleFactor(0.6)
+            .allowsTightening(true)
+            .truncationMode(.tail)
+            .frame(
+                maxWidth: .infinity,
+                minHeight: isCompactVertical ? intervalMessageHeightCompact : intervalMessageHeightRegular,
+                maxHeight: isCompactVertical ? intervalMessageHeightCompact : intervalMessageHeightRegular,
+                alignment: .top
+            )
+            .padding(.horizontal, Constants.m)
     }
 
     @ViewBuilder
