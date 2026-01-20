@@ -25,9 +25,18 @@ class WorkoutEngine: ObservableObject {
     @Published var workout: Workout?
     @Published var errorMessage: String?
     
+    @Published private(set) var averagePowerWatts: Int?
+    
     private var intervalStartTime: Date?
     private var pausedElapsedTime: TimeInterval = 0
     private var timer: Timer?
+    
+    // Power averaging (excluding 0 W)
+    private var powerProvider: (() -> Int?)?
+    private var avgWattSeconds: Double = 0
+    private var avgValidSeconds: Double = 0
+    private var avgLastSampleDate: Date?
+    private var avgTimer: Timer?
     
     var currentInterval: Workout.Interval? {
         guard let workout = workout,
@@ -76,6 +85,7 @@ class WorkoutEngine: ObservableObject {
     deinit {
         // Timer.invalidate() is thread-safe, so we can call it directly
         timer?.invalidate()
+        avgTimer?.invalidate()
     }
     
     // MARK: - Public Methods
@@ -89,6 +99,10 @@ class WorkoutEngine: ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
+
+    func setPowerProvider(_ provider: @escaping () -> Int?) {
+        powerProvider = provider
+    }
     
     func start() {
         guard playbackState != .running else { return }
@@ -98,6 +112,7 @@ class WorkoutEngine: ObservableObject {
             intervalStartTime = Date()
             playbackState = .running
             startTimer()
+            startAverageTimer(reset: false)
         } else {
             // Start fresh
             reset()
@@ -106,6 +121,7 @@ class WorkoutEngine: ObservableObject {
             intervalStartTime = Date()
             playbackState = .running
             startTimer()
+            startAverageTimer(reset: true)
         }
     }
     
@@ -113,6 +129,7 @@ class WorkoutEngine: ObservableObject {
         guard playbackState == .running else { return }
         
         stopTimer()
+        stopAverageTimer()
         pausedElapsedTime = elapsedTimeInInterval
         intervalStartTime = nil
         playbackState = .paused
@@ -140,6 +157,7 @@ class WorkoutEngine: ObservableObject {
     
     func restart() {
         stopTimer()
+        stopAverageTimer()
         reset()
     }
 
@@ -173,6 +191,7 @@ class WorkoutEngine: ObservableObject {
         pausedElapsedTime = 0
         intervalStartTime = nil
         playbackState = .idle
+        resetAveragePower()
     }
     
     private func startTimer() {
@@ -223,8 +242,63 @@ class WorkoutEngine: ObservableObject {
     
     private func finishWorkout() {
         stopTimer()
+        stopAverageTimer()
         playbackState = .finished
         intervalStartTime = nil
+    }
+    
+    private func startAverageTimer(reset: Bool) {
+        if reset {
+            resetAveragePower()
+        }
+        
+        guard avgTimer == nil else { return }
+        
+        avgLastSampleDate = Date()
+        avgTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.recordAverageSample()
+            }
+        }
+    }
+    
+    private func stopAverageTimer() {
+        avgTimer?.invalidate()
+        avgTimer = nil
+        avgLastSampleDate = nil
+    }
+    
+    private func resetAveragePower() {
+        avgWattSeconds = 0
+        avgValidSeconds = 0
+        averagePowerWatts = nil
+    }
+    
+    private func recordAverageSample() {
+        guard playbackState == .running else { return }
+        guard let powerProvider else { return }
+        
+        let now = Date()
+        guard let last = avgLastSampleDate else {
+            avgLastSampleDate = now
+            return
+        }
+        
+        var dt = now.timeIntervalSince(last)
+        if dt <= 0 {
+            avgLastSampleDate = now
+            return
+        }
+        
+        dt = min(dt, 2.0)
+        
+        if let watts = powerProvider(), watts > 0 {
+            avgWattSeconds += Double(watts) * dt
+            avgValidSeconds += dt
+            averagePowerWatts = Int((avgWattSeconds / avgValidSeconds).rounded())
+        }
+        
+        avgLastSampleDate = now
     }
 }
 

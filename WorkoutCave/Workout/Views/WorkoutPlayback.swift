@@ -24,13 +24,6 @@ struct WorkoutPlayback: View {
 
     let workoutSource: WorkoutSource
     
-    // MARK: - Power averaging (excluding 0 W)
-    
-    @State private var avgWattSeconds: Double = 0
-    @State private var avgValidSeconds: Double = 0
-    @State private var avgLastSampleDate: Date?
-    @State private var avgSampleTimer: Timer?
-    
     // MARK: - Just Ride stop
     
     @State private var isStopConfirmationPresented: Bool = false
@@ -86,7 +79,7 @@ struct WorkoutPlayback: View {
         }
         .task {
             engine.load(source: workoutSource)
-            resetAveragePower()
+            engine.setPowerProvider { bluetooth.metrics.powerWatts }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if oldPhase == .background && newPhase == .active {
@@ -94,7 +87,7 @@ struct WorkoutPlayback: View {
             }
         }
         .onChange(of: engine.playbackState) { oldState, newState in
-            handlePlaybackStateChange(oldState: oldState, newState: newState)
+            _ = (oldState, newState)
         }
         .bluetoothStatus(using: bluetooth)
     }
@@ -208,7 +201,7 @@ struct WorkoutPlayback: View {
                 maxWidth: .infinity,
                 minHeight: isCompactVertical ? intervalMessageHeightCompact : intervalMessageHeightRegular,
                 maxHeight: isCompactVertical ? intervalMessageHeightCompact : intervalMessageHeightRegular,
-                alignment: .top
+                alignment: .bottom
             )
             .padding(.horizontal, Constants.m)
     }
@@ -267,73 +260,12 @@ struct WorkoutPlayback: View {
     }
     
     private var averagePowerLabel: String {
-        guard avgValidSeconds > 0 else { return Copy.placeholder.missingValue }
-        let avg = (avgWattSeconds / avgValidSeconds).rounded()
-        return "\(Int(avg)) W"
-    }
-    
-    private func handlePlaybackStateChange(oldState: PlaybackState, newState: PlaybackState) {
-        switch (oldState, newState) {
-        case (_, .running):
-            if oldState == .idle {
-                resetAveragePower()
-            }
-            startAverageTimer()
-        case (_, .paused), (_, .idle):
-            stopAverageTimer()
-        case (_, .finished):
-            stopAverageTimer()
-        }
-    }
-    
-    private func startAverageTimer() {
-        guard avgSampleTimer == nil else { return }
-        avgLastSampleDate = Date()
-        avgSampleTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            recordAverageSample()
-        }
-    }
-    
-    private func stopAverageTimer() {
-        avgSampleTimer?.invalidate()
-        avgSampleTimer = nil
-        avgLastSampleDate = nil
-    }
-    
-    private func recordAverageSample() {
-        guard engine.playbackState == .running else { return }
-        
-        let now = Date()
-        guard let last = avgLastSampleDate else {
-            avgLastSampleDate = now
-            return
-        }
-        
-        var dt = now.timeIntervalSince(last)
-        if dt <= 0 {
-            avgLastSampleDate = now
-            return
-        }
-        
-        dt = min(dt, 2.0)
-        
-        if let watts = bluetooth.metrics.powerWatts, watts > 0 {
-            avgWattSeconds += Double(watts) * dt
-            avgValidSeconds += dt
-        }
-        
-        avgLastSampleDate = now
-    }
-    
-    private func resetAveragePower() {
-        stopAverageTimer()
-        avgWattSeconds = 0
-        avgValidSeconds = 0
+        guard let avg = engine.averagePowerWatts else { return Copy.placeholder.missingValue }
+        return "\(avg) W"
     }
     
     private func restart() {
         engine.restart()
-        resetAveragePower()
     }
     
     private func stopRide() {
