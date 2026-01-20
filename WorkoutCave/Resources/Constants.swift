@@ -11,19 +11,21 @@ import SwiftUI
 enum Constants {
     /// 0pt
     static let none: CGFloat = 0
-    /// 4pt — micro spacing (tight vertical rhythm, small gaps).
+    /// 4pt
     static let xxs: CGFloat = 4
-    /// 6pt — extra small spacing.
+    /// 6pt
     static let xs: CGFloat = 6
-    /// 8pt — small spacing (also a good default corner radius).
+    /// 8pt
     static let s: CGFloat = 8
-    /// 12pt — medium spacing (common stack spacing).
+    /// 12pt
     static let m: CGFloat = 12
-    /// 16pt — large spacing (common padding/insets).
+    /// 16pt
     static let l: CGFloat = 16
-    /// 24pt — extra large spacing (section separation).
+    /// 24pt
     static let xl: CGFloat = 24
-    /// 32pt — 2x extra large spacing (wide padding on regular layouts).
+    /// 32pt
     static let xxl: CGFloat = 32
+    /// 64pt
+    static let xxxl: CGFloat = 64
 }
 

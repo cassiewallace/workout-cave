@@ -50,7 +50,7 @@ struct WorkoutPlayback: View {
     }
 
     private var timerFontSize: CGFloat {
-        isCompactVertical ? 64 : 96
+        isCompactVertical ? Constants.xxxl : Constants.xxxl * 1.5
     }
     
     // MARK: - Body
