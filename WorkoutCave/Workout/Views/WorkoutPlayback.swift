@@ -60,10 +60,6 @@ struct WorkoutPlayback: View {
         isCompactVertical ? 56 : 112
     }
     
-    private var isJustRide: Bool {
-        engine.workout?.id == JustRideWorkoutSource.workoutId
-    }
-
     // MARK: - Body
 
     var body: some View {
@@ -80,7 +76,12 @@ struct WorkoutPlayback: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
         .toolbar {
-            controls
+            Controls(
+                engine: engine,
+                isJustRide: engine.isJustRide,
+                onStopTap: { isStopConfirmationPresented = true },
+                onRestart: restart
+            )
         }
         .task {
             engine.load(source: workoutSource)
@@ -189,7 +190,7 @@ struct WorkoutPlayback: View {
                     .font(.title3)
                     .monospacedDigit()
             }
-        } else if isJustRide {
+        } else if engine.isJustRide {
             EmptyView()
         } else if let interval = engine.currentInterval {
             VStack(spacing: innerSpacing) {
@@ -224,13 +225,13 @@ struct WorkoutPlayback: View {
     @ViewBuilder
     private var timer: some View {
         if engine.playbackState != .finished {
-            Text(formatElapsedTime(isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
+            Text(formatElapsedTime(engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
                 .font(.system(size: timerFontSize, weight: .bold))
                 // Compensate for system font descender space at large sizes
                 .padding(.bottom, isCompactVertical ? -Constants.xl : Constants.none)
                 .monospacedDigit()
                 .dynamicTypeSize(.large)
-                .animation(.easeInOut(duration: 0.2), value: isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
+                .animation(.easeInOut(duration: 0.2), value: engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
         }
     }
     
@@ -256,57 +257,6 @@ struct WorkoutPlayback: View {
                 maxHeight: 64,
                 maxWidth: 96
             )
-        }
-    }
-    
-    @ToolbarContentBuilder
-    private var controls: some ToolbarContent {
-        if engine.workout != nil {
-            if !isJustRide {
-                ToolbarItem(placement: .bottomBar) {
-                    Control(
-                        controlType: .skip,
-                        action: engine.skipInterval,
-                        isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
-                    )
-                }
-            }
-            
-            if engine.playbackState == .running {
-                ToolbarItem(placement: .bottomBar) {
-                    Control(
-                        controlType: .pause,
-                        action: engine.pause,
-                        isDisabled: engine.playbackState == .finished
-                    )
-                }
-            } else if engine.playbackState == .paused || engine.playbackState == .idle {
-                ToolbarItem(placement: .bottomBar) {
-                    Control(
-                        controlType: .play,
-                        action: engine.start,
-                        isDisabled: engine.playbackState == .finished
-                    )
-                }
-            }
-            
-            if isJustRide {
-                ToolbarItem(placement: .bottomBar) {
-                    Control(
-                        controlType: .stop,
-                        action: { isStopConfirmationPresented = true },
-                        isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
-                    )
-                }
-            }
-            
-            ToolbarItem(placement: .bottomBar) {
-                Control(
-                    controlType: .restart,
-                    action: restart,
-                    isDisabled: engine.playbackState == .idle
-                )
-            }
         }
     }
 
@@ -399,8 +349,6 @@ struct WorkoutPlayback: View {
         engine.finishNow()
     }
 }
-
-// MARK: - Preview
 
 #Preview("Portrait", traits: .portrait) {
     WorkoutPlaybackPreviewHost()

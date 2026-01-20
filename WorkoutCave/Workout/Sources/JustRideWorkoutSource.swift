@@ -8,7 +8,7 @@
 import Foundation
 
 struct JustRideWorkoutSource: WorkoutSource {
-    static let workoutId = "just-ride"
+    static let workoutId = Workout.justRideId
 
     func loadWorkout() throws -> Workout {
         Workout(

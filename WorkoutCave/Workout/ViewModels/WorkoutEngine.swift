@@ -42,6 +42,10 @@ class WorkoutEngine: ObservableObject {
         guard let interval = currentInterval else { return 0 }
         return max(0, interval.duration - elapsedTimeInInterval)
     }
+
+    var isJustRide: Bool {
+        workout?.isJustRide == true
+    }
     
     var intervalProgress: Double {
         guard let workout = workout else { return 0 }

@@ -16,10 +16,16 @@ protocol WorkoutSource {
 struct Workout: Identifiable, Codable {
     // MARK: - Properties
     
+    static let justRideId = "just-ride"
+    
     let id: String
     let name: String
     let description: String
     let intervals: [Interval]
+    
+    var isJustRide: Bool {
+        id == Self.justRideId
+    }
     
     var totalDuration: TimeInterval {
         intervals.reduce(0) { $0 + $1.duration }
