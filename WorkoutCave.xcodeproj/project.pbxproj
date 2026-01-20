@@ -25,8 +25,8 @@
 		65DAFA732F1FCAFE00C8F940 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA722F1FCAFE00C8F940 /* Constants.swift */; };
 		65DAFA752F1FD3B100C8F940 /* Copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA742F1FD3B100C8F940 /* Copy.swift */; };
 		65DAFA812F20AAAA00C8F940 /* LiveMetricsGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA802F20AAAA00C8F940 /* LiveMetricsGrid.swift */; };
-		65DAFA852F20ABF100C8F940 /* LoadedWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */; };
 		65DAFA832F20AAAB00C8F940 /* JustRideWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA822F20AAAB00C8F940 /* JustRideWorkoutSource.swift */; };
+		65DAFA852F20ABF100C8F940 /* LoadedWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */; };
 		65F559F32EF5CD66007AD1D9 /* steady-state-base.json in Resources */ = {isa = PBXBuildFile; fileRef = 65F559F22EF5CD62007AD1D9 /* steady-state-base.json */; };
 		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
 		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
@@ -62,8 +62,8 @@
 		65DAFA722F1FCAFE00C8F940 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		65DAFA742F1FD3B100C8F940 /* Copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copy.swift; sourceTree = "<group>"; };
 		65DAFA802F20AAAA00C8F940 /* LiveMetricsGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveMetricsGrid.swift; sourceTree = "<group>"; };
-		65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadedWorkout.swift; sourceTree = "<group>"; };
 		65DAFA822F20AAAB00C8F940 /* JustRideWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustRideWorkoutSource.swift; sourceTree = "<group>"; };
+		65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadedWorkout.swift; sourceTree = "<group>"; };
 		65F559F22EF5CD62007AD1D9 /* steady-state-base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "steady-state-base.json"; sourceTree = "<group>"; };
 		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
 		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
@@ -83,6 +83,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		6520712B2F203EEC00EDFBA1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */,
+				A1000010 /* Workout.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		653F6F962F11AECA006DE91E /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,11 +220,10 @@
 		A1000029 /* Workout */ = {
 			isa = PBXGroup;
 			children = (
-				65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */,
-				A1000010 /* Workout.swift */,
 				65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */,
 				A1000027 /* Views */,
 				A1000028 /* ViewModels */,
+				6520712B2F203EEC00EDFBA1 /* Models */,
 				65F559FA2EF5D423007AD1D9 /* Sources */,
 				A1000030 /* Parsing */,
 				A1000031 /* RawData */,

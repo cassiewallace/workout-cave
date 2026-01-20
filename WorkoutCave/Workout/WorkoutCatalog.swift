@@ -15,6 +15,11 @@ struct WorkoutItem: Identifiable {
 enum WorkoutCatalog {
     static func all() -> [WorkoutItem] {
         [
+            // Just Ride
+            WorkoutItem(
+                id: Workout.justRideId,
+                source: JustRideWorkoutSource()
+            ),
             // JSON workouts
             WorkoutItem(
                 id: Copy.workoutResource.steadyStateBase,
