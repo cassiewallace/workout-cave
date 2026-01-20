@@ -25,3 +25,7 @@ Package.resolved
 
 # Cursor
 .cursor/
+
+# macOS
+.DS_Store
+**/.DS_Store

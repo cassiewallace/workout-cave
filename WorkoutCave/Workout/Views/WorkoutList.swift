@@ -11,7 +11,8 @@ struct WorkoutList: View {
     // MARK: - Properties
 
     private let items = WorkoutCatalog.all()
-    @State private var workouts: [(id: String, workout: Workout, source: WorkoutSource)] = []
+    @State private var workouts: [LoadedWorkout] = []
+    @State private var selectedWorkout: LoadedWorkout? = nil
 
     // MARK: - Body
 
@@ -25,25 +26,15 @@ struct WorkoutList: View {
                     description: Copy.workoutList.justRideDescription
                 )
             }
-                .listRowInsets(
-                    .init(
-                        top: Constants.xs,
-                        leading: Constants.l,
-                        bottom: Constants.xs,
-                        trailing: Constants.l
-                    )
-                )
-                .listRowSeparator(.hidden)
+            .listRowInsets(.init(top: Constants.xs, leading: Constants.l, bottom: Constants.xs, trailing: Constants.l))
+            .listRowSeparator(.hidden)
+            
             workoutList
-                .listRowInsets(
-                    .init(
-                        top: Constants.xs,
-                        leading: Constants.l,
-                        bottom: Constants.xs,
-                        trailing: Constants.l
-                    )
-                )
+                .listRowInsets(.init(top: Constants.xs, leading: Constants.l, bottom: Constants.xs, trailing: Constants.l))
                 .listRowSeparator(.hidden)
+        }
+        .navigationDestination(item: $selectedWorkout) { workout in
+            WorkoutPlayback(workoutSource: workout.source)
         }
         .listStyle(.plain)
         .navigationLinkIndicatorVisibility(.hidden)
@@ -54,17 +45,18 @@ struct WorkoutList: View {
                 guard let workout = try? item.source.loadWorkout() else {
                     return nil
                 }
-                return (item.id, workout, item.source)
+                return LoadedWorkout(id: item.id, workout: workout, source: item.source)
             }
         }
     }
     
     var workoutList: some View {
-        ForEach(workouts, id: \.id) { workout in
-            NavigationLink {
-                WorkoutPlayback(workoutSource: workout.source)
+        ForEach(workouts) { workout in
+            Button {
+                selectedWorkout = workout
             } label: {
-                WorkoutCard(name: workout.workout.name, description: workout.workout.description)
+                WorkoutCard(name: workout.workout.name,
+                            description: workout.workout.description)
             }
         }
     }
