@@ -30,6 +30,10 @@ struct WorkoutPlayback: View {
     @State private var avgValidSeconds: Double = 0
     @State private var avgLastSampleDate: Date?
     @State private var avgSampleTimer: Timer?
+    
+    // MARK: - Just Ride stop
+    
+    @State private var isStopConfirmationPresented: Bool = false
 
     // MARK: - Layout
 
@@ -38,7 +42,7 @@ struct WorkoutPlayback: View {
     }
 
     private var sectionSpacing: CGFloat {
-        isCompactVertical ? Constants.l : (Constants.xxl + Constants.s)
+        isCompactVertical ? Constants.l : (Constants.xl)
     }
 
     private var innerSpacing: CGFloat {
@@ -50,7 +54,11 @@ struct WorkoutPlayback: View {
     }
 
     private var timerFontSize: CGFloat {
-        isCompactVertical ? 64 : 128
+        isCompactVertical ? 56 : 112
+    }
+    
+    private var isJustRide: Bool {
+        engine.workout?.id == JustRideWorkoutSource.workoutId
     }
 
     // MARK: - Body
@@ -82,6 +90,16 @@ struct WorkoutPlayback: View {
         }
         .onChange(of: engine.playbackState) { oldState, newState in
             handlePlaybackStateChange(oldState: oldState, newState: newState)
+        }
+        .confirmationDialog(
+            "End ride?",
+            isPresented: $isStopConfirmationPresented,
+            titleVisibility: .visible
+        ) {
+            Button("Stop", role: .destructive) {
+                stopRide()
+            }
+            Button("Cancel", role: .cancel) {}
         }
         .bluetoothStatus(using: bluetooth)
     }
@@ -121,34 +139,21 @@ struct WorkoutPlayback: View {
                 VStack(spacing: sectionSpacing) {
                     intervalContent
                     timer
-                    Spacer()
-                    ProgressView(value: engine.intervalProgress)
-                        .foregroundStyle(.primary)
-                        .padding(.bottom, Constants.s)
+                    progressBar
                 }
                 .padding(.top, sectionSpacing)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 
-                if engine.playbackState != .finished,
-                   let interval = engine.currentInterval,
-                   let targetZoneLabel = interval.powerTarget?.zones().zoneLabel {
-                    metrics(targetZoneLabel: targetZoneLabel)
+                if engine.playbackState != .finished { compactMetricsOverlay
                 }
             } else {
                 VStack(spacing: sectionSpacing) {
                     intervalContent
-                    if let interval = engine.currentInterval {
-                        if engine.playbackState != .finished,
-                           let targetZoneLabel = interval.powerTarget?.zones().zoneLabel {
-                            metrics(targetZoneLabel: targetZoneLabel)
-                        }
-                        Spacer()
+                    if engine.playbackState != .finished {
+                        workoutMetricsBlock
                     }
                     timer
-                    Spacer()
-                    ProgressView(value: engine.intervalProgress)
-                        .foregroundStyle(.primary)
-                        .padding(.bottom, Constants.s)
+                    progressBar
                 }
                 .padding(.top, sectionSpacing)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -157,6 +162,15 @@ struct WorkoutPlayback: View {
     }
 
     // MARK: - Subviews
+    
+    @ViewBuilder
+    private var progressBar: some View {
+        Spacer()
+        ProgressView(value: engine.intervalProgress)
+            .foregroundStyle(.primary)
+            .padding(.bottom, Constants.s)
+        Spacer()
+    }
 
     @ViewBuilder
     private var intervalContent: some View {
@@ -172,6 +186,8 @@ struct WorkoutPlayback: View {
                     .font(.title3)
                     .monospacedDigit()
             }
+        } else if isJustRide {
+            EmptyView()
         } else if let interval = engine.currentInterval {
             VStack(spacing: innerSpacing) {
                 Text(interval.name)
@@ -193,66 +209,52 @@ struct WorkoutPlayback: View {
     @ViewBuilder
     private var timer: some View {
         if engine.playbackState != .finished {
-            Text(formatTime(engine.remainingTimeInInterval))
+            Text(formatElapsedTime(isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
                 .font(.system(size: timerFontSize, weight: .bold))
                 // Compensate for system font descender space at large sizes
                 .padding(.bottom, isCompactVertical ? -Constants.xl : Constants.none)
                 .monospacedDigit()
                 .dynamicTypeSize(.large)
-                .animation(.easeInOut(duration: 0.2), value: engine.remainingTimeInInterval)
+                .animation(.easeInOut(duration: 0.2), value: isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
         }
     }
     
-    @ViewBuilder
-    private func metrics(targetZoneLabel: String) -> some View {
-        if isCompactVertical {
-            VStack(spacing: Constants.xs) {
-                MetricCard(
-                    name: Copy.metrics.targetZone,
-                    value: targetZoneLabel,
-                    fontSize: isCompactVertical ? 12 : 18,
-                    maxHeight: isCompactVertical ? 80 : 120,
-                    maxWidth: isCompactVertical ? 100 : 160
-                )
-                
-                MetricCard(
-                    name: Copy.metrics.currentZone,
-                    value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts),
-                    fontSize: isCompactVertical ? 12 : 18,
-                    maxHeight: isCompactVertical ? 80 : 120,
-                    maxWidth: isCompactVertical ? 100 : 160
-                )
-            }
-        } else {
-            HStack(spacing: Constants.m) {
-                MetricCard(
-                    name: Copy.metrics.targetZone,
-                    value: targetZoneLabel,
-                    fontSize: isCompactVertical ? 12 : 18,
-                    maxHeight: isCompactVertical ? 80 : 120,
-                    maxWidth: isCompactVertical ? 100 : 160
-                )
-                
-                MetricCard(
-                    name: Copy.metrics.currentZone,
-                    value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts),
-                    fontSize: isCompactVertical ? 12 : 18,
-                    maxHeight: isCompactVertical ? 80 : 120,
-                    maxWidth: isCompactVertical ? 100 : 160
-                )
-            }
+    private var workoutMetricsBlock: some View {
+        VStack(spacing: Constants.m) {
+            LiveMetricsGrid(
+                targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
+                zoneTitle: Copy.metrics.currentZone,
+                metrics: [.targetZone, .zone, .power, .cadence, .speed, .heartRate]
+            )
+        }
+        .padding(.horizontal, horizontalPadding)
+    }
+    
+    private var compactMetricsOverlay: some View {
+        VStack(spacing: Constants.xs) {
+            LiveMetricsGrid(
+                targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
+                zoneTitle: Copy.metrics.currentZone,
+                metrics: [.zone, .heartRate],
+                columnsPerRow: 1,
+                fontSize: 12,
+                maxHeight: 64,
+                maxWidth: 96
+            )
         }
     }
     
     @ToolbarContentBuilder
     private var controls: some ToolbarContent {
         if engine.workout != nil {
-            ToolbarItem(placement: .bottomBar) {
-                Control(
-                    controlType: .skip,
-                    action: engine.skipInterval,
-                    isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
-                )
+            if !isJustRide {
+                ToolbarItem(placement: .bottomBar) {
+                    Control(
+                        controlType: .skip,
+                        action: engine.skipInterval,
+                        isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
+                    )
+                }
             }
             
             if engine.playbackState == .running {
@@ -273,6 +275,16 @@ struct WorkoutPlayback: View {
                 }
             }
             
+            if isJustRide {
+                ToolbarItem(placement: .bottomBar) {
+                    Control(
+                        controlType: .stop,
+                        action: { isStopConfirmationPresented = true },
+                        isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
+                    )
+                }
+            }
+            
             ToolbarItem(placement: .bottomBar) {
                 Control(
                     controlType: .restart,
@@ -285,10 +297,17 @@ struct WorkoutPlayback: View {
 
     // MARK: - Helpers
 
-    private func formatTime(_ time: TimeInterval) -> String {
-        let minutes = Int(time) / 60
-        let seconds = Int(time) % 60
-        return String(format: Copy.format.timeMinutesSeconds, minutes, seconds)
+    private func formatElapsedTime(_ time: TimeInterval) -> String {
+        let t = max(0, Int(time.rounded(.down)))
+        let hours = t / 3600
+        let minutes = (t % 3600) / 60
+        let seconds = t % 60
+        
+        if hours > 0 {
+            return String(format: "%d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            return String(format: Copy.format.timeMinutesSeconds, minutes, seconds)
+        }
     }
     
     private var averagePowerLabel: String {
@@ -360,6 +379,10 @@ struct WorkoutPlayback: View {
         engine.restart()
         resetAveragePower()
     }
+    
+    private func stopRide() {
+        engine.finishNow()
+    }
 }
 
 // MARK: - Preview
@@ -370,6 +393,10 @@ struct WorkoutPlayback: View {
 
 #Preview("Landscape", traits: .landscapeLeft) {
     WorkoutPlaybackPreviewHost()
+}
+
+#Preview("Just Ride", traits: .portrait) {
+    WorkoutPlaybackJustRidePreviewHost()
 }
 
 private struct WorkoutPlaybackPreviewHost: View {
@@ -392,6 +419,26 @@ private struct WorkoutPlaybackPreviewHost: View {
     var body: some View {
         NavigationStack {
             WorkoutPlayback(workoutSource: workoutSource)
+        }
+        .modelContainer(container)
+        .environmentObject(bluetooth)
+    }
+}
+
+private struct WorkoutPlaybackJustRidePreviewHost: View {
+    @StateObject private var bluetooth = BluetoothManager()
+
+    private let container: ModelContainer = {
+        let c = try! ModelContainer(for: UserSettings.self)
+        let context = c.mainContext
+        context.insert(UserSettings(id: "me", ftpWatts: 250))
+        try? context.save()
+        return c
+    }()
+
+    var body: some View {
+        NavigationStack {
+            WorkoutPlayback(workoutSource: JustRideWorkoutSource())
         }
         .modelContainer(container)
         .environmentObject(bluetooth)

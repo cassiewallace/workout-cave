@@ -14,6 +14,7 @@ enum ControlType {
     case pause
     case skip
     case restart
+    case stop
 }
 
 struct Control: View {
@@ -31,6 +32,7 @@ struct Control: View {
         case .pause: Image(systemName: "pause.fill")
         case .skip: Image(systemName: "forward")
         case .restart: Image(systemName: "arrow.counterclockwise")
+        case .stop: Image(systemName: "stop.fill")
         }
     }
     
@@ -58,5 +60,6 @@ struct Control: View {
         Control(controlType: .play, action: {}, isDisabled: false)
         Control(controlType: .restart, action: {}, isDisabled: false)
         Control(controlType: .skip, action: {}, isDisabled: false)
+        Control(controlType: .stop, action: {}, isDisabled: false)
     }
 }

@@ -138,6 +138,10 @@ class WorkoutEngine: ObservableObject {
         stopTimer()
         reset()
     }
+
+    func finishNow() {
+        finishWorkout()
+    }
     
     func updateForForeground() {
         guard playbackState == .running,

@@ -67,8 +67,6 @@ extension Workout {
             func zones(using zones: [PowerZone] = PowerZone.allCases) -> [PowerZone] {
                 guard let lowerBound, let upperBound else { return [] }
 
-                // Some sources can provide reversed bounds. Avoid crashing on
-                // `ClosedRange` construction by normalizing first.
                 let lo = min(lowerBound, upperBound)
                 let hi = max(lowerBound, upperBound)
                 let targetRange = lo ... hi

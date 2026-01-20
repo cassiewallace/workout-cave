@@ -18,8 +18,7 @@ struct WorkoutList: View {
     var body: some View {
         List {
             NavigationLink {
-                Metrics()
-                    .toolbar(.hidden, for: .tabBar)
+                WorkoutPlayback(workoutSource: JustRideWorkoutSource())
             } label: {
                 WorkoutCard(
                     name: Copy.navigationTitle.justRide,
