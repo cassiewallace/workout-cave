@@ -189,9 +189,9 @@
 		A1000027 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				653F6FB62F142447006DE91E /* WorkoutCard.swift */,
 				65DAFA6E2F1F067600C8F940 /* Controls.swift */,
 				65FBC7E32EF49B320047A9FC /* Control.swift */,
+				653F6FB62F142447006DE91E /* WorkoutCard.swift */,
 				65FBC7DF2EF471170047A9FC /* WorkoutList.swift */,
 				A1000004 /* WorkoutPlayback.swift */,
 			);

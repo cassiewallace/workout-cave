@@ -11,6 +11,8 @@ struct WorkoutCard: View {
     var name: String
     var description: String
     
+    private let cornerRadius: CGFloat = Constants.s
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(name)
@@ -22,9 +24,9 @@ struct WorkoutCard: View {
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.quinary.opacity(0.8))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         .overlay(
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: cornerRadius)
                 .stroke(Color.primary, lineWidth: 1)
         )
     }

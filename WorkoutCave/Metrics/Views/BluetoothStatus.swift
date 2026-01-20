@@ -10,10 +10,12 @@ import SwiftUI
 private struct BluetoothStatusIndicator: View {
     @ObservedObject var bluetooth: BluetoothManager
     
+    private let iconSize: CGFloat = Constants.xl
+    
     var body: some View {
         statusIcon
             .resizable()
-            .frame(width: 24, height: 24)
+            .frame(width: iconSize, height: iconSize)
             .foregroundColor(statusIconTint)
             .accessibilityHint(statusText)
             .onTapGesture {
