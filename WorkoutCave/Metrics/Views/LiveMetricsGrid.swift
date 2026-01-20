@@ -172,19 +172,28 @@ private struct LiveMetricsGridPreviewHost: View {
     }()
     
     var body: some View {
-        NavigationStack {
+        TabView {
             LiveMetricsGrid(
                 targetZoneLabel: "Z2–Z3",
                 zoneTitle: Copy.metrics.currentZone,
                 metrics: [.targetZone, .zone, .power, .cadence, .speed, .heartRate]
             )
-                .padding()
-                .navigationTitle(Copy.navigationTitle.justRide)
-                .navigationBarTitleDisplayMode(.inline)
-                .bluetoothStatus(using: bluetooth)
+            .padding()
+            
+            LiveMetricsGrid(
+                targetZoneLabel: "Z1",
+                zoneTitle: Copy.metrics.currentZone,
+                metrics: [.zone, .heartRate],
+                columnsPerRow: 1,
+                fontSize: 12,
+                maxHeight: 64,
+                maxWidth: 96
+            )
         }
         .modelContainer(container)
         .environmentObject(bluetooth)
+        .tabViewStyle(.page(indexDisplayMode: .automatic))
+        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
     }
 }
 

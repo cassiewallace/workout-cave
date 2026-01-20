@@ -224,17 +224,15 @@ struct WorkoutPlayback: View {
     }
     
     private var compactMetricsOverlay: some View {
-        VStack(spacing: Constants.xs) {
-            LiveMetricsGrid(
-                targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
-                zoneTitle: Copy.metrics.currentZone,
-                metrics: [.zone, .heartRate],
-                columnsPerRow: 1,
-                fontSize: 12,
-                maxHeight: 64,
-                maxWidth: 96
-            )
-        }
+        LiveMetricsGrid(
+            targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
+            zoneTitle: Copy.metrics.currentZone,
+            metrics: [.zone, .heartRate],
+            columnsPerRow: 1,
+            fontSize: 12,
+            maxHeight: 64,
+            maxWidth: 96
+        )
     }
 
     // MARK: - Helpers
