@@ -13,14 +13,18 @@ private struct StyledCard: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
             content
-                .glassEffect(.regular.interactive(), in: .rect(cornerRadius: cornerRadius))
+                .background(.white, in: RoundedRectangle(cornerRadius: cornerRadius))
+                .glassEffect(
+                    .regular.tint(.white).interactive(),
+                    in: .rect(cornerRadius: cornerRadius)
+                )
         } else {
             content
-                .background(.quaternary)
+                .background(.white)
                 .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .stroke(Color.primary, lineWidth: 1)
+                        .stroke(.white, lineWidth: 0.5)
                 )
         }
     }
