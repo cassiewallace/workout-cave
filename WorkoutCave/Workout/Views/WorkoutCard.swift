@@ -11,28 +11,22 @@ struct WorkoutCard: View {
     var name: String
     var description: String
     
-    private let cornerRadius: CGFloat = Constants.s
-    
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: Constants.xs) {
             Text(name)
-                .font(.headline)
+                .font(.title2)
+                .bold()
                 .foregroundColor(.primary)
             Text(description)
-                .foregroundColor(.primary)
+                .foregroundColor(.secondary)
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.quinary.opacity(0.8))
-        .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-        .overlay(
-            RoundedRectangle(cornerRadius: cornerRadius)
-                .stroke(Color.primary, lineWidth: 1)
-        )
+        .styledCard()
     }
 }
 
 #Preview {
-    WorkoutCard(name: "Monday Interval Workout", description: "A 30-minute workout with high-intensity intervals.")
+    WorkoutCard(name: "40:20s Interval Workout", description: "A 30-minute workout with high-intensity intervals.")
         .padding()
 }

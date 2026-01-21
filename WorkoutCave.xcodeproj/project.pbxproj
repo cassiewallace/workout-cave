@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		652071322F217B1A00EDFBA1 /* CardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652071312F217B1700EDFBA1 /* CardStyle.swift */; };
 		653F6F982F11AED4006DE91E /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F972F11AED0006DE91E /* BluetoothManager.swift */; };
 		653F6F9C2F11B7A6006DE91E /* MetricCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F9B2F11B7A4006DE91E /* MetricCard.swift */; };
 		653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		652071312F217B1700EDFBA1 /* CardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStyle.swift; sourceTree = "<group>"; };
 		653F6F972F11AED0006DE91E /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		653F6F9B2F11B7A4006DE91E /* MetricCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCard.swift; sourceTree = "<group>"; };
 		653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeMetrics.swift; sourceTree = "<group>"; };
@@ -107,6 +109,14 @@
 				65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		652071302F217B0700EDFBA1 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				652071312F217B1700EDFBA1 /* CardStyle.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		653F6F962F11AECA006DE91E /* Managers */ = {
@@ -198,6 +208,7 @@
 				6520712C2F20415B00EDFBA1 /* Bluetooth */,
 				653F6FA42F11CE57006DE91E /* Metrics */,
 				653F6FA72F11D094006DE91E /* Settings */,
+				652071302F217B0700EDFBA1 /* Core */,
 				658197252F16CE8F0004C85A /* Resources */,
 				A1000013 /* Info.plist */,
 				65F559FF2EFAF391007AD1D9 /* README.md */,
@@ -363,6 +374,7 @@
 				653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */,
 				65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */,
 				653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */,
+				652071322F217B1A00EDFBA1 /* CardStyle.swift in Sources */,
 				65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */,
 				A1000009 /* Workout.swift in Sources */,
 			);

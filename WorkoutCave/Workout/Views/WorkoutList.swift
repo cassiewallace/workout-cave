@@ -28,6 +28,7 @@ struct WorkoutList: View {
             }
             .listRowInsets(.init(top: Constants.xs, leading: Constants.l, bottom: Constants.xs, trailing: Constants.l))
             .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
         }
         .navigationDestination(item: $selectedWorkout) { workout in
             WorkoutPlayback(workoutSource: workout.source)
