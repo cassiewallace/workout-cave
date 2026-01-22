@@ -96,6 +96,7 @@ struct WorkoutPlayback: View {
                     onRestart: engine.restart
                 )
             }
+            .bluetoothStatus(using: bluetooth)
             .alert(isPresented: $isStopConfirmationPresented) {
                 Alert(
                     title: Text(Copy.workoutPlayback.stopRideDialogTitle),
@@ -121,7 +122,6 @@ struct WorkoutPlayback: View {
         .onChange(of: engine.playbackState) { oldState, newState in
             _ = (oldState, newState)
         }
-        .bluetoothStatus(using: bluetooth)
     }
 
     // MARK: - States

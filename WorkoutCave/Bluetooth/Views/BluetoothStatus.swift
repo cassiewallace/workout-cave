@@ -68,7 +68,9 @@ private struct BluetoothStatus: ViewModifier {
     func body(content: Content) -> some View {
         content
             .toolbar {
-                BluetoothStatusIndicator(bluetooth: bluetooth)
+                ToolbarItem(placement: .topBarTrailing) {
+                    BluetoothStatusIndicator(bluetooth: bluetooth)
+                }
             }
     }
 }
