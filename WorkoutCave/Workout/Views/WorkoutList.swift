@@ -37,7 +37,7 @@ struct WorkoutList: View {
         .navigationLinkIndicatorVisibility(.hidden)
         .navigationTitle(Copy.navigationTitle.workouts)
         .navigationBarTitleDisplayMode(.large)
-        .background(Color.mint.opacity(0.3))
+        .background(Color.orange.opacity(0.3))
         .task {
             workouts = items.compactMap { item in
                 guard let workout = try? item.source.loadWorkout() else {
