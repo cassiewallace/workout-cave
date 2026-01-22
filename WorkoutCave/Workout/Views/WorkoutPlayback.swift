@@ -28,6 +28,13 @@ struct WorkoutPlayback: View {
     // MARK: - Just Ride stop
     
     @State private var isStopConfirmationPresented: Bool = false
+    @State private var stopConfirmationSource: StopConfirmationSource = .stop
+    @State private var shouldResumeAfterCancel: Bool = false
+
+    private enum StopConfirmationSource {
+        case close
+        case stop
+    }
 
     // MARK: - Layout
     
@@ -73,7 +80,11 @@ struct WorkoutPlayback: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        dismiss()
+                        if engine.playbackState == .finished {
+                            dismiss()
+                        } else {
+                            presentStopPrompt(source: .close, pauseIfRunning: false)
+                        }
                     } label: {
                         Image(systemName: "xmark")
                     }
@@ -81,11 +92,21 @@ struct WorkoutPlayback: View {
                 }
                 Controls(
                     engine: engine,
-                    isJustRide: engine.isJustRide,
-                    isStopConfirmationPresented: $isStopConfirmationPresented,
-                    onStopConfirmed: stopRide,
-                    onRestart: restart
+                    isStopConfirmationPresented: stopConfirmationBindingForControls,
+                    onRestart: engine.restart
                 )
+            }
+            .alert(isPresented: $isStopConfirmationPresented) {
+                Alert(
+                    title: Text(Copy.workoutPlayback.stopRideDialogTitle),
+                    primaryButton: .destructive(
+                        Text(Copy.workoutPlayback.stopRideDialogStop),
+                        action: handleStopConfirmation
+                    ),
+                    secondaryButton: .cancel(
+                        Text(Copy.workoutPlayback.stopRideDialogCancel),
+                        action: handleStopCancel
+                    ))
             }
         }
         .task {
@@ -135,9 +156,7 @@ struct WorkoutPlayback: View {
     private func playbackContent(workout: Workout) -> some View {
         ZStack(alignment: .topLeading) {
             VStack(spacing: sectionSpacing) {
-                if !engine.isJustRide {
-                    intervalContent
-                }
+                intervalContent
                 
                 if !isCompactVertical, engine.playbackState != .finished {
                     workoutMetricsBlock
@@ -263,13 +282,49 @@ struct WorkoutPlayback: View {
         guard let avg = engine.averagePowerWatts else { return Copy.placeholder.missingValue }
         return "\(avg) W"
     }
-    
-    private func restart() {
-        engine.restart()
+
+    private var stopConfirmationBindingForControls: Binding<Bool> {
+        Binding(
+            get: { isStopConfirmationPresented },
+            set: { newValue in
+                if newValue {
+                    presentStopPrompt(source: .stop, pauseIfRunning: true)
+                }
+                isStopConfirmationPresented = newValue
+            }
+        )
     }
-    
-    private func stopRide() {
-        engine.finishNow()
+
+    private func handleStopConfirmation() {
+        dismissStopConfirmation()
+        engine.finish()
+        if stopConfirmationSource == .close {
+            dismiss()
+        }
+        shouldResumeAfterCancel = false
+    }
+
+    private func dismissStopConfirmation() {
+        isStopConfirmationPresented = false
+    }
+
+    private func handleStopCancel() {
+        dismissStopConfirmation()
+        if stopConfirmationSource == .stop, shouldResumeAfterCancel {
+            engine.start()
+        }
+        shouldResumeAfterCancel = false
+    }
+
+    private func presentStopPrompt(source: StopConfirmationSource, pauseIfRunning: Bool) {
+        stopConfirmationSource = source
+        if pauseIfRunning, engine.playbackState == .running {
+            shouldResumeAfterCancel = true
+            engine.pause()
+        } else {
+            shouldResumeAfterCancel = false
+        }
+        isStopConfirmationPresented = true
     }
 }
 

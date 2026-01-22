@@ -150,8 +150,7 @@ class WorkoutEngine: ObservableObject {
                 startTimer()
             }
         } else {
-            // Last interval, finish workout
-            finishWorkout()
+            finish()
         }
     }
     
@@ -160,9 +159,12 @@ class WorkoutEngine: ObservableObject {
         stopAverageTimer()
         reset()
     }
-
-    func finishNow() {
-        finishWorkout()
+    
+    func finish() {
+        stopTimer()
+        stopAverageTimer()
+        playbackState = .finished
+        intervalStartTime = nil
     }
     
     func updateForForeground() {
@@ -236,15 +238,8 @@ class WorkoutEngine: ObservableObject {
             pausedElapsedTime = 0
             intervalStartTime = Date()
         } else {
-            finishWorkout()
+            finish()
         }
-    }
-    
-    private func finishWorkout() {
-        stopTimer()
-        stopAverageTimer()
-        playbackState = .finished
-        intervalStartTime = nil
     }
     
     private func startAverageTimer(reset: Bool) {

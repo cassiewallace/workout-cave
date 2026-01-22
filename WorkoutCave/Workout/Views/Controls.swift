@@ -9,20 +9,28 @@ import SwiftUI
 
 struct Controls: ToolbarContent {
     @ObservedObject var engine: WorkoutEngine
-    var isJustRide: Bool
     @Binding var isStopConfirmationPresented: Bool
-    var onStopConfirmed: () -> Void
     var onRestart: () -> Void
     
     @ToolbarContentBuilder
     var body: some ToolbarContent {
-        if engine.workout != nil {
-            if !isJustRide {
+        if let workout = engine.workout {
+            if !workout.isJustRide {
                 ToolbarItem(placement: .bottomBar) {
                     Control(
                         controlType: .skip,
                         action: engine.skipInterval,
                         isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
+                    )
+                }
+            }
+            
+            if engine.playbackState == .running || engine.playbackState == .paused {
+                ToolbarItem(placement: .bottomBar) {
+                    Control(
+                        controlType: .stop,
+                        action: { isStopConfirmationPresented = true },
+                        isDisabled: false
                     )
                 }
             }
@@ -42,26 +50,6 @@ struct Controls: ToolbarContent {
                         action: engine.start,
                         isDisabled: engine.playbackState == .finished
                     )
-                }
-            }
-            
-            if isJustRide {
-                ToolbarItem(placement: .bottomBar) {
-                    Control(
-                        controlType: .stop,
-                        action: { isStopConfirmationPresented = true },
-                        isDisabled: engine.playbackState == .idle || engine.playbackState == .finished
-                    )
-                    .confirmationDialog(
-                        Copy.workoutPlayback.stopRideDialogTitle,
-                        isPresented: $isStopConfirmationPresented,
-                        titleVisibility: .visible
-                    ) {
-                        Button(Copy.workoutPlayback.stopRideDialogStop, role: .destructive) {
-                            onStopConfirmed()
-                        }
-                        Button(Copy.workoutPlayback.stopRideDialogCancel, role: .cancel) {}
-                    }
                 }
             }
             

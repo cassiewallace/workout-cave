@@ -53,8 +53,8 @@ enum Copy {
         static let loadingWorkout = "Loading workout…"
         static let errorLoadingWorkout = "Error loading workout"
         static let workoutComplete = "Workout Complete"
-        static let stopRideDialogTitle = "End ride?"
-        static let stopRideDialogStop = "Stop"
+        static let stopRideDialogTitle = "Are you sure you want to end this ride?"
+        static let stopRideDialogStop = "End ride"
         static let stopRideDialogCancel = "Cancel"
     }
 
