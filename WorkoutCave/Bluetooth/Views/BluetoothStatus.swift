@@ -78,3 +78,31 @@ extension View {
         modifier(BluetoothStatus(bluetooth: bluetooth))
     }
 }
+
+#Preview {
+    var bluetooth: BluetoothManager {
+        let bluetooth = BluetoothManager()
+        return bluetooth
+    }
+    
+    var bluetoothConnected: BluetoothManager {
+        let bluetooth = BluetoothManager()
+        bluetooth.state = .connected
+        return bluetooth
+    }
+    
+    var bluetoothUnauthorized: BluetoothManager {
+        let bluetooth = BluetoothManager()
+        bluetooth.state = .unauthorized
+        return bluetooth
+    }
+    
+    NavigationStack {
+        Text("")
+            .toolbar {
+                BluetoothStatusIndicator(bluetooth: bluetooth)
+                BluetoothStatusIndicator(bluetooth: bluetoothConnected)
+                BluetoothStatusIndicator(bluetooth: bluetoothUnauthorized)
+            }
+    }
+}
