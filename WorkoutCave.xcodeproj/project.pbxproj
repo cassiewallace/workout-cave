@@ -29,6 +29,7 @@
 		65DAFA832F20AAAB00C8F940 /* JustRideWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA822F20AAAB00C8F940 /* JustRideWorkoutSource.swift */; };
 		65DAFA852F20ABF100C8F940 /* LoadedWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */; };
 		65DE043A2F21AB48007F7071 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65DE04392F21AB48007F7071 /* Launch Screen.storyboard */; };
+		65DE043E2F22D488007F7071 /* BluetoothDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DE043D2F22D47B007F7071 /* BluetoothDialog.swift */; };
 		65F559F32EF5CD66007AD1D9 /* steady-state-base.json in Resources */ = {isa = PBXBuildFile; fileRef = 65F559F22EF5CD62007AD1D9 /* steady-state-base.json */; };
 		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
 		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
@@ -68,6 +69,7 @@
 		65DAFA822F20AAAB00C8F940 /* JustRideWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustRideWorkoutSource.swift; sourceTree = "<group>"; };
 		65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadedWorkout.swift; sourceTree = "<group>"; };
 		65DE04392F21AB48007F7071 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		65DE043D2F22D47B007F7071 /* BluetoothDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDialog.swift; sourceTree = "<group>"; };
 		65F559F22EF5CD62007AD1D9 /* steady-state-base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "steady-state-base.json"; sourceTree = "<group>"; };
 		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
 		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 		6520712D2F20416800EDFBA1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				65DE043D2F22D47B007F7071 /* BluetoothDialog.swift */,
 				65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */,
 			);
 			path = Views;
@@ -356,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				653F6FA32F11C3ED006DE91E /* FTMSIndoorBikeParser.swift in Sources */,
+				65DE043E2F22D488007F7071 /* BluetoothDialog.swift in Sources */,
 				65DAFA732F1FCAFE00C8F940 /* Constants.swift in Sources */,
 				65DAFA752F1FD3B100C8F940 /* Copy.swift in Sources */,
 				65DAFA812F20AAAA00C8F940 /* LiveMetricsGrid.swift in Sources */,

@@ -17,6 +17,12 @@ enum ConnectionState {
     case poweredOff
 }
 
+struct DiscoveredPeripheral: Identifiable, Equatable {
+    let id: UUID
+    let name: String
+    let rssi: Int
+}
+
 /// Bluetooth UUIDs used by the Fitness Machine Service (FTMS).
 ///
 /// FTMS is a Bluetooth SIG–defined standard for gym equipment
@@ -56,11 +62,13 @@ enum FTMSUUID {
 final class BluetoothManager: NSObject, ObservableObject {
     @Published var state: ConnectionState = .idle
     @Published var metrics: BikeMetrics = BikeMetrics()
+    @Published var discoveredPeripherals: [DiscoveredPeripheral] = []
     
     private let parser = FTMSIndoorBikeParser()
 
     private var central: CBCentralManager!
     private var peripheral: CBPeripheral?
+    private var discoveredMap: [UUID: CBPeripheral] = [:]
 
     override init() {
         super.init()
@@ -76,7 +84,35 @@ final class BluetoothManager: NSObject, ObservableObject {
     }
 
     private func startScanningOrReconnect() {
+        discoveredPeripherals.removeAll()
+        discoveredMap.removeAll()
+        state = .scanning
         central?.scanForPeripherals(withServices: [FTMSUUID.service], options: nil)
+    }
+
+    func connect(to peripheralID: UUID) {
+        guard let peripheral = discoveredMap[peripheralID] else { return }
+        self.peripheral = peripheral
+        state = .connecting
+        central.stopScan()
+        peripheral.delegate = self
+        central.connect(peripheral)
+    }
+
+    private func upsertDiscovered(peripheral: CBPeripheral, rssi: NSNumber) {
+        let name = peripheral.name ?? Copy.bluetooth.unknownDevice
+        let entry = DiscoveredPeripheral(
+            id: peripheral.identifier,
+            name: name,
+            rssi: rssi.intValue
+        )
+        if let index = discoveredPeripherals.firstIndex(where: { $0.id == entry.id }) {
+            discoveredPeripherals[index] = entry
+        } else {
+            discoveredPeripherals.append(entry)
+        }
+        discoveredPeripherals.sort { $0.rssi > $1.rssi }
+        discoveredMap[entry.id] = peripheral
     }
 }
 
@@ -84,9 +120,16 @@ final class BluetoothManager: NSObject, ObservableObject {
 
 extension BluetoothManager: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if central.state == .poweredOn {
+        switch central.state {
+        case .poweredOn:
             state = .scanning
             central.scanForPeripherals(withServices: [FTMSUUID.service], options: nil)
+        case .unauthorized:
+            state = .unauthorized
+        case .poweredOff:
+            state = .poweredOff
+        default:
+            state = .idle
         }
     }
 
@@ -94,12 +137,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
                         didDiscover peripheral: CBPeripheral,
                         advertisementData: [String : Any],
                         rssi RSSI: NSNumber) {
-        self.peripheral = peripheral
-        state = .connecting
-
-        central.stopScan()
-        peripheral.delegate = self
-        central.connect(peripheral)
+        upsertDiscovered(peripheral: peripheral, rssi: RSSI)
     }
 
     func centralManager(_ central: CBCentralManager,

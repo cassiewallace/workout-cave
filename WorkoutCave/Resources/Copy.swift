@@ -59,6 +59,12 @@ enum Copy {
     }
 
     enum bluetooth {
+        static let unknownDevice = "Unknown Bike"
+        static let dialogTitle = "Connect to your bike"
+        static let dialogSearching = "Searching for nearby bikes..."
+        static let dialogUnauthorized = "Bluetooth permission denied. Enable Bluetooth in Settings."
+        static let dialogPoweredOff = "Bluetooth is off. Turn it on to find your bike."
+
         enum statusText {
             static let idle = "Idle"
             static let scanning = "Searching for bike"
