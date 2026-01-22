@@ -30,7 +30,7 @@ struct WorkoutList: View {
             .listRowSeparator(.hidden)
             .listRowBackground(Color.clear)
         }
-        .navigationDestination(item: $selectedWorkout) { workout in
+        .fullScreenCover(item: $selectedWorkout) { workout in
             WorkoutPlayback(workoutSource: workout.source)
         }
         .listStyle(.plain)

@@ -80,6 +80,10 @@ enum Copy {
         }
     }
 
+    enum accessibility {
+        static let close = "Close"
+    }
+
     enum powerZone {
         static let setFTP = "Set FTP"
 

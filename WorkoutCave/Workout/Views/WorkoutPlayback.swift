@@ -13,6 +13,7 @@ struct WorkoutPlayback: View {
 
     @StateObject private var engine = WorkoutEngine()
     @EnvironmentObject private var bluetooth: BluetoothManager
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     
@@ -56,26 +57,36 @@ struct WorkoutPlayback: View {
     // MARK: - Body
 
     var body: some View {
-        Group {
-            if let workout = engine.workout {
-                playbackContent(workout: workout)
-            } else if let error = engine.errorMessage {
-                errorView(error: error)
-            } else {
-                loadingView
+        NavigationStack {
+            Group {
+                if let workout = engine.workout {
+                    playbackContent(workout: workout)
+                } else if let error = engine.errorMessage {
+                    errorView(error: error)
+                } else {
+                    loadingView
+                }
             }
-        }
-        .navigationTitle(engine.workout?.name ?? Copy.placeholder.empty)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(.hidden, for: .tabBar)
-        .toolbar {
-            Controls(
-                engine: engine,
-                isJustRide: engine.isJustRide,
-                isStopConfirmationPresented: $isStopConfirmationPresented,
-                onStopConfirmed: stopRide,
-                onRestart: restart
-            )
+            .navigationTitle(engine.workout?.name ?? Copy.placeholder.empty)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .tabBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .accessibilityLabel(Copy.accessibility.close)
+                }
+                Controls(
+                    engine: engine,
+                    isJustRide: engine.isJustRide,
+                    isStopConfirmationPresented: $isStopConfirmationPresented,
+                    onStopConfirmed: stopRide,
+                    onRestart: restart
+                )
+            }
         }
         .task {
             engine.load(source: workoutSource)
