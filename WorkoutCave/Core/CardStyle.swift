@@ -8,19 +8,20 @@
 import SwiftUI
 
 private struct StyledCard: ViewModifier {
-    private let cornerRadius: CGFloat = Constants.s
+    private let cornerRadius: CGFloat = Constants.m
+    private let backgroundColor: Color = .white.opacity(0.90)
     
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
             content
-                .background(.white, in: RoundedRectangle(cornerRadius: cornerRadius))
+                .background(backgroundColor, in: RoundedRectangle(cornerRadius: cornerRadius))
                 .glassEffect(
                     .regular.tint(.white).interactive(),
                     in: .rect(cornerRadius: cornerRadius)
                 )
         } else {
             content
-                .background(.white)
+                .background(backgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius)
