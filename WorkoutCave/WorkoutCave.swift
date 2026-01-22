@@ -25,7 +25,7 @@ private struct RootView: View {
 
     var body: some View {
         Group {
-            if let settings = settingsRows.first {
+            if settingsRows.first != nil {
                 TabView {
                     NavigationStack {
                         WorkoutList()
