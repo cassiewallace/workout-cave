@@ -50,5 +50,6 @@ private struct RootView: View {
                     }
             }
         }
+        .background(Color.orange.opacity(0.3))
     }
 }
