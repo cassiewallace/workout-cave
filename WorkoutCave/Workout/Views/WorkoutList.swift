@@ -7,18 +7,34 @@
 
 import SwiftUI
 
+private enum SortOrder: String, CaseIterable {
+    case recommended
+    case name
+}
+
 struct WorkoutList: View {
     // MARK: - Properties
 
     private let items = WorkoutCatalog.all()
     @State private var workouts: [LoadedWorkout] = []
     @State private var selectedWorkout: LoadedWorkout? = nil
+    @State private var sortOrder: SortOrder = .recommended
+    
+    private var filteredWorkouts: [LoadedWorkout] {
+        workouts.sorted {
+            switch sortOrder {
+            case .recommended: return false
+            case .name: return $0.workout.name.localizedStandardCompare($1.workout.name) == .orderedAscending
+            }
+        }
+    }
+
 
     // MARK: - Body
 
     var body: some View {
         List {
-            ForEach(workouts) { workout in
+            ForEach(filteredWorkouts) { workout in
                 Button {
                     selectedWorkout = workout
                 } label: {
@@ -46,9 +62,22 @@ struct WorkoutList: View {
                 return LoadedWorkout(id: item.id, workout: workout, source: item.source)
             }
         }
+        .toolbar {
+            Menu {
+                Picker("Sort", selection: $sortOrder) {
+                    ForEach(SortOrder.allCases, id: \.self) { sortOrder in
+                        Text(sortOrder.rawValue.capitalized).tag(sortOrder)
+                    }
+                }
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease")
+            }
+        }
     }
 }
 
 #Preview("Workout List", traits: .portrait) {
-    WorkoutList()
+    NavigationStack {
+        WorkoutList()
+    }
 }
