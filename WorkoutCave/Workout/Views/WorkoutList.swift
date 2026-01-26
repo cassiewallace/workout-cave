@@ -19,9 +19,12 @@ struct WorkoutList: View {
     @State private var workouts: [LoadedWorkout] = []
     @State private var selectedWorkout: LoadedWorkout? = nil
     @State private var sortOrder: SortOrder = .recommended
+    @State private var searchText: String = ""
     
     private var filteredWorkouts: [LoadedWorkout] {
-        workouts.sorted {
+        workouts
+            .filter { searchText.isEmpty || $0.workout.name.localizedStandardContains(searchText) }
+            .sorted {
             switch sortOrder {
             case .recommended: return false
             case .name: return $0.workout.name.localizedStandardCompare($1.workout.name) == .orderedAscending
@@ -73,6 +76,7 @@ struct WorkoutList: View {
                 Image(systemName: "line.3.horizontal.decrease")
             }
         }
+        .searchable(text: $searchText)
     }
 }
 
