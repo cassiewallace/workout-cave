@@ -5,6 +5,7 @@
 //  Created by Cassie Wallace on 1/9/26.
 //
 
+import Foundation
 import SwiftData
 import SwiftUI
 
@@ -27,6 +28,12 @@ struct Settings: View {
                 ftpSection
                 powerZones
             }
+            Section {
+                Text("v\(Bundle.main.appVersion)")
+                    .font(.caption)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .listRowBackground(Color.clear)
         }
         .scrollContentBackground(.hidden)
         .background(Color.brown.opacity(0.3))
@@ -164,6 +171,13 @@ private struct SettingsPreviewHost: View {
     }
 }
 
+extension Bundle {
+    var appVersion: String {
+        return infoDictionary?["CFBundleShortVersionString"] as? String ?? "N/A"
+    }
+}
+
 #Preview {
     SettingsPreviewHost()
 }
+
