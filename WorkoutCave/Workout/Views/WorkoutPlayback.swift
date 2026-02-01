@@ -138,7 +138,7 @@ struct WorkoutPlayback: View {
         VStack(spacing: Constants.l + Constants.xxs) {
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 48))
-                .foregroundColor(.orange)
+                .foregroundColor(.brown)
 
             Text(Copy.workoutPlayback.errorLoadingWorkout)
                 .font(.headline)

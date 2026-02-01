@@ -29,7 +29,7 @@ struct Settings: View {
             }
         }
         .scrollContentBackground(.hidden)
-        .background(Color.orange.opacity(0.3))
+        .background(Color.brown.opacity(0.3))
         .scrollDismissesKeyboard(.interactively)
         .navigationTitle(Copy.navigationTitle.settings)
         .navigationBarTitleDisplayMode(.large)
