@@ -43,6 +43,10 @@ enum Copy {
         static let gridZone = "Zone"
         static let gridName = "Name"
         static let gridTarget = "Target"
+        static let devicesSection = "Devices"
+        static let ftpSection = "Functional Threshold Power (FTP)"
+        static let connectBike = "Connect to a bike"
+        static let bluetoothDialogPlaceholder = "Display bluetooth dialog"
     }
 
     enum workoutList {

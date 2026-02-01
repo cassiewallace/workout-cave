@@ -40,7 +40,6 @@ private struct RootView: View {
                         Label(Copy.tabBar.settings, systemImage: "person")
                     }
                 }
-                .tint(.primary)
                 .environmentObject(bluetooth)
             } else {
                 ProgressView()
@@ -50,6 +49,5 @@ private struct RootView: View {
                     }
             }
         }
-        .background(Color.orange.opacity(0.3))
     }
 }

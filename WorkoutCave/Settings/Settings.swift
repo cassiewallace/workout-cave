@@ -9,6 +9,8 @@ import SwiftData
 import SwiftUI
 
 struct Settings: View {
+    @EnvironmentObject private var bluetooth: BluetoothManager
+    
     @Environment(\.modelContext) private var modelContext
     @Query(filter: #Predicate<UserSettings> { $0.id == "me" })
     private var settings: [UserSettings]
@@ -17,27 +19,47 @@ struct Settings: View {
     @State private var ftpText: String = Copy.placeholder.empty
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: Constants.xl) {
+        List {
+            Section(Copy.settings.devicesSection) {
+                bluetoothSection
+            }
+            Section(Copy.settings.ftpSection) {
                 ftpSection
                 powerZones
             }
-            .padding()
         }
+        .scrollContentBackground(.hidden)
+        .background(Color.orange.opacity(0.3))
         .scrollDismissesKeyboard(.interactively)
         .navigationTitle(Copy.navigationTitle.settings)
         .navigationBarTitleDisplayMode(.large)
+        .listStyle(.insetGrouped)
         .onAppear {
             if ftpText.isEmpty, let ftp = userSettings?.ftpWatts {
                 ftpText = String(ftp)
             }
         }
     }
+    
+    private var bluetoothSection: some View {
+        Button {
+            print(Copy.settings.bluetoothDialogPlaceholder)
+//            BluetoothDialog(bluetooth: bluetooth)
+        } label: {
+            HStack {
+                Image("bluetooth")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                Text(Copy.settings.connectBike)
+            }
+            .tint(.primary)
+        }
+    }
 
     private var ftpSection: some View {
         VStack(alignment: .leading, spacing: Constants.s) {
             Text(Copy.settings.setFTP)
-                .font(.title2)
+                .font(.title3)
                 .bold()
 
             HStack {
@@ -115,20 +137,33 @@ struct Settings: View {
     }
 }
 
-#Preview("FTP set") {
-    let container = try! ModelContainer(for: UserSettings.self)
-    let context = container.mainContext
-    context.insert(UserSettings(id: "me", ftpWatts: 250))
 
-    return NavigationStack { Settings() }
+private struct SettingsPreviewHost: View {
+    @StateObject private var bluetooth = BluetoothManager()
+
+    private let container: ModelContainer = {
+        let c = try! ModelContainer(for: UserSettings.self)
+        let context = c.mainContext
+        context.insert(UserSettings(id: "me", ftpWatts: 250))
+        try? context.save()
+        return c
+    }()
+
+    private let workoutSource: WorkoutSource = {
+        let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
+        let data = try! Data(contentsOf: url)
+        return ZwiftWorkoutSource(id: "jen-intervals", data: data)
+    }()
+
+    var body: some View {
+        NavigationStack {
+            Settings()
+        }
         .modelContainer(container)
+        .environmentObject(bluetooth)
+    }
 }
 
-#Preview("No FTP set") {
-    let container = try! ModelContainer(for: UserSettings.self)
-    let context = container.mainContext
-    context.insert(UserSettings(id: "me", ftpWatts: nil))
-
-    return NavigationStack { Settings() }
-        .modelContainer(container)
+#Preview {
+    SettingsPreviewHost()
 }
