@@ -76,7 +76,6 @@ final class BluetoothManager: NSObject, ObservableObject {
     
     func activateAndConnect() {
         if central == nil {
-            print(Copy.bluetooth.debug.activationPrompt)
             central = CBCentralManager(delegate: self, queue: .main)
         } else {
             startScanningOrReconnect()

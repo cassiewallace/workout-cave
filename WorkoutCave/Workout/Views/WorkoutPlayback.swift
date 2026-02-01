@@ -243,10 +243,16 @@ struct WorkoutPlayback: View {
     }
     
     private var workoutMetricsBlock: some View {
-        LiveMetricsGrid(
+        var metrics: [Metric] {
+            var metrics = [Metric.zone, .power, .cadence, .speed, .heartRate]
+            if !engine.isJustRide { metrics.append(.targetZone) }
+            return metrics
+        }
+        
+        return LiveMetricsGrid(
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
-            metrics: [.targetZone, .zone, .power, .cadence, .speed, .heartRate]
+            metrics: metrics
         )
         .padding(.horizontal, horizontalPadding)
     }

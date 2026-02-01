@@ -42,13 +42,13 @@ struct FTMSIndoorBikeParser {
         metrics.speedKph = Double(rawSpeed) / 100.0
 
         // Bit 2: Instantaneous cadence (0.5 rpm)
-        if (flags & 0x0004) != 0, index + 1 < data.count {
+        if (flags & 0x0004) != 0, index + 2 <= data.count {
             let rawCadence = readUInt16()
             metrics.cadenceRpm = Double(rawCadence) / 2.0
         }
 
         // Bit 6: Instantaneous power (watts, Int16)
-        if (flags & 0x0040) != 0, index + 1 < data.count {
+        if (flags & 0x0040) != 0, index + 2 <= data.count {
             metrics.powerWatts = Int(readInt16())
         }
 

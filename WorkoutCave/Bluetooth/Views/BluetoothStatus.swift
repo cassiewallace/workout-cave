@@ -9,18 +9,19 @@ import SwiftUI
 
 private struct BluetoothStatusIndicator: View {
     @ObservedObject var bluetooth: BluetoothManager
+    let onTap: () -> Void
     
     private let iconSize: CGFloat = Constants.xl
     
     var body: some View {
-        statusIcon
-            .resizable()
-            .frame(width: iconSize, height: iconSize)
-            .foregroundColor(statusIconTint)
-            .accessibilityHint(statusText)
-            .onTapGesture {
-                bluetooth.activateAndConnect()
-            }
+        Button(action: onTap) {
+            statusIcon
+                .resizable()
+                .frame(width: iconSize, height: iconSize)
+                .foregroundColor(statusIconTint)
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint(statusText)
     }
     
     private var statusIconTint: Color {
@@ -68,8 +69,12 @@ private struct BluetoothStatus: ViewModifier {
     func body(content: Content) -> some View {
         content
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    BluetoothStatusIndicator(bluetooth: bluetooth)
+                Menu {
+                    BluetoothDialog(bluetooth: bluetooth)
+                } label: {
+                    BluetoothStatusIndicator(bluetooth: bluetooth) {
+                        bluetooth.activateAndConnect()
+                    }
                 }
             }
     }
@@ -102,9 +107,9 @@ extension View {
     NavigationStack {
         Text("")
             .toolbar {
-                BluetoothStatusIndicator(bluetooth: bluetooth)
-                BluetoothStatusIndicator(bluetooth: bluetoothConnected)
-                BluetoothStatusIndicator(bluetooth: bluetoothUnauthorized)
+                BluetoothStatusIndicator(bluetooth: bluetooth, onTap: {})
+                BluetoothStatusIndicator(bluetooth: bluetoothConnected, onTap: {})
+                BluetoothStatusIndicator(bluetooth: bluetoothUnauthorized, onTap: {})
             }
     }
 }

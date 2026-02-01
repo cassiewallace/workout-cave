@@ -60,10 +60,9 @@ enum Copy {
 
     enum bluetooth {
         static let unknownDevice = "Unknown Bike"
-        static let dialogTitle = "Connect to your bike"
-        static let dialogSearching = "Searching for nearby bikes..."
-        static let dialogUnauthorized = "Bluetooth permission denied. Enable Bluetooth in Settings."
-        static let dialogPoweredOff = "Bluetooth is off. Turn it on to find your bike."
+        static let dialogSearching = "Searching..."
+        static let dialogUnauthorized = "Bluetooth permission denied: enable in Settings"
+        static let dialogPoweredOff = "Bluetooth is off"
 
         enum statusText {
             static let idle = "Idle"
@@ -79,10 +78,6 @@ enum Copy {
             static let indoorBikeData = "2AD2"
             static let machineStatus = "2ACC"
             static let controlPoint = "2AD9"
-        }
-
-        enum debug {
-            static let activationPrompt = "Prompt will happen here."
         }
     }
 

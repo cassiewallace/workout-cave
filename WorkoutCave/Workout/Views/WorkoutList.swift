@@ -16,6 +16,7 @@ struct WorkoutList: View {
     // MARK: - Properties
 
     private let items = WorkoutCatalog.all()
+    @EnvironmentObject private var bluetooth: BluetoothManager
     @State private var workouts: [LoadedWorkout] = []
     @State private var selectedWorkout: LoadedWorkout? = nil
     @State private var sortOrder: SortOrder = .recommended
@@ -51,6 +52,7 @@ struct WorkoutList: View {
         }
         .fullScreenCover(item: $selectedWorkout) { workout in
             WorkoutPlayback(workoutSource: workout.source)
+                .environmentObject(bluetooth)
         }
         .listStyle(.plain)
         .navigationLinkIndicatorVisibility(.hidden)

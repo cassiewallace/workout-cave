@@ -8,16 +8,16 @@
 import SwiftData
 import SwiftUI
 
+enum Metric: Hashable {
+    case targetZone
+    case zone
+    case power
+    case cadence
+    case speed
+    case heartRate
+}
+
 struct LiveMetricsGrid: View {
-    enum Metric: Hashable {
-        case targetZone
-        case zone
-        case power
-        case cadence
-        case speed
-        case heartRate
-    }
-    
     @EnvironmentObject private var bluetooth: BluetoothManager
     @Query(filter: #Predicate<UserSettings> { $0.id == "me" })
     private var settings: [UserSettings]
