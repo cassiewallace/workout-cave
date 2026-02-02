@@ -14,66 +14,62 @@ struct BluetoothDialog: View {
     private let spacing: CGFloat = Constants.l
     
     var body: some View {
-        Section("Connect to devices") {
-            VStack(spacing: spacing) {
-                if bluetooth.state == .unauthorized {
-                    statusText(Copy.bluetooth.dialogUnauthorized)
-                } else if bluetooth.state == .poweredOff {
-                    statusText(Copy.bluetooth.dialogPoweredOff)
-                } else if bluetooth.discoveredPeripherals.isEmpty {
-                    statusText(Copy.bluetooth.dialogSearching)
-                } else {
-                    deviceList
-                }
+        VStack(alignment: .leading, spacing: spacing) {
+            if bluetooth.state == .unauthorized {
+                statusText(Copy.bluetooth.dialogUnauthorized)
+            } else if bluetooth.state == .poweredOff {
+                statusText(Copy.bluetooth.dialogPoweredOff)
+            } else if bluetooth.discoveredPeripherals.isEmpty {
+                statusText(Copy.bluetooth.dialogSearching)
+            } else {
+                deviceList
             }
         }
     }
     
     private var deviceList: some View {
-        VStack(spacing: Constants.s) {
+        VStack(alignment: .leading, spacing: Constants.s) {
             ForEach(bluetooth.discoveredPeripherals) { device in
                 Button {
                     bluetooth.connect(to: device.id)
                 } label: {
+                    HStack {
                         Image("bluetooth")
+                            .resizable()
+                            .frame(width: 16, height: 16)
                         Text(device.name)
+                        Spacer()
                     }
                 }
                 .tint(.primary)
             }
         }
+        .frame(maxWidth: .infinity)
+    }
 
     private func statusText(_ text: String) -> some View {
         Text(text)
             .foregroundColor(.secondary)
             .font(.body)
-            .multilineTextAlignment(.center)
     }
 }
 
-#Preview {
-    var bluetoothEmpty: BluetoothManager {
-        let bluetooth = BluetoothManager()
-        return bluetooth
-    }
-    
-    var bluetoothOne: BluetoothManager {
-        let bluetooth = BluetoothManager()
-        let peripheral = DiscoveredPeripheral(id: UUID(), name: "Schwinn IC4", rssi: 1)
-        bluetooth.discoveredPeripherals = [peripheral]
-        return bluetooth
-    }
-    
-    VStack(spacing: 36) {
-        Menu {
-            BluetoothDialog(bluetooth: bluetoothEmpty)
-        } label: {
-            Text("Empty")
+#Preview("Empty") {
+    let bluetooth = BluetoothManager()
+    return List {
+        Section("Connect") {
+            BluetoothDialog(bluetooth: bluetooth)
         }
-        Menu {
-            BluetoothDialog(bluetooth: bluetoothOne)
-        } label: {
-            Text("Single Device")
+    }
+}
+
+#Preview("Single Device") {
+    let bluetooth = BluetoothManager()
+    let peripheral = DiscoveredPeripheral(id: UUID(), name: "Schwinn IC4", rssi: 1)
+    bluetooth.discoveredPeripherals = [peripheral]
+    return List {
+        Section("Connect") {
+            BluetoothDialog(bluetooth: bluetooth)
         }
     }
 }

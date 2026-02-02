@@ -22,6 +22,7 @@
 		653F6FB72F14244E006DE91E /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB62F142447006DE91E /* WorkoutCard.swift */; };
 		A2000001 /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* TermsAndConditionsView.swift */; };
 		A2000003 /* TermsAndConditions.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2000004 /* TermsAndConditions.txt */; };
+		A2000005 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* Metric.swift */; };
 		658197292F16CF5D0004C85A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658197282F16CF5D0004C85A /* Icons.xcassets */; };
 		65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */; };
 		65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6E2F1F067600C8F940 /* Controls.swift */; };
@@ -90,6 +91,7 @@
 		A1000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2000002 /* TermsAndConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsView.swift; sourceTree = "<group>"; };
 		A2000004 /* TermsAndConditions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TermsAndConditions.txt; sourceTree = "<group>"; };
+		A2000006 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -199,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */,
+				A2000006 /* Metric.swift */,
 				65F55A022EFAFEF6007AD1D9 /* PowerZone.swift */,
 			);
 			path = Models;
@@ -381,6 +384,7 @@
 				653F6F9C2F11B7A6006DE91E /* MetricCard.swift in Sources */,
 				65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */,
 				65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */,
+				A2000005 /* Metric.swift in Sources */,
 				65FBC7E42EF49B350047A9FC /* Control.swift in Sources */,
 				65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */,
 				A1000007 /* ZWOParser.swift in Sources */,

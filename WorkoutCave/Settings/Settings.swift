@@ -22,7 +22,7 @@ struct Settings: View {
     var body: some View {
         List {
             Section(Copy.settings.devicesSection) {
-                bluetoothSection
+                BluetoothDialog(bluetooth: bluetooth)
             }
             Section(Copy.settings.ftpSection) {
                 ftpSection
@@ -50,21 +50,6 @@ struct Settings: View {
             if ftpText.isEmpty, let ftp = userSettings?.ftpWatts {
                 ftpText = String(ftp)
             }
-        }
-    }
-    
-    private var bluetoothSection: some View {
-        Button {
-            print(Copy.settings.bluetoothDialogPlaceholder)
-//            BluetoothDialog(bluetooth: bluetooth)
-        } label: {
-            HStack {
-                Image("bluetooth")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                Text(Copy.settings.connectBike)
-            }
-            .tint(.primary)
         }
     }
 
