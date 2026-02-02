@@ -181,9 +181,9 @@ struct WorkoutPlayback: View {
                 
                 if !isCompactVertical {
                     if engine.playbackState == .finished {
-                        finishedMetricsGrid
+                        metricsGrid(metrics: [.averagePower, .heartRate], averagePowerLabel: averagePowerLabel)
                     } else {
-                        metricsGrid()
+                        metricsGrid(metrics: playbackMetrics)
                     }
                 }
                 
@@ -257,28 +257,23 @@ struct WorkoutPlayback: View {
             .animation(.easeInOut(duration: 0.2), value: engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
     }
     
-    private func metricsGrid(for metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate]) -> some View {
-        var metrics = metrics
+    private var playbackMetrics: [Metric] {
+        var metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate]
         if !engine.isJustRide { metrics.append(.targetZone) }
-        
-        return LiveMetricsGrid(
+        return metrics
+    }
+
+    private func metricsGrid(
+        metrics: [Metric],
+        averagePowerLabel: String? = nil
+    ) -> some View {
+        LiveMetricsGrid(
             bluetooth: bluetooth,
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
             metrics: metrics,
-            fixedHeight: metricsGridHeight,
-            maxHeight: metricsGridRowHeight
-        )
-        .padding(.horizontal, horizontalPadding)
-    }
-
-    private var finishedMetricsGrid: some View {
-        LiveMetricsGrid(
-            bluetooth: bluetooth,
-            metrics: [.averagePower, .heartRate],
             averagePowerLabel: averagePowerLabel,
             fixedHeight: metricsGridHeight,
-            columnsPerRow: 2,
             maxHeight: metricsGridRowHeight
         )
         .padding(.horizontal, horizontalPadding)
