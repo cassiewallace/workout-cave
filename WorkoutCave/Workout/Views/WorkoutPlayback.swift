@@ -11,7 +11,7 @@ import SwiftUI
 struct WorkoutPlayback: View {
     // MARK: - Properties
 
-    @StateObject private var engine = WorkoutEngine()
+    @StateObject private var engine: WorkoutEngine
     @EnvironmentObject private var bluetooth: BluetoothManager
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
@@ -24,6 +24,20 @@ struct WorkoutPlayback: View {
     private var userSettings: UserSettings? { settings.first }
 
     let workoutSource: WorkoutSource
+    private let autoLoad: Bool
+
+    @MainActor
+    init(workoutSource: WorkoutSource, autoLoad: Bool = true) {
+        self.workoutSource = workoutSource
+        self.autoLoad = autoLoad
+        _engine = StateObject(wrappedValue: WorkoutEngine())
+    }
+
+    init(workoutSource: WorkoutSource, autoLoad: Bool, engine: WorkoutEngine) {
+        self.workoutSource = workoutSource
+        self.autoLoad = autoLoad
+        _engine = StateObject(wrappedValue: engine)
+    }
     
     // MARK: - Just Ride stop
     
@@ -111,6 +125,7 @@ struct WorkoutPlayback: View {
             }
         }
         .task {
+            guard autoLoad else { return }
             engine.load(source: workoutSource)
             engine.setPowerProvider { bluetooth.metrics.powerWatts }
         }
@@ -332,6 +347,7 @@ struct WorkoutPlayback: View {
         }
         isStopConfirmationPresented = true
     }
+
 }
 
 #Preview("Portrait", traits: .portrait) {
@@ -342,12 +358,22 @@ struct WorkoutPlayback: View {
     WorkoutPlaybackPreviewHost()
 }
 
-#Preview("Just Ride", traits: .portrait) {
-    WorkoutPlaybackJustRidePreviewHost()
+#Preview("Portrait - Finished", traits: .portrait) {
+    WorkoutPlaybackPreviewHost(playbackState: .finished)
+}
+
+#Preview("Just Ride - Not Started", traits: .portrait) {
+    WorkoutPlaybackJustRidePreviewHost(playbackState: .idle)
+}
+
+#Preview("Just Ride - Finished", traits: .portrait) {
+    WorkoutPlaybackJustRidePreviewHost(playbackState: .finished)
 }
 
 private struct WorkoutPlaybackPreviewHost: View {
+    let playbackState: PlaybackState?
     @StateObject private var bluetooth = BluetoothManager()
+    @StateObject private var engine: WorkoutEngine
 
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
@@ -363,17 +389,48 @@ private struct WorkoutPlaybackPreviewHost: View {
         return ZwiftWorkoutSource(id: "jen-intervals", data: data)
     }()
 
+    @MainActor
+    init(playbackState: PlaybackState? = nil) {
+        self.playbackState = playbackState
+        _engine = StateObject(wrappedValue: WorkoutEngine())
+    }
+
     var body: some View {
         NavigationStack {
-            WorkoutPlayback(workoutSource: workoutSource)
+            WorkoutPlayback(
+                workoutSource: workoutSource,
+                autoLoad: false,
+                engine: engine
+            )
         }
         .modelContainer(container)
         .environmentObject(bluetooth)
+        .task {
+            engine.load(source: workoutSource)
+            engine.setPowerProvider { bluetooth.metrics.powerWatts }
+            applyPreviewPlaybackState(playbackState)
+        }
+    }
+
+    private func applyPreviewPlaybackState(_ state: PlaybackState?) {
+        guard let state else { return }
+        switch state {
+        case .finished:
+            engine.finish()
+        case .idle:
+            engine.restart()
+        case .paused:
+            engine.pause()
+        case .running:
+            engine.start()
+        }
     }
 }
 
-private struct WorkoutPlaybackJustRidePreviewHost: View {
+private struct WorkoutPlaybackJustRideHostView: View {
+    let playbackState: PlaybackState
     @StateObject private var bluetooth = BluetoothManager()
+    @StateObject private var engine: WorkoutEngine
 
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
@@ -383,11 +440,44 @@ private struct WorkoutPlaybackJustRidePreviewHost: View {
         return c
     }()
 
+    @MainActor
+    init(playbackState: PlaybackState) {
+        self.playbackState = playbackState
+        _engine = StateObject(wrappedValue: WorkoutEngine())
+    }
+
     var body: some View {
         NavigationStack {
-            WorkoutPlayback(workoutSource: JustRideWorkoutSource())
+            WorkoutPlayback(
+                workoutSource: JustRideWorkoutSource(),
+                autoLoad: false,
+                engine: engine
+            )
         }
         .modelContainer(container)
         .environmentObject(bluetooth)
+        .task {
+            engine.load(source: JustRideWorkoutSource())
+            engine.setPowerProvider { bluetooth.metrics.powerWatts }
+            applyPreviewPlaybackState(playbackState)
+        }
     }
+
+    private func applyPreviewPlaybackState(_ state: PlaybackState) {
+        switch state {
+        case .finished:
+            engine.finish()
+        case .idle:
+            engine.restart()
+        case .paused:
+            engine.pause()
+        case .running:
+            engine.start()
+        }
+    }
+}
+
+@MainActor
+private func WorkoutPlaybackJustRidePreviewHost(playbackState: PlaybackState) -> some View {
+    WorkoutPlaybackJustRideHostView(playbackState: playbackState)
 }
