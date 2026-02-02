@@ -193,8 +193,12 @@ struct WorkoutPlayback: View {
             .padding(.top, sectionSpacing + Constants.m)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             
-            if isCompactVertical, engine.playbackState != .finished {
-                compactMetricsOverlay
+            if isCompactVertical {
+                if engine.playbackState == .finished {
+                    compactFinishedMetricsOverlay
+                } else {
+                    compactMetricsOverlay
+                }
             }
         }
     }
@@ -285,6 +289,18 @@ struct WorkoutPlayback: View {
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
             metrics: [.zone, .heartRate],
+            columnsPerRow: 1,
+            fontSize: 12,
+            maxHeight: 64,
+            maxWidth: 96
+        )
+    }
+
+    private var compactFinishedMetricsOverlay: some View {
+        LiveMetricsGrid(
+            bluetooth: bluetooth,
+            metrics: [.averagePower, .heartRate],
+            averagePowerLabel: averagePowerLabel,
             columnsPerRow: 1,
             fontSize: 12,
             maxHeight: 64,

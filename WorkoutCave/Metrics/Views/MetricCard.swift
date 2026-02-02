@@ -14,9 +14,11 @@ struct MetricCard: View {
     @ScaledMetric(relativeTo: .body) var fontSize: CGFloat = 18
     @ScaledMetric(relativeTo: .body) var maxHeight: CGFloat = 120
     @ScaledMetric(relativeTo: .body) var maxWidth: CGFloat = .infinity
+    @ScaledMetric(relativeTo: .body) var horizontalPadding: CGFloat = Constants.s
+    @ScaledMetric(relativeTo: .body) var verticalPadding: CGFloat = Constants.xl
 
     var body: some View {
-        VStack(spacing: Constants.xxs) {
+        VStack(spacing: Constants.xs) {
             Text(name)
                 .font(.system(size: fontSize, weight: .semibold))
                 .lineLimit(1)
@@ -25,7 +27,8 @@ struct MetricCard: View {
             Text(value)
                 .font(.system(size: fontSize * 2, weight: .bold))
         }
-        .padding()
+        .padding(.vertical, verticalPadding)
+        .padding(.horizontal, horizontalPadding)
         .frame(maxWidth: maxWidth, maxHeight: maxHeight)
         .fixedSize(horizontal: false, vertical: true)
         .accessibilityElement(children: .combine)
