@@ -210,6 +210,7 @@ struct WorkoutPlayback: View {
         ProgressView(value: engine.intervalProgress)
             .foregroundStyle(.primary)
             .padding(.vertical, Constants.s)
+            .edgesIgnoringSafeArea(.all)
     }
 
     @ViewBuilder
@@ -382,7 +383,11 @@ struct WorkoutPlayback: View {
     WorkoutPlaybackPreviewHost()
 }
 
-#Preview("Portrait - Finished", traits: .portrait) {
+#Preview("Finished - Portrait", traits: .portrait) {
+    WorkoutPlaybackPreviewHost(playbackState: .finished)
+}
+
+#Preview("Finished - Landscape", traits: .landscapeLeft) {
     WorkoutPlaybackPreviewHost(playbackState: .finished)
 }
 
