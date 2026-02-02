@@ -20,6 +20,8 @@
 		653F6FB32F140E4C006DE91E /* endurance-build.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FB22F140E4C006DE91E /* endurance-build.json */; };
 		653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB42F141145006DE91E /* UserSettings.swift */; };
 		653F6FB72F14244E006DE91E /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB62F142447006DE91E /* WorkoutCard.swift */; };
+		A2000001 /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* TermsAndConditionsView.swift */; };
+		A2000003 /* TermsAndConditions.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2000004 /* TermsAndConditions.txt */; };
 		658197292F16CF5D0004C85A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658197282F16CF5D0004C85A /* Icons.xcassets */; };
 		65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */; };
 		65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6E2F1F067600C8F940 /* Controls.swift */; };
@@ -86,6 +88,8 @@
 		A1000008 /* ZWOParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWOParser.swift; sourceTree = "<group>"; };
 		A1000010 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		A1000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A2000002 /* TermsAndConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsView.swift; sourceTree = "<group>"; };
+		A2000004 /* TermsAndConditions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TermsAndConditions.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -164,6 +168,7 @@
 			children = (
 				653F6FB42F141145006DE91E /* UserSettings.swift */,
 				653F6FA82F11D0A2006DE91E /* Settings.swift */,
+				A2000002 /* TermsAndConditionsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 			children = (
 				65DAFA742F1FD3B100C8F940 /* Copy.swift */,
 				65DAFA722F1FCAFE00C8F940 /* Constants.swift */,
+				A2000004 /* TermsAndConditions.txt */,
 				658197282F16CF5D0004C85A /* Icons.xcassets */,
 				65DE04392F21AB48007F7071 /* Launch Screen.storyboard */,
 			);
@@ -341,6 +347,7 @@
 				653F6FAD2F140E16006DE91E /* 30-30-power-intervals.json in Resources */,
 				653F6FAF2F140E31006DE91E /* 90-60-tempo-intervals.json in Resources */,
 				65F55A002EFAF391007AD1D9 /* README.md in Resources */,
+				A2000003 /* TermsAndConditions.txt in Resources */,
 				658197292F16CF5D0004C85A /* Icons.xcassets in Resources */,
 				65F559FE2EFAE608007AD1D9 /* 40-20.zwo in Resources */,
 				653F6FAB2F140DFE006DE91E /* recovery-spin.json in Resources */,
@@ -378,6 +385,7 @@
 				65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */,
 				A1000007 /* ZWOParser.swift in Sources */,
 				65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */,
+				A2000001 /* TermsAndConditionsView.swift in Sources */,
 				65F55A032EFAFEF7007AD1D9 /* PowerZone.swift in Sources */,
 				653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */,
 				65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */,

@@ -47,6 +47,16 @@ enum Copy {
         static let ftpSection = "Functional Threshold Power (FTP)"
         static let connectBike = "Connect to a bike"
         static let bluetoothDialogPlaceholder = "Display bluetooth dialog"
+        static let legalSection = "Legal"
+        static let termsButton = "Terms and Conditions"
+    }
+
+    enum terms {
+        static let title = "Terms and Conditions"
+        static let lastUpdated = "Last updated: Feb 2, 2026"
+        static let fileName = "TermsAndConditions"
+        static let fileExtension = "txt"
+        static let loadFailure = "Unable to load the Terms and Conditions."
     }
 
     enum workoutList {

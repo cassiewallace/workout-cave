@@ -28,6 +28,11 @@ struct Settings: View {
                 ftpSection
                 powerZones
             }
+            Section(Copy.settings.legalSection) {
+                NavigationLink(Copy.settings.termsButton) {
+                    TermsAndConditionsView()
+                }
+            }
             Section {
                 Text("v\(Bundle.main.appVersion)")
                     .font(.caption)
