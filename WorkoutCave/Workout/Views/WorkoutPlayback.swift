@@ -52,8 +52,9 @@ struct WorkoutPlayback: View {
 
     // MARK: - Layout
     
-    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightRegular: CGFloat = 48
-    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightCompact: CGFloat = 32
+    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightRegular: CGFloat = 120
+    @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightCompact: CGFloat = 64
+    @ScaledMetric(relativeTo: .body) private var metricsGridRowHeight: CGFloat = 96
 
     private var isCompactVertical: Bool {
         verticalSizeClass == .compact
@@ -67,8 +68,13 @@ struct WorkoutPlayback: View {
         isCompactVertical ? Constants.xs : Constants.m
     }
 
+    private var metricsGridHeight: CGFloat {
+        let rowCount: CGFloat = 3
+        return (metricsGridRowHeight * rowCount) + (Constants.m * (rowCount - 1))
+    }
+
     private var horizontalPadding: CGFloat {
-        isCompactVertical ? Constants.l : Constants.xxl
+        isCompactVertical ? Constants.m : Constants.l
     }
 
     private var timerFontSize: CGFloat {
@@ -173,8 +179,12 @@ struct WorkoutPlayback: View {
             VStack(spacing: sectionSpacing) {
                 intervalContent
                 
-                if !isCompactVertical, engine.playbackState != .finished {
-                    workoutMetricsBlock
+                if !isCompactVertical {
+                    if engine.playbackState == .finished {
+                        finishedMetricsGrid
+                    } else {
+                        metricsGrid()
+                    }
                 }
                 
                 timer
@@ -193,39 +203,38 @@ struct WorkoutPlayback: View {
     
     @ViewBuilder
     private var progressBar: some View {
-        Spacer(minLength: Constants.s)
         ProgressView(value: engine.intervalProgress)
             .foregroundStyle(.primary)
-            .padding(.bottom, Constants.s)
-        if !isCompactVertical {
-            Spacer(minLength: Constants.s)
-        }
+            .padding(.vertical, Constants.s)
     }
 
     @ViewBuilder
     private var intervalContent: some View {
-        if engine.playbackState == .finished {
-            VStack(spacing: innerSpacing) {
-                Text(Copy.workoutPlayback.workoutComplete)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.green)
-                    .multilineTextAlignment(.center)
-                
-                Text("Average Power: \(averagePowerLabel)")
-                    .font(.title3)
-                    .monospacedDigit()
-            }
-        } else if let interval = engine.currentInterval {
-            VStack(spacing: innerSpacing) {
-                Text(interval.name)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-
-                intervalMessage(message: interval.message)
+        Group {
+            if engine.playbackState == .finished {
+                VStack(spacing: innerSpacing) {
+                    Text(Copy.workoutPlayback.workoutComplete)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.green)
+                        .multilineTextAlignment(.center)
+                }
+            } else if let interval = engine.currentInterval {
+                VStack(spacing: innerSpacing) {
+                    Text(interval.name)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                    
+                    intervalMessage(message: interval.message)
+                }
             }
         }
+        .frame(
+            height: isCompactVertical ? intervalMessageHeightCompact : intervalMessageHeightRegular,
+            alignment: .top
+        )
+        .padding(.horizontal, horizontalPadding)
     }
 
     private func intervalMessage(message: String?) -> some View {
@@ -237,43 +246,47 @@ struct WorkoutPlayback: View {
             .minimumScaleFactor(0.6)
             .allowsTightening(true)
             .truncationMode(.tail)
-            .frame(
-                maxWidth: .infinity,
-                minHeight: isCompactVertical ? intervalMessageHeightCompact : intervalMessageHeightRegular,
-                maxHeight: isCompactVertical ? intervalMessageHeightCompact : intervalMessageHeightRegular,
-                alignment: .bottom
-            )
-            .padding(.horizontal, Constants.m)
     }
 
     @ViewBuilder
     private var timer: some View {
-        if engine.playbackState != .finished {
-            Text(formatElapsedTime(engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
-                .font(.system(size: timerFontSize, weight: .bold))
-                .monospacedDigit()
-                .dynamicTypeSize(.large)
-                .animation(.easeInOut(duration: 0.2), value: engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
-        }
+        Text(formatElapsedTime(engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
+            .font(.system(size: timerFontSize, weight: .bold))
+            .monospacedDigit()
+            .dynamicTypeSize(.large)
+            .animation(.easeInOut(duration: 0.2), value: engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
     }
     
-    private var workoutMetricsBlock: some View {
-        var metrics: [Metric] {
-            var metrics = [Metric.zone, .power, .cadence, .speed, .heartRate]
-            if !engine.isJustRide { metrics.append(.targetZone) }
-            return metrics
-        }
+    private func metricsGrid(for metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate]) -> some View {
+        var metrics = metrics
+        if !engine.isJustRide { metrics.append(.targetZone) }
         
         return LiveMetricsGrid(
+            bluetooth: bluetooth,
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
-            metrics: metrics
+            metrics: metrics,
+            fixedHeight: metricsGridHeight,
+            maxHeight: metricsGridRowHeight
+        )
+        .padding(.horizontal, horizontalPadding)
+    }
+
+    private var finishedMetricsGrid: some View {
+        LiveMetricsGrid(
+            bluetooth: bluetooth,
+            metrics: [.averagePower, .heartRate],
+            averagePowerLabel: averagePowerLabel,
+            fixedHeight: metricsGridHeight,
+            columnsPerRow: 2,
+            maxHeight: metricsGridRowHeight
         )
         .padding(.horizontal, horizontalPadding)
     }
     
     private var compactMetricsOverlay: some View {
         LiveMetricsGrid(
+            bluetooth: bluetooth,
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
             metrics: [.zone, .heartRate],

@@ -9,6 +9,7 @@ import SwiftData
 import SwiftUI
 
 enum Metric: Hashable {
+    case averagePower
     case targetZone
     case zone
     case power
@@ -18,7 +19,7 @@ enum Metric: Hashable {
 }
 
 struct LiveMetricsGrid: View {
-    @EnvironmentObject private var bluetooth: BluetoothManager
+    let bluetooth: BluetoothManager
     @Query(filter: #Predicate<UserSettings> { $0.id == "me" })
     private var settings: [UserSettings]
     private var userSettings: UserSettings? { settings.first }
@@ -26,23 +27,31 @@ struct LiveMetricsGrid: View {
     var targetZoneLabel: String?
     var zoneTitle: String
     var metrics: [Metric]
+    var averagePowerLabel: String?
+    var fixedHeight: CGFloat?
     var columnsPerRow: Int
     var fontSize: CGFloat
     var maxHeight: CGFloat
     var maxWidth: CGFloat
     
     init(
+        bluetooth: BluetoothManager,
         targetZoneLabel: String? = nil,
         zoneTitle: String = Copy.metrics.powerZone,
         metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate],
+        averagePowerLabel: String? = nil,
+        fixedHeight: CGFloat? = nil,
         columnsPerRow: Int = 2,
         fontSize: CGFloat = 18,
         maxHeight: CGFloat = 120,
         maxWidth: CGFloat = .infinity
     ) {
+        self.bluetooth = bluetooth
         self.targetZoneLabel = targetZoneLabel
         self.zoneTitle = zoneTitle
         self.metrics = metrics
+        self.averagePowerLabel = averagePowerLabel
+        self.fixedHeight = fixedHeight
         self.columnsPerRow = max(1, columnsPerRow)
         self.fontSize = fontSize
         self.maxHeight = maxHeight
@@ -61,6 +70,7 @@ struct LiveMetricsGrid: View {
                 }
             }
         }
+        .frame(height: fixedHeight, alignment: .top)
     }
     
     private func metricRows(maxRows: Int) -> [[Metric]] {
@@ -105,6 +115,14 @@ struct LiveMetricsGrid: View {
     @ViewBuilder
     private func metricCard(_ metric: Metric, targetZoneLabel: String?) -> some View {
         switch metric {
+        case .averagePower:
+            MetricCard(
+                name: Copy.metrics.averagePower,
+                value: averagePowerLabel ?? Copy.placeholder.missingValue,
+                fontSize: fontSize,
+                maxHeight: maxHeight,
+                maxWidth: maxWidth
+            )
         case .targetZone:
             MetricCard(
                 name: Copy.metrics.targetZone,
@@ -174,6 +192,7 @@ private struct LiveMetricsGridPreviewHost: View {
     var body: some View {
         TabView {
             LiveMetricsGrid(
+                bluetooth: bluetooth,
                 targetZoneLabel: "Z2–Z3",
                 zoneTitle: Copy.metrics.currentZone,
                 metrics: [.targetZone, .zone, .power, .cadence, .speed, .heartRate]
@@ -181,6 +200,7 @@ private struct LiveMetricsGridPreviewHost: View {
             .padding()
             
             LiveMetricsGrid(
+                bluetooth: bluetooth,
                 targetZoneLabel: "Z1",
                 zoneTitle: Copy.metrics.currentZone,
                 metrics: [.zone, .heartRate],

@@ -26,6 +26,7 @@ enum Copy {
 
     enum metrics {
         static let powerZone = "Power Zone"
+        static let averagePower = "Average Power"
         static let power = "Power"
         static let cadence = "Cadence"
         static let speed = "Speed"
