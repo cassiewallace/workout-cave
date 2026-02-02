@@ -12,10 +12,12 @@ import SwiftUI
 final class UserSettings {
     @Attribute(.unique) var id: String
     var ftpWatts: Int?
+    var hasSeenIntro: Bool?
 
-    init(id: String = "me", ftpWatts: Int? = nil) {
+    init(id: String = "me", ftpWatts: Int? = nil, hasSeenIntro: Bool? = nil) {
         self.id = id
         self.ftpWatts = ftpWatts
+        self.hasSeenIntro = hasSeenIntro
     }
 }
 

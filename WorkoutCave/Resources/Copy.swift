@@ -64,6 +64,11 @@ enum Copy {
         static let justRideDescription = "No workout, no time, just metrics."
     }
 
+    enum onboarding {
+        static let description = "Workout Cave gives you focused indoor rides with live metrics so you can train the way you want."
+        static let cta = "Let's go"
+    }
+
     enum workoutPlayback {
         static let loadingWorkout = "Loading workout…"
         static let errorLoadingWorkout = "Error loading workout"

@@ -20,9 +20,7 @@
 		653F6FB32F140E4C006DE91E /* endurance-build.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FB22F140E4C006DE91E /* endurance-build.json */; };
 		653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB42F141145006DE91E /* UserSettings.swift */; };
 		653F6FB72F14244E006DE91E /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB62F142447006DE91E /* WorkoutCard.swift */; };
-		A2000001 /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* TermsAndConditionsView.swift */; };
-		A2000003 /* TermsAndConditions.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2000004 /* TermsAndConditions.txt */; };
-		A2000005 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* Metric.swift */; };
+		654ABC272F3123CA000263D9 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 654ABC262F3123CA000263D9 /* Media.xcassets */; };
 		658197292F16CF5D0004C85A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658197282F16CF5D0004C85A /* Icons.xcassets */; };
 		65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */; };
 		65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6E2F1F067600C8F940 /* Controls.swift */; };
@@ -47,6 +45,10 @@
 		A1000005 /* WorkoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* WorkoutEngine.swift */; };
 		A1000007 /* ZWOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000008 /* ZWOParser.swift */; };
 		A1000009 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000010 /* Workout.swift */; };
+		A2000001 /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* TermsAndConditionsView.swift */; };
+		A2000003 /* TermsAndConditions.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2000004 /* TermsAndConditions.txt */; };
+		A2000005 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* Metric.swift */; };
+		A2000008 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* Onboarding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +65,7 @@
 		653F6FB22F140E4C006DE91E /* endurance-build.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "endurance-build.json"; sourceTree = "<group>"; };
 		653F6FB42F141145006DE91E /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		653F6FB62F142447006DE91E /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
+		654ABC262F3123CA000263D9 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		658197282F16CF5D0004C85A /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatus.swift; sourceTree = "<group>"; };
 		65DAFA6E2F1F067600C8F940 /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
@@ -92,6 +95,7 @@
 		A2000002 /* TermsAndConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsView.swift; sourceTree = "<group>"; };
 		A2000004 /* TermsAndConditions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TermsAndConditions.txt; sourceTree = "<group>"; };
 		A2000006 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
+		A2000007 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -182,6 +186,7 @@
 				65DAFA722F1FCAFE00C8F940 /* Constants.swift */,
 				A2000004 /* TermsAndConditions.txt */,
 				658197282F16CF5D0004C85A /* Icons.xcassets */,
+				654ABC262F3123CA000263D9 /* Media.xcassets */,
 				65DE04392F21AB48007F7071 /* Launch Screen.storyboard */,
 			);
 			path = Resources;
@@ -219,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				A1000002 /* WorkoutCave.swift */,
+				A2000009 /* Onboarding */,
 				A1000029 /* Workout */,
 				6520712C2F20415B00EDFBA1 /* Bluetooth */,
 				653F6FA42F11CE57006DE91E /* Metrics */,
@@ -295,6 +301,14 @@
 			path = RawData;
 			sourceTree = "<group>";
 		};
+		A2000009 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				A2000007 /* Onboarding.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -357,6 +371,7 @@
 				65F559F32EF5CD66007AD1D9 /* steady-state-base.json in Resources */,
 				653F6FB32F140E4C006DE91E /* endurance-build.json in Resources */,
 				65DE043A2F21AB48007F7071 /* Launch Screen.storyboard in Resources */,
+				654ABC272F3123CA000263D9 /* Media.xcassets in Resources */,
 				653F6FB12F140E3D006DE91E /* progressive-warmup.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,6 +400,7 @@
 				65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */,
 				65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */,
 				A2000005 /* Metric.swift in Sources */,
+				A2000008 /* Onboarding.swift in Sources */,
 				65FBC7E42EF49B350047A9FC /* Control.swift in Sources */,
 				65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */,
 				A1000007 /* ZWOParser.swift in Sources */,
