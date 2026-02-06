@@ -44,6 +44,7 @@ struct FTPSettings: View {
                 TextField(Copy.settings.ftpPlaceholder, text: $ftpText)
                     .keyboardType(.numberPad)
                     .textFieldStyle(.roundedBorder)
+                    .accessibilityLabel("FTP in watts")
 
                 Button(Copy.settings.save) { saveFTP() }
                     .buttonStyle(.borderedProminent)

@@ -34,6 +34,15 @@ struct Control: View {
         }
     }
     
+    private var accessibilityLabel: String {
+        switch controlType {
+        case .play: return Copy.accessibility.play
+        case .pause: return Copy.accessibility.pause
+        case .skip: return Copy.accessibility.skip
+        case .stop: return Copy.accessibility.stop
+        }
+    }
+
     var body: some View {
         Button(action: {
             action()
@@ -43,6 +52,7 @@ struct Control: View {
         }
         .foregroundStyle(.primary)
         .disabled(isDisabled)
+        .accessibilityLabel(accessibilityLabel)
     }
 }
 

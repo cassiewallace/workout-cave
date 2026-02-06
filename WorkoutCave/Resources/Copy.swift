@@ -103,6 +103,19 @@ enum Copy {
 
     enum accessibility {
         static let close = "Close"
+        static let play = "Play"
+        static let pause = "Pause"
+        static let skip = "Skip interval"
+        static let stop = "Stop workout"
+        static let bluetoothConnection = "Bluetooth connection"
+        static let sortWorkouts = "Sort workouts"
+        static let openWorkoutHint = "Double tap to open workout"
+        static let introImage = "Person on indoor bike"
+        static let connectToDevice = "Connect to bike"
+        static let connectHint = "Double tap to connect"
+        static let workoutProgress = "Workout progress"
+        static let elapsedTime = "Elapsed time"
+        static let timeRemaining = "Time remaining"
     }
 
     enum powerZone {

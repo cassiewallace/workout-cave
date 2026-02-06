@@ -161,6 +161,7 @@ struct WorkoutPlayback: View {
             Text(Copy.workoutPlayback.loadingWorkout)
                 .font(.headline)
         }
+        .accessibilityElement(children: .combine)
     }
 
     private func errorView(error: String) -> some View {
@@ -168,6 +169,7 @@ struct WorkoutPlayback: View {
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 48))
                 .foregroundStyle(.orange)
+                .accessibilityHidden(true)
 
             Text(Copy.workoutPlayback.errorLoadingWorkout)
                 .font(.headline)
@@ -178,6 +180,7 @@ struct WorkoutPlayback: View {
                 .multilineTextAlignment(.center)
         }
         .padding(horizontalPadding)
+        .accessibilityElement(children: .combine)
     }
 
     // MARK: - Playback
@@ -218,6 +221,7 @@ struct WorkoutPlayback: View {
             .foregroundStyle(.primary)
             .padding(.vertical, Constants.s)
             .edgesIgnoringSafeArea(.all)
+            .accessibilityLabel(Copy.accessibility.workoutProgress)
     }
 
     @ViewBuilder
@@ -267,6 +271,7 @@ struct WorkoutPlayback: View {
             .monospacedDigit()
             .dynamicTypeSize(.large)
             .animation(.easeInOut(duration: 0.2), value: engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
+            .accessibilityLabel(engine.isJustRide ? Copy.accessibility.elapsedTime : Copy.accessibility.timeRemaining)
     }
     
     private var playbackMetrics: [Metric] {

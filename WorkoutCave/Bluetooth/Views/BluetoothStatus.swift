@@ -21,6 +21,7 @@ private struct BluetoothStatusIndicator: View {
                 .foregroundColor(statusIconTint)
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(Copy.accessibility.bluetoothConnection)
         .accessibilityHint(statusText)
     }
     

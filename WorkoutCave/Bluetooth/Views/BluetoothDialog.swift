@@ -42,6 +42,7 @@ struct BluetoothDialog: View {
                     }
                 }
                 .tint(.primary)
+                .accessibilityHint(Copy.accessibility.connectHint)
             }
         }
         .frame(maxWidth: .infinity)

@@ -98,6 +98,7 @@ struct WorkoutList: View {
                                 description: item.description
                             )
                         }
+                        .accessibilityHint(Copy.accessibility.openWorkoutHint)
                         .disabled(isLoadingSelection)
                     }
                     .listRowInsets(.init(top: Constants.xs, leading: Constants.l, bottom: Constants.xs, trailing: Constants.l))
@@ -155,6 +156,7 @@ struct WorkoutList: View {
             } label: {
                 Image(systemName: "line.3.horizontal.decrease")
             }
+            .accessibilityLabel(Copy.accessibility.sortWorkouts)
         }
         .searchable(text: $searchText)
     }

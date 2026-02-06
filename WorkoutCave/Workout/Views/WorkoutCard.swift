@@ -24,6 +24,7 @@ struct WorkoutCard: View {
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
         .styledCard()
     }
 }

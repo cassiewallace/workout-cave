@@ -17,6 +17,7 @@ struct Onboarding: View {
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
+                    .accessibilityLabel(Copy.accessibility.introImage)
 
                 LinearGradient(
                     colors: [
