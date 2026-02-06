@@ -89,7 +89,7 @@ enum PowerZone: Int, CaseIterable, Identifiable {
     /// fallback when watts / FTP are unavailable.
     static func zoneNameLabel(for watts: Int?, ftp: Int?) -> String {
         guard let watts else { return Copy.placeholder.missingValue }
-        guard let ftp, ftp > 0 else { return Copy.powerZone.setFTP }
+        guard let ftp, ftp > 0 else { return Copy.settings.setFTP }
         return Self.zone(for: watts, ftp: ftp)?.name ?? Copy.placeholder.missingValue
     }
     

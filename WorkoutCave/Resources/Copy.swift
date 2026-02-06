@@ -50,10 +50,7 @@ enum Copy {
         static let appearanceSection = "Appearance"
         static let theme = "Theme"
         static let unitsSection = "Units"
-        static let connectBike = "Connect to a bike"
-        static let bluetoothDialogPlaceholder = "Display bluetooth dialog"
         static let legalSection = "Legal"
-        static let termsButton = "Terms and Conditions"
     }
 
     enum terms {
@@ -111,7 +108,6 @@ enum Copy {
         static let sortWorkouts = "Sort workouts"
         static let openWorkoutHint = "Double tap to open workout"
         static let introImage = "Person on indoor bike"
-        static let connectToDevice = "Connect to bike"
         static let connectHint = "Double tap to connect"
         static let workoutProgress = "Workout progress"
         static let elapsedTime = "Elapsed time"
@@ -119,8 +115,6 @@ enum Copy {
     }
 
     enum powerZone {
-        static let setFTP = "Set FTP"
-
         enum label {
             static let recovery = "Recovery"
             static let endurance = "Endurance"
@@ -154,17 +148,8 @@ enum Copy {
         static let hyphen = "-"
     }
 
-    enum fileExtension {
-        static let json = "json"
-        static let zwo = "zwo"
-    }
-
     enum errorDomain {
         static let zwiftWorkoutSource = "ZwiftWorkoutSource"
-    }
-
-    enum debugLog {
-        static let jsonDecodeErrorPrefix = "❌ JSON decode error:"
     }
 
     enum zwo {

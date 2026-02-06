@@ -42,7 +42,7 @@ struct Settings: View {
                 .pickerStyle(.menu)
             }
             Section(Copy.settings.legalSection) {
-                NavigationLink(Copy.settings.termsButton) {
+                NavigationLink(Copy.terms.title) {
                     TermsAndConditionsView()
                 }
             }
