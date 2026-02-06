@@ -12,7 +12,7 @@ final class ZWOParser: NSObject, XMLParserDelegate {
     // MARK: - Properties
 
     private var workoutName: String = Copy.placeholder.empty
-    private var workoutDescription: String = Copy.placeholder.empty
+    private var workoutDescription: String?
 
     // Buffers for workout_file text nodes
     private var isReadingWorkoutName = false
@@ -178,7 +178,8 @@ final class ZWOParser: NSObject, XMLParserDelegate {
 
         case Copy.zwo.element.description:
             isReadingWorkoutDescription = false
-            workoutDescription = textBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
+            let trimmed = textBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
+            workoutDescription = trimmed.isEmpty ? nil : trimmed
             textBuffer = Copy.placeholder.empty
 
         // ---- Intervals ----

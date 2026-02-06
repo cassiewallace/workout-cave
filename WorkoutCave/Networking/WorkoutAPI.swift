@@ -86,7 +86,7 @@ private struct WorkoutRow: Decodable {
         return Workout(
             id: String(id),
             name: name,
-            description: description ?? Copy.placeholder.empty,
+            description: description,
             intervals: mappedIntervals
         )
     }

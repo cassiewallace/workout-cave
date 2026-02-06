@@ -20,7 +20,7 @@ struct Workout: Identifiable, Codable {
     
     let id: String
     let name: String
-    let description: String
+    let description: String?
     let intervals: [Interval]
     
     var isJustRide: Bool {
@@ -34,7 +34,7 @@ struct Workout: Identifiable, Codable {
     init(
         id: String,
         name: String,
-        description: String,
+        description: String?,
         intervals: [Interval]
     ) {
         self.id = id

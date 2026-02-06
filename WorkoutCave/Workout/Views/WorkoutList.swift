@@ -24,7 +24,7 @@ struct WorkoutList: View {
     private struct WorkoutListItem: Identifiable {
         let id: String
         let name: String
-        let description: String
+        let description: String?
         let source: WorkoutListSource
     }
 
@@ -131,7 +131,7 @@ struct WorkoutList: View {
                     WorkoutListItem(
                         id: "remote-\(summary.id)",
                         name: summary.name,
-                        description: summary.description ?? Copy.placeholder.empty,
+                        description: summary.description,
                         source: .remote(id: summary.id)
                     )
                 }

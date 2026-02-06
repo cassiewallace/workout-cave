@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WorkoutCard: View {
     var name: String
-    var description: String
+    var description: String?
     
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.xs) {
@@ -17,8 +17,10 @@ struct WorkoutCard: View {
                 .font(.title2)
                 .bold()
                 .foregroundColor(.primary)
-            Text(description)
-                .foregroundColor(.secondary)
+            if let description, !description.isEmpty {
+                Text(description)
+                    .foregroundColor(.secondary)
+            }
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)

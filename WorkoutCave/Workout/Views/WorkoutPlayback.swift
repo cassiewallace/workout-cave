@@ -94,7 +94,7 @@ struct WorkoutPlayback: View {
                     loadingView
                 }
             }
-            .navigationTitle(engine.workout?.name ?? Copy.placeholder.empty)
+            .navigationTitle(workoutTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.hidden, for: .tabBar)
             .toolbar {
@@ -225,6 +225,8 @@ struct WorkoutPlayback: View {
                         .foregroundColor(.green)
                         .multilineTextAlignment(.center)
                 }
+            } else if engine.isJustRide {
+                EmptyView()
             } else if let interval = engine.currentInterval {
                 VStack(spacing: innerSpacing) {
                     Text(interval.name)
@@ -267,6 +269,13 @@ struct WorkoutPlayback: View {
         var metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate]
         if !engine.isJustRide { metrics.append(.targetZone) }
         return metrics
+    }
+
+    private var workoutTitle: String {
+        guard let workout = engine.workout, !workout.isJustRide else {
+            return Copy.placeholder.empty
+        }
+        return workout.name
     }
 
     private func metricsGrid(

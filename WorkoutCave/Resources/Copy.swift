@@ -61,10 +61,6 @@ enum Copy {
         static let loadFailure = "Unable to load the Terms and Conditions."
     }
 
-    enum workoutList {
-        static let justRideDescription = "No workout, no time, just metrics."
-    }
-
     enum onboarding {
         static let description = "Workout Cave gives you focused indoor rides with live metrics so you can train the way you want."
         static let cta = "Let's go"

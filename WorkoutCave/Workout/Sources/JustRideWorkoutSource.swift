@@ -14,12 +14,12 @@ struct JustRideWorkoutSource: WorkoutSource {
         Workout(
             id: Self.workoutId,
             name: Copy.navigationTitle.justRide,
-            description: Copy.workoutList.justRideDescription,
+            description: nil,
             intervals: [
                 Workout.Interval(
                     duration: 6 * 60 * 60,
                     name: Copy.navigationTitle.justRide,
-                    message: "Ride when ready. Tap Stop when done.",
+                    message: nil,
                     type: .freeRide,
                     powerTarget: nil
                 )
