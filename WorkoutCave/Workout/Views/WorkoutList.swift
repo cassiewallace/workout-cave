@@ -52,16 +52,18 @@ struct WorkoutList: View {
 
     private var filteredWorkouts: [WorkoutListItem] {
         guard case let .loaded(items) = viewState else { return [] }
-        return items
-            .filter { searchText.isEmpty || $0.name.localizedStandardContains(searchText) }
-            .sorted {
-                switch sortOrder {
-                case .recommended:
-                    return false
-                case .name:
-                    return $0.name.localizedStandardCompare($1.name) == .orderedAscending
-                }
+        let filtered = items.filter { searchText.isEmpty || $0.name.localizedStandardContains(searchText) }
+        let sorted = filtered.sorted {
+            switch sortOrder {
+            case .recommended:
+                return false
+            case .name:
+                return $0.name.localizedStandardCompare($1.name) == .orderedAscending
             }
+        }
+        let justRide = sorted.filter { $0.id == Workout.justRideId }
+        let rest = sorted.filter { $0.id != Workout.justRideId }
+        return justRide + rest
     }
 
     var body: some View {
