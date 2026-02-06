@@ -130,6 +130,13 @@ struct WorkoutPlayback: View {
                         action: handleStopCancel
                     ))
             }
+            .safeAreaInset(edge: .bottom) {
+                if engine.playbackState == .finished {
+                    Color.clear
+                        .frame(height: 44)
+                        .accessibilityHidden(true)
+                }
+            }
         }
         .task {
             guard autoLoad else { return }
