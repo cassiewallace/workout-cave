@@ -35,7 +35,10 @@ struct WorkoutList: View {
 
     // MARK: - Properties
 
-    private let localItems = WorkoutCatalog.all()
+    private static let localWorkoutSources: [(id: String, source: WorkoutSource)] = [
+        (Workout.justRideId, JustRideWorkoutSource())
+    ]
+
     private let workoutAPI = WorkoutAPI()
 
     @EnvironmentObject private var bluetooth: BluetoothManager
@@ -112,7 +115,7 @@ struct WorkoutList: View {
         .background(Color("AppBackground"))
         .task {
             viewState = .loading
-            let local: [WorkoutListItem] = localItems.compactMap { item in
+            let local: [WorkoutListItem] = Self.localWorkoutSources.compactMap { item in
                 guard let workout = try? item.source.loadWorkout() else {
                     return nil
                 }

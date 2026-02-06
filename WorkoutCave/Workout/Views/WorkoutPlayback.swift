@@ -431,10 +431,17 @@ private struct WorkoutPlaybackPreviewHost: View {
         return c
     }()
 
-    private let workoutSource: WorkoutSource = {
-        let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
-        let data = try! Data(contentsOf: url)
-        return ZwiftWorkoutSource(id: "jen-intervals", data: data)
+    private static let previewWorkoutSource: WorkoutSource = {
+        let zwo = """
+        <workout_file>
+            <name>Preview Workout</name>
+            <workout>
+                <SteadyState Duration="60" Power="0.5" pace="0"/>
+            </workout>
+        </workout_file>
+        """
+        let data = Data(zwo.utf8)
+        return ZwiftWorkoutSource(id: "preview", data: data)
     }()
 
     @MainActor
@@ -446,7 +453,7 @@ private struct WorkoutPlaybackPreviewHost: View {
     var body: some View {
         NavigationStack {
             WorkoutPlayback(
-                workoutSource: workoutSource,
+                workoutSource: Self.previewWorkoutSource,
                 autoLoad: false,
                 engine: engine
             )
@@ -454,7 +461,7 @@ private struct WorkoutPlaybackPreviewHost: View {
         .modelContainer(container)
         .environmentObject(bluetooth)
         .task {
-            engine.load(source: workoutSource)
+            engine.load(source: Self.previewWorkoutSource)
             engine.setPowerProvider { bluetooth.metrics.powerWatts }
             applyPreviewPlaybackState(playbackState)
         }

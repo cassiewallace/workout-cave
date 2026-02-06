@@ -29,8 +29,6 @@
 		65DE043A2F21AB48007F7071 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65DE04392F21AB48007F7071 /* Launch Screen.storyboard */; };
 		65DE043E2F22D488007F7071 /* BluetoothDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DE043D2F22D47B007F7071 /* BluetoothDialog.swift */; };
 		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
-		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
-		65F559FE2EFAE608007AD1D9 /* 40-20.zwo in Resources */ = {isa = PBXBuildFile; fileRef = 65F559FD2EFAE608007AD1D9 /* 40-20.zwo */; };
 		65F55A002EFAF391007AD1D9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 65F559FF2EFAF391007AD1D9 /* README.md */; };
 		65F55A032EFAFEF7007AD1D9 /* PowerZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F55A022EFAFEF6007AD1D9 /* PowerZone.swift */; };
 		65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7DF2EF471170047A9FC /* WorkoutList.swift */; };
@@ -72,8 +70,6 @@
 		65DE04392F21AB48007F7071 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		65DE043D2F22D47B007F7071 /* BluetoothDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDialog.swift; sourceTree = "<group>"; };
 		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
-		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
-		65F559FD2EFAE608007AD1D9 /* 40-20.zwo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "40-20.zwo"; sourceTree = "<group>"; };
 		65F559FF2EFAF391007AD1D9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		65F55A022EFAFEF6007AD1D9 /* PowerZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerZone.swift; sourceTree = "<group>"; };
 		65FBC7DF2EF471170047A9FC /* WorkoutList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutList.swift; sourceTree = "<group>"; };
@@ -196,7 +192,6 @@
 				A2000004 /* TermsAndConditions.txt */,
 				658197282F16CF5D0004C85A /* Icons.xcassets */,
 				654ABC262F3123CA000263D9 /* Media.xcassets */,
-				65F559FD2EFAE608007AD1D9 /* 40-20.zwo */,
 				65DE04392F21AB48007F7071 /* Launch Screen.storyboard */,
 			);
 			path = Resources;
@@ -286,7 +281,6 @@
 		A1000029 /* Workout */ = {
 			isa = PBXGroup;
 			children = (
-				65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */,
 				A1000027 /* Views */,
 				A1000028 /* ViewModels */,
 				6520712B2F203EEC00EDFBA1 /* Models */,
@@ -383,7 +377,6 @@
 				65F55A002EFAF391007AD1D9 /* README.md in Resources */,
 				A2000003 /* TermsAndConditions.txt in Resources */,
 				658197292F16CF5D0004C85A /* Icons.xcassets in Resources */,
-				65F559FE2EFAE608007AD1D9 /* 40-20.zwo in Resources */,
 				65DE043A2F21AB48007F7071 /* Launch Screen.storyboard in Resources */,
 				654ABC272F3123CA000263D9 /* Media.xcassets in Resources */,
 			);
@@ -422,7 +415,6 @@
 				65FBC7E42EF49B350047A9FC /* Control.swift in Sources */,
 				65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */,
 				A1000007 /* ZWOParser.swift in Sources */,
-				65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */,
 				A2000001 /* TermsAndConditionsView.swift in Sources */,
 				65F55A032EFAFEF7007AD1D9 /* PowerZone.swift in Sources */,
 				653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */,

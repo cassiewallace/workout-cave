@@ -146,16 +146,6 @@ enum Copy {
         static let zwo = "zwo"
     }
 
-    enum workoutResource {
-        static let steadyStateBase = "steady-state-base"
-        static let recoverySpin = "recovery-spin"
-        static let powerIntervals3030 = "30-30-power-intervals"
-        static let tempoIntervals9060 = "90-60-tempo-intervals"
-        static let progressiveWarmup = "progressive-warmup"
-        static let enduranceBuild = "endurance-build"
-        static let fortyTwenty = "40-20"
-    }
-
     enum errorDomain {
         static let zwiftWorkoutSource = "ZwiftWorkoutSource"
     }

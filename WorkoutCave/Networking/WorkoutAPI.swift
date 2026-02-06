@@ -19,6 +19,7 @@ struct WorkoutAPI {
         let rows: [WorkoutSummaryRow] = try await client
             .from("workouts")
             .select("id,name,description")
+            .order("id")
             .execute()
             .value
         return rows.map {
