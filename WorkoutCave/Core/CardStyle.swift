@@ -9,14 +9,14 @@ import SwiftUI
 
 private struct StyledCard: ViewModifier {
     private let cornerRadius: CGFloat = Constants.m
-    private let backgroundColor: Color = .white.opacity(0.90)
+    private let backgroundColor: Color = Color("CardBackground")
     
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
             content
                 .background(backgroundColor, in: RoundedRectangle(cornerRadius: cornerRadius))
                 .glassEffect(
-                    .regular.tint(.white).interactive(),
+                    .regular.tint(.primary).interactive(),
                     in: .rect(cornerRadius: cornerRadius)
                 )
         } else {
@@ -25,7 +25,7 @@ private struct StyledCard: ViewModifier {
                 .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .stroke(.white, lineWidth: 0.5)
+                        .stroke(Color("CardBorder"), lineWidth: 0.5)
                 )
         }
     }

@@ -16,10 +16,10 @@ struct WorkoutCard: View {
             Text(name)
                 .font(.title2)
                 .bold()
-                .foregroundColor(.primary)
+                .foregroundStyle(Color("CardTitle"))
             if let description, !description.isEmpty {
                 Text(description)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(Color("CardSubtitle"))
             }
         }
         .padding()

@@ -50,7 +50,7 @@ struct Settings: View {
             .listRowBackground(Color.clear)
         }
         .scrollContentBackground(.hidden)
-        .background(Color.brown.opacity(0.3))
+        .background(Color("AppBackground"))
         .scrollDismissesKeyboard(.interactively)
         .navigationTitle(Copy.navigationTitle.settings)
         .navigationBarTitleDisplayMode(.large)
@@ -75,7 +75,6 @@ struct Settings: View {
 
                 Button(Copy.settings.save) { saveFTP() }
                     .buttonStyle(.borderedProminent)
-                    .tint(.primary)
                     .disabled(Int(ftpText) == nil)
             }
         }

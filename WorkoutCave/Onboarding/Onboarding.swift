@@ -20,9 +20,9 @@ struct Onboarding: View {
 
                 LinearGradient(
                     colors: [
-                        Color.black.opacity(0.05),
-                        Color.black.opacity(0.65),
-                        Color.black.opacity(0.95)
+                        Color(.systemBackground).opacity(0.10),
+                        Color(.systemBackground).opacity(0.70),
+                        Color(.systemBackground).opacity(0.95)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -35,7 +35,7 @@ struct Onboarding: View {
                     Text(Copy.onboarding.description)
                         .font(.title2)
                         .multilineTextAlignment(.center)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                         .padding(.horizontal, Constants.xl)
                         .padding(.vertical, Constants.m)
 
@@ -49,7 +49,7 @@ struct Onboarding: View {
                     Button(action: onDismiss) {
                         Image(systemName: "xmark")
                     }
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.primary)
                     .accessibilityLabel(Copy.accessibility.close)
                 }
             }
@@ -76,8 +76,8 @@ struct Onboarding: View {
             button
                 .buttonStyle(.borderedProminent)
                 .buttonBorderShape(.roundedRectangle(radius: 16))
-                .tint(.white)
-                .foregroundStyle(.black)
+                .tint(.primary)
+                .foregroundStyle(.background)
         }
     }
 }

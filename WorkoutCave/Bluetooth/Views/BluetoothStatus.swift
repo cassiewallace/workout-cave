@@ -27,9 +27,9 @@ private struct BluetoothStatusIndicator: View {
     private var statusIconTint: Color {
         switch bluetooth.state {
         case .connecting, .connected:
-            return .blue
+            return .accentColor
         default:
-            return .gray
+            return .secondary
         }
     }
 

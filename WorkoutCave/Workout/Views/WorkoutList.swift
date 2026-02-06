@@ -109,7 +109,7 @@ struct WorkoutList: View {
         .navigationLinkIndicatorVisibility(.hidden)
         .navigationTitle(Copy.navigationTitle.workouts)
         .navigationBarTitleDisplayMode(.large)
-        .background(Color.brown.opacity(0.3))
+        .background(Color("AppBackground"))
         .task {
             viewState = .loading
             let local: [WorkoutListItem] = localItems.compactMap { item in
