@@ -178,22 +178,21 @@ struct WorkoutPlayback: View {
     private func playbackContent(workout: Workout) -> some View {
         ZStack(alignment: .topLeading) {
             VStack(spacing: sectionSpacing) {
-                intervalContent
-                
-                if !isCompactVertical {
-                    if engine.playbackState == .finished {
-                        metricsGrid(metrics: [.averagePower, .heartRate], averagePowerLabel: averagePowerLabel)
-                    } else {
-                        metricsGrid(metrics: playbackMetrics)
-                    }
+                if !engine.isJustRide {
+                    intervalContent
                 }
-                
+                Spacer(minLength: 0)
                 timer
                 progressBar
             }
             .padding(.top, sectionSpacing + Constants.m)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             
+            if !isCompactVertical {
+                metricsGridOverlay
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            }
+
             if isCompactVertical {
                 if engine.playbackState == .finished {
                     compactFinishedMetricsOverlay
@@ -225,8 +224,6 @@ struct WorkoutPlayback: View {
                         .foregroundColor(.green)
                         .multilineTextAlignment(.center)
                 }
-            } else if engine.isJustRide {
-                EmptyView()
             } else if let interval = engine.currentInterval {
                 VStack(spacing: innerSpacing) {
                     Text(interval.name)
@@ -271,11 +268,17 @@ struct WorkoutPlayback: View {
         return metrics
     }
 
-    private var workoutTitle: String {
-        guard let workout = engine.workout, !workout.isJustRide else {
-            return Copy.placeholder.empty
+    @ViewBuilder
+    private var metricsGridOverlay: some View {
+        if engine.playbackState == .finished {
+            metricsGrid(metrics: [.averagePower, .heartRate], averagePowerLabel: averagePowerLabel)
+        } else {
+            metricsGrid(metrics: playbackMetrics)
         }
-        return workout.name
+    }
+
+    private var workoutTitle: String {
+        engine.workout?.name ?? Copy.placeholder.empty
     }
 
     private func metricsGrid(
