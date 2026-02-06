@@ -15,20 +15,23 @@ private enum SortOrder: String, CaseIterable {
 struct WorkoutList: View {
     // MARK: - Properties
 
-    private let items = WorkoutCatalog.all()
+    private let localItems = WorkoutCatalog.all()
+    private let workoutAPI = WorkoutAPI()
     @EnvironmentObject private var bluetooth: BluetoothManager
-    @State private var workouts: [LoadedWorkout] = []
+    @State private var viewState: ViewState = .loading
     @State private var selectedWorkout: LoadedWorkout? = nil
     @State private var sortOrder: SortOrder = .recommended
     @State private var searchText: String = ""
+    @State private var isLoadingSelection: Bool = false
     
-    private var filteredWorkouts: [LoadedWorkout] {
-        workouts
-            .filter { searchText.isEmpty || $0.workout.name.localizedStandardContains(searchText) }
+    private var filteredWorkouts: [WorkoutListItem] {
+        guard case let .loaded(items) = viewState else { return [] }
+        return items
+            .filter { searchText.isEmpty || $0.name.localizedStandardContains(searchText) }
             .sorted {
             switch sortOrder {
             case .recommended: return false
-            case .name: return $0.workout.name.localizedStandardCompare($1.workout.name) == .orderedAscending
+            case .name: return $0.name.localizedStandardCompare($1.name) == .orderedAscending
             }
         }
     }
@@ -38,17 +41,41 @@ struct WorkoutList: View {
 
     var body: some View {
         List {
-            ForEach(filteredWorkouts) { workout in
-                Button {
-                    selectedWorkout = workout
-                } label: {
-                    WorkoutCard(name: workout.workout.name,
-                                description: workout.workout.description)
+            switch viewState {
+            case .loading:
+                ProgressView()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            case .error(let message):
+                Text(message)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            case .loaded:
+                if filteredWorkouts.isEmpty {
+                Text("No workouts available.")
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                } else {
+                ForEach(filteredWorkouts) { item in
+                    Button {
+                        handleSelection(item)
+                    } label: {
+                        WorkoutCard(name: item.name,
+                                    description: item.description)
+                    }
+                    .disabled(isLoadingSelection)
+                }
+                .listRowInsets(.init(top: Constants.xs, leading: Constants.l, bottom: Constants.xs, trailing: Constants.l))
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
                 }
             }
-            .listRowInsets(.init(top: Constants.xs, leading: Constants.l, bottom: Constants.xs, trailing: Constants.l))
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
         }
         .fullScreenCover(item: $selectedWorkout) { workout in
             WorkoutPlayback(workoutSource: workout.source)
@@ -60,11 +87,33 @@ struct WorkoutList: View {
         .navigationBarTitleDisplayMode(.large)
         .background(Color.brown.opacity(0.3))
         .task {
-            workouts = items.compactMap { item in
+            viewState = .loading
+            let local: [WorkoutListItem] = localItems.compactMap { item in
                 guard let workout = try? item.source.loadWorkout() else {
                     return nil
                 }
-                return LoadedWorkout(id: item.id, workout: workout, source: item.source)
+                let loaded = LoadedWorkout(id: item.id, workout: workout, source: item.source)
+                return WorkoutListItem(
+                    id: item.id,
+                    name: workout.name,
+                    description: workout.description,
+                    source: .local(loaded)
+                )
+            }
+
+            do {
+                let remote = try await workoutAPI.fetchWorkoutSummaries()
+                let remoteItems = remote.map { summary in
+                    WorkoutListItem(
+                        id: "remote-\(summary.id)",
+                        name: summary.name,
+                        description: summary.description ?? Copy.placeholder.empty,
+                        source: .remote(id: summary.id)
+                    )
+                }
+                viewState = .loaded(local + remoteItems)
+            } catch {
+                viewState = .loaded(local)
             }
         }
         .toolbar {
@@ -80,6 +129,47 @@ struct WorkoutList: View {
         }
         .searchable(text: $searchText)
     }
+
+    private func handleSelection(_ item: WorkoutListItem) {
+        switch item.source {
+        case .local(let loaded):
+            selectedWorkout = loaded
+        case .remote(let id):
+            isLoadingSelection = true
+            Task {
+                do {
+                    let workout = try await workoutAPI.fetchWorkout(id: id)
+                    let loaded = LoadedWorkout(
+                        id: String(id),
+                        workout: workout,
+                        source: NetworkWorkoutSource(workout: workout)
+                    )
+                    selectedWorkout = loaded
+                } catch {
+                    viewState = .error(String(describing: error))
+                }
+                isLoadingSelection = false
+            }
+        }
+    }
+}
+
+private enum ViewState {
+    case loading
+    case loaded([WorkoutListItem])
+    case error(String)
+}
+
+private struct WorkoutListItem: Identifiable {
+    let id: String
+    let name: String
+    let description: String
+    let source: WorkoutListSource
+}
+
+private enum WorkoutListSource {
+    case local(LoadedWorkout)
+    case remote(id: Int)
 }
 
 #Preview("Workout List", traits: .portrait) {

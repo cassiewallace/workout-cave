@@ -13,15 +13,11 @@
 		653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */; };
 		653F6FA32F11C3ED006DE91E /* FTMSIndoorBikeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FA22F11C3ED006DE91E /* FTMSIndoorBikeParser.swift */; };
 		653F6FA92F11D0A4006DE91E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FA82F11D0A2006DE91E /* Settings.swift */; };
-		653F6FAB2F140DFE006DE91E /* recovery-spin.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FAA2F140DFD006DE91E /* recovery-spin.json */; };
-		653F6FAD2F140E16006DE91E /* 30-30-power-intervals.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FAC2F140E16006DE91E /* 30-30-power-intervals.json */; };
-		653F6FAF2F140E31006DE91E /* 90-60-tempo-intervals.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FAE2F140E28006DE91E /* 90-60-tempo-intervals.json */; };
-		653F6FB12F140E3D006DE91E /* progressive-warmup.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FB02F140E3D006DE91E /* progressive-warmup.json */; };
-		653F6FB32F140E4C006DE91E /* endurance-build.json in Resources */ = {isa = PBXBuildFile; fileRef = 653F6FB22F140E4C006DE91E /* endurance-build.json */; };
 		653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB42F141145006DE91E /* UserSettings.swift */; };
 		653F6FB72F14244E006DE91E /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB62F142447006DE91E /* WorkoutCard.swift */; };
 		654ABC272F3123CA000263D9 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 654ABC262F3123CA000263D9 /* Media.xcassets */; };
 		658197292F16CF5D0004C85A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658197282F16CF5D0004C85A /* Icons.xcassets */; };
+		658349392F31570F00F517A1 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 658349382F31570F00F517A1 /* Supabase */; };
 		65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */; };
 		65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6E2F1F067600C8F940 /* Controls.swift */; };
 		65DAFA732F1FCAFE00C8F940 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA722F1FCAFE00C8F940 /* Constants.swift */; };
@@ -31,10 +27,8 @@
 		65DAFA852F20ABF100C8F940 /* LoadedWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */; };
 		65DE043A2F21AB48007F7071 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65DE04392F21AB48007F7071 /* Launch Screen.storyboard */; };
 		65DE043E2F22D488007F7071 /* BluetoothDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DE043D2F22D47B007F7071 /* BluetoothDialog.swift */; };
-		65F559F32EF5CD66007AD1D9 /* steady-state-base.json in Resources */ = {isa = PBXBuildFile; fileRef = 65F559F22EF5CD62007AD1D9 /* steady-state-base.json */; };
 		65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */; };
 		65F559F92EF5D374007AD1D9 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */; };
-		65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */; };
 		65F559FE2EFAE608007AD1D9 /* 40-20.zwo in Resources */ = {isa = PBXBuildFile; fileRef = 65F559FD2EFAE608007AD1D9 /* 40-20.zwo */; };
 		65F55A002EFAF391007AD1D9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 65F559FF2EFAF391007AD1D9 /* README.md */; };
 		65F55A032EFAFEF7007AD1D9 /* PowerZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F55A022EFAFEF6007AD1D9 /* PowerZone.swift */; };
@@ -49,6 +43,10 @@
 		A2000003 /* TermsAndConditions.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2000004 /* TermsAndConditions.txt */; };
 		A2000005 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* Metric.swift */; };
 		A2000008 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* Onboarding.swift */; };
+		A3000003 /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000002 /* NetworkConfig.swift */; };
+		A3000005 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000004 /* NetworkClient.swift */; };
+		A3000007 /* WorkoutAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000006 /* WorkoutAPI.swift */; };
+		A3000009 /* NetworkWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000008 /* NetworkWorkoutSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,11 +56,6 @@
 		653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeMetrics.swift; sourceTree = "<group>"; };
 		653F6FA22F11C3ED006DE91E /* FTMSIndoorBikeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMSIndoorBikeParser.swift; sourceTree = "<group>"; };
 		653F6FA82F11D0A2006DE91E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		653F6FAA2F140DFD006DE91E /* recovery-spin.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "recovery-spin.json"; sourceTree = "<group>"; };
-		653F6FAC2F140E16006DE91E /* 30-30-power-intervals.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "30-30-power-intervals.json"; sourceTree = "<group>"; };
-		653F6FAE2F140E28006DE91E /* 90-60-tempo-intervals.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "90-60-tempo-intervals.json"; sourceTree = "<group>"; };
-		653F6FB02F140E3D006DE91E /* progressive-warmup.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "progressive-warmup.json"; sourceTree = "<group>"; };
-		653F6FB22F140E4C006DE91E /* endurance-build.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "endurance-build.json"; sourceTree = "<group>"; };
 		653F6FB42F141145006DE91E /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		653F6FB62F142447006DE91E /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		654ABC262F3123CA000263D9 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
@@ -76,10 +69,8 @@
 		65DAFA842F20ABF100C8F940 /* LoadedWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadedWorkout.swift; sourceTree = "<group>"; };
 		65DE04392F21AB48007F7071 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		65DE043D2F22D47B007F7071 /* BluetoothDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDialog.swift; sourceTree = "<group>"; };
-		65F559F22EF5CD62007AD1D9 /* steady-state-base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "steady-state-base.json"; sourceTree = "<group>"; };
 		65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZwiftWorkoutSource.swift; sourceTree = "<group>"; };
 		65F559F82EF5D372007AD1D9 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
-		65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONWorkoutSource.swift; sourceTree = "<group>"; };
 		65F559FD2EFAE608007AD1D9 /* 40-20.zwo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "40-20.zwo"; sourceTree = "<group>"; };
 		65F559FF2EFAF391007AD1D9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		65F55A022EFAFEF6007AD1D9 /* PowerZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerZone.swift; sourceTree = "<group>"; };
@@ -96,7 +87,22 @@
 		A2000004 /* TermsAndConditions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TermsAndConditions.txt; sourceTree = "<group>"; };
 		A2000006 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
 		A2000007 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
+		A3000002 /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
+		A3000004 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		A3000006 /* WorkoutAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutAPI.swift; sourceTree = "<group>"; };
+		A3000008 /* NetworkWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorkoutSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		658349362F31570800F517A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				658349392F31570F00F517A1 /* Supabase in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		6520712B2F203EEC00EDFBA1 /* Models */ = {
@@ -187,15 +193,22 @@
 				A2000004 /* TermsAndConditions.txt */,
 				658197282F16CF5D0004C85A /* Icons.xcassets */,
 				654ABC262F3123CA000263D9 /* Media.xcassets */,
+				65F559FD2EFAE608007AD1D9 /* 40-20.zwo */,
 				65DE04392F21AB48007F7071 /* Launch Screen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		658349372F31570F00F517A1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		65F559FA2EF5D423007AD1D9 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				65F559FB2EF5D70E007AD1D9 /* JSONWorkoutSource.swift */,
 				65DAFA822F20AAAB00C8F940 /* JustRideWorkoutSource.swift */,
 				65F559F52EF5CEB8007AD1D9 /* ZwiftWorkoutSource.swift */,
 			);
@@ -216,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				A1000015 /* WorkoutCave */,
+				658349372F31570F00F517A1 /* Frameworks */,
 				A1000016 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -225,6 +239,7 @@
 			children = (
 				A1000002 /* WorkoutCave.swift */,
 				A2000009 /* Onboarding */,
+				A3000001 /* Networking */,
 				A1000029 /* Workout */,
 				6520712C2F20415B00EDFBA1 /* Bluetooth */,
 				653F6FA42F11CE57006DE91E /* Metrics */,
@@ -274,7 +289,6 @@
 				6520712B2F203EEC00EDFBA1 /* Models */,
 				65F559FA2EF5D423007AD1D9 /* Sources */,
 				A1000030 /* Parsing */,
-				A1000031 /* RawData */,
 			);
 			path = Workout;
 			sourceTree = "<group>";
@@ -287,26 +301,23 @@
 			path = Parsing;
 			sourceTree = "<group>";
 		};
-		A1000031 /* RawData */ = {
-			isa = PBXGroup;
-			children = (
-				653F6FB22F140E4C006DE91E /* endurance-build.json */,
-				653F6FB02F140E3D006DE91E /* progressive-warmup.json */,
-				653F6FAE2F140E28006DE91E /* 90-60-tempo-intervals.json */,
-				653F6FAC2F140E16006DE91E /* 30-30-power-intervals.json */,
-				65F559F22EF5CD62007AD1D9 /* steady-state-base.json */,
-				653F6FAA2F140DFD006DE91E /* recovery-spin.json */,
-				65F559FD2EFAE608007AD1D9 /* 40-20.zwo */,
-			);
-			path = RawData;
-			sourceTree = "<group>";
-		};
 		A2000009 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
 				A2000007 /* Onboarding.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		A3000001 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				A3000002 /* NetworkConfig.swift */,
+				A3000004 /* NetworkClient.swift */,
+				A3000006 /* WorkoutAPI.swift */,
+				A3000008 /* NetworkWorkoutSource.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,10 +329,12 @@
 			buildPhases = (
 				A1000019 /* Sources */,
 				A1000020 /* Resources */,
+				658349362F31570800F517A1 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				651C9F2B2F3153A50057B4AD /* PBXTargetDependency */,
 			);
 			name = WorkoutCave;
 			productName = WorkoutCave;
@@ -347,6 +360,9 @@
 				Base,
 			);
 			mainGroup = A1000014;
+			packageReferences = (
+				651C9F252F3153610057B4AD /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			productRefGroup = A1000016 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -361,18 +377,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				653F6FAD2F140E16006DE91E /* 30-30-power-intervals.json in Resources */,
-				653F6FAF2F140E31006DE91E /* 90-60-tempo-intervals.json in Resources */,
 				65F55A002EFAF391007AD1D9 /* README.md in Resources */,
 				A2000003 /* TermsAndConditions.txt in Resources */,
 				658197292F16CF5D0004C85A /* Icons.xcassets in Resources */,
 				65F559FE2EFAE608007AD1D9 /* 40-20.zwo in Resources */,
-				653F6FAB2F140DFE006DE91E /* recovery-spin.json in Resources */,
-				65F559F32EF5CD66007AD1D9 /* steady-state-base.json in Resources */,
-				653F6FB32F140E4C006DE91E /* endurance-build.json in Resources */,
 				65DE043A2F21AB48007F7071 /* Launch Screen.storyboard in Resources */,
 				654ABC272F3123CA000263D9 /* Media.xcassets in Resources */,
-				653F6FB12F140E3D006DE91E /* progressive-warmup.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +411,10 @@
 				65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */,
 				A2000005 /* Metric.swift in Sources */,
 				A2000008 /* Onboarding.swift in Sources */,
+				A3000003 /* NetworkConfig.swift in Sources */,
+				A3000005 /* NetworkClient.swift in Sources */,
+				A3000007 /* WorkoutAPI.swift in Sources */,
+				A3000009 /* NetworkWorkoutSource.swift in Sources */,
 				65FBC7E42EF49B350047A9FC /* Control.swift in Sources */,
 				65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */,
 				A1000007 /* ZWOParser.swift in Sources */,
@@ -408,7 +422,6 @@
 				A2000001 /* TermsAndConditionsView.swift in Sources */,
 				65F55A032EFAFEF7007AD1D9 /* PowerZone.swift in Sources */,
 				653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */,
-				65F559FC2EF5D711007AD1D9 /* JSONWorkoutSource.swift in Sources */,
 				653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */,
 				652071322F217B1A00EDFBA1 /* CardStyle.swift in Sources */,
 				65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */,
@@ -417,6 +430,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		651C9F2B2F3153A50057B4AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 651C9F2A2F3153A50057B4AD /* Supabase */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A1000023 /* Debug */ = {
@@ -628,6 +648,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		651C9F252F3153610057B4AD /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		651C9F2A2F3153A50057B4AD /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 651C9F252F3153610057B4AD /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		658349382F31570F00F517A1 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 651C9F252F3153610057B4AD /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A1000021 /* Project object */;
 }

@@ -24,6 +24,10 @@
 	<true/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Connect to your bike to show live workout metrics like power, cadence, and speed.</string>
+	<key>SUPABASE_ANON_KEY</key>
+	<string>sb_publishable_sVYCZOBmtBvBMq2ByoyXLA_ODLGYYNY</string>
+	<key>SUPABASE_URL</key>
+	<string>https://yrwthlohkhuyrbqduzeg.supabase.co</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

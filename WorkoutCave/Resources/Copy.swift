@@ -157,7 +157,6 @@ enum Copy {
     }
 
     enum errorDomain {
-        static let jsonWorkoutSource = "JSONWorkoutSource"
         static let zwiftWorkoutSource = "ZwiftWorkoutSource"
     }
 

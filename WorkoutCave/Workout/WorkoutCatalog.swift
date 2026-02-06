@@ -20,32 +20,6 @@ enum WorkoutCatalog {
                 id: Workout.justRideId,
                 source: JustRideWorkoutSource()
             ),
-            // JSON workouts
-            WorkoutItem(
-                id: Copy.workoutResource.steadyStateBase,
-                source: json(resource: Copy.workoutResource.steadyStateBase)
-            ),
-            WorkoutItem(
-                id: Copy.workoutResource.recoverySpin,
-                source: json(resource: Copy.workoutResource.recoverySpin)
-            ),
-            WorkoutItem(
-                id: Copy.workoutResource.powerIntervals3030,
-                source: json(resource: Copy.workoutResource.powerIntervals3030)
-            ),
-            WorkoutItem(
-                id: Copy.workoutResource.tempoIntervals9060,
-                source: json(resource: Copy.workoutResource.tempoIntervals9060)
-            ),
-            WorkoutItem(
-                id: Copy.workoutResource.progressiveWarmup,
-                source: json(resource: Copy.workoutResource.progressiveWarmup)
-            ),
-            WorkoutItem(
-                id: Copy.workoutResource.enduranceBuild,
-                source: json(resource: Copy.workoutResource.enduranceBuild)
-            ),
-            
             // Zwift workouts
             WorkoutItem(
                 id: Copy.workoutResource.fortyTwenty,
@@ -64,7 +38,4 @@ enum WorkoutCatalog {
         )
     }
 
-    private static func json(resource: String) -> WorkoutSource {
-        JSONWorkoutSource(resourceName: resource)
-    }
 }

@@ -4,7 +4,7 @@ Workout Cave is a personal iOS app for playing structured bike workouts with a c
 
 ## Features
 
-- Plays bundled workouts from **Zwift ZWO** and **native JSON** files
+- Plays bundled workouts from **Zwift ZWO** and remote workouts from Supabase
 - Clean playback screen with interval name, cues, large timer, and progress
 - Start / Pause / Skip / Restart controls
 - Accurate wall-clock timing that survives backgrounding and screen lock
@@ -27,9 +27,12 @@ Workout Cave is a personal iOS app for playing structured bike workouts with a c
 1. Open `WorkoutCave.xcodeproj` in Xcode
 2. Build and run on a simulator or device
 3. (Recommended) Set your FTP in **Settings** to enable power zones
-4. Workouts are bundled in the app:
-   - `.zwo` files for Zwift workouts
-   - `.json` files for native workouts
+4. Configure Supabase keys in `Info.plist`:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY` (publishable/anon key)
+5. Workouts are loaded from:
+   - `.zwo` files for Zwift workouts (bundled)
+   - Supabase (workouts + intervals)
 
 ## Bluetooth
 
@@ -45,10 +48,19 @@ Notes:
 
 ## Workouts
 
-Bundled workouts live in `WorkoutCave/Workout/RawData/`:
+Workout Cave loads workouts from two sources:
 
-- **JSON workouts**: decoded directly into the `Workout` model.
-- **ZWO workouts**: parsed from Zwift `.zwo` XML.
+- **Supabase**: fetches `workouts` and related `intervals` via the publishable/anon key.
+  - Access is controlled by Supabase RLS policies.
+- **ZWO workouts**: parsed from Zwift `.zwo` XML (bundled in the app).
+
+## Supabase
+
+Supabase is used as a lightweight backend to store workouts and intervals. The app reads from the `workouts` table with a related `intervals` relationship.
+
+- Client uses the **publishable/anon key** from `Info.plist`.
+- The **service_role/secret key is never used in the app**.
+- RLS should allow read access for the anon role.
 
 ## Project notes
 
