@@ -102,8 +102,10 @@ struct WorkoutPlayback: View {
                     Button {
                         if engine.playbackState == .finished {
                             dismiss()
-                        } else {
+                        } else if engine.playbackState == .running || engine.playbackState == .paused {
                             presentStopPrompt(source: .close, pauseIfRunning: false)
+                        } else {
+                            dismiss()
                         }
                     } label: {
                         Image(systemName: "xmark")
