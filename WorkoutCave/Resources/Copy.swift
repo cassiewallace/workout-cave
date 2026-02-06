@@ -46,6 +46,7 @@ enum Copy {
         static let gridTarget = "Target"
         static let devicesSection = "Devices"
         static let ftpSection = "Functional Threshold Power (FTP)"
+        static let appearanceSection = "Appearance"
         static let unitsSection = "Units"
         static let connectBike = "Connect to a bike"
         static let bluetoothDialogPlaceholder = "Display bluetooth dialog"

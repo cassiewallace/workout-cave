@@ -5,7 +5,6 @@
 //  Created by Cassie Wallace on 1/9/26.
 //
 
-import Foundation
 import SwiftData
 import SwiftUI
 
@@ -28,6 +27,18 @@ struct Settings: View {
                 ftpSection
                 powerZones
             }
+            Section(Copy.settings.appearanceSection) {
+                Picker(Copy.settings.appearanceSection, selection: appAppearanceBinding) {
+                    ForEach(AppAppearance.allCases) { appearance in
+                        Text(appearance.displayName).tag(appearance)
+                    }
+                }
+                .labelsHidden()
+                .pickerStyle(.segmented)
+                .frame(maxWidth: .infinity)
+            }
+            .listRowBackground(Color.clear)
+            .listRowInsets(.init(top: Constants.xxs, leading: Constants.xxs, bottom: Constants.xxs, trailing: Constants.xxs))
             Section(Copy.settings.unitsSection) {
                 Picker(Copy.settings.unitsSection, selection: speedUnitBinding) {
                     ForEach(SpeedUnit.allCases) { unit in
@@ -154,6 +165,20 @@ struct Settings: View {
             }
         )
     }
+
+    private var appAppearanceBinding: Binding<AppAppearance> {
+        Binding(
+            get: { userSettings?.appAppearance ?? .system },
+            set: { newValue in
+                if let userSettings {
+                    userSettings.appAppearance = newValue
+                } else {
+                    modelContext.insert(UserSettings(id: "me", appearanceRawValue: newValue.rawValue))
+                }
+                try? modelContext.save()
+            }
+        )
+    }
 }
 
 
@@ -166,12 +191,6 @@ private struct SettingsPreviewHost: View {
         context.insert(UserSettings(id: "me", ftpWatts: 250))
         try? context.save()
         return c
-    }()
-
-    private let workoutSource: WorkoutSource = {
-        let url = Bundle.main.url(forResource: "40-20", withExtension: "zwo")!
-        let data = try! Data(contentsOf: url)
-        return ZwiftWorkoutSource(id: "jen-intervals", data: data)
     }()
 
     var body: some View {

@@ -24,6 +24,7 @@ private struct RootView: View {
     @StateObject private var bluetooth = BluetoothManager()
     @AppStorage("hasSeenIntro") private var hasSeenIntro: Bool = false
     @State private var bootstrapError: String?
+    @State private var preferredAppearance: AppAppearance = .system
 
     private var userSettings: UserSettings? {
         settingsRows.first
@@ -50,11 +51,16 @@ private struct RootView: View {
                 .sheet(isPresented: introBinding(userSettings: userSettings)) {
                     Onboarding(onDismiss: markIntroSeen)
                 }
+                .preferredColorScheme(preferredAppearance.preferredColorScheme)
                 .onAppear {
                     let storedValue = userSettings.hasSeenIntro ?? false
                     if storedValue != hasSeenIntro {
                         hasSeenIntro = storedValue
                     }
+                    preferredAppearance = userSettings.appAppearance
+                }
+                .onChange(of: userSettings.appearanceRawValue) { _, _ in
+                    preferredAppearance = userSettings.appAppearance
                 }
                 .onChange(of: hasSeenIntro) { _, newValue in
                     if (userSettings.hasSeenIntro ?? false) != newValue {

@@ -14,17 +14,20 @@ final class UserSettings {
     var ftpWatts: Int?
     var hasSeenIntro: Bool?
     var speedUnitRawValue: String?
+    var appearanceRawValue: String?
 
     init(
         id: String = "me",
         ftpWatts: Int? = nil,
         hasSeenIntro: Bool? = nil,
-        speedUnitRawValue: String? = nil
+        speedUnitRawValue: String? = nil,
+        appearanceRawValue: String? = nil
     ) {
         self.id = id
         self.ftpWatts = ftpWatts
         self.hasSeenIntro = hasSeenIntro
         self.speedUnitRawValue = speedUnitRawValue
+        self.appearanceRawValue = appearanceRawValue
     }
 }
 
@@ -37,10 +40,45 @@ enum SpeedUnit: String, CaseIterable, Identifiable {
     var displayName: String { rawValue }
 }
 
+enum AppAppearance: String, CaseIterable, Identifiable {
+    case light
+    case dark
+    case system
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .light:
+            return "Light"
+        case .dark:
+            return "Dark"
+        case .system:
+            return "System"
+        }
+    }
+
+    var preferredColorScheme: ColorScheme? {
+        switch self {
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        case .system:
+            return nil
+        }
+    }
+}
+
 extension UserSettings {
     var speedUnit: SpeedUnit {
         get { SpeedUnit(rawValue: speedUnitRawValue ?? "") ?? .mph }
         set { speedUnitRawValue = newValue.rawValue }
+    }
+
+    var appAppearance: AppAppearance {
+        get { AppAppearance(rawValue: appearanceRawValue ?? "") ?? .system }
+        set { appearanceRawValue = newValue.rawValue }
     }
 
     func powerZone(for watts: Int?) -> PowerZone? {
