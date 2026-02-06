@@ -7,37 +7,59 @@
 
 import SwiftUI
 
-private enum SortOrder: String, CaseIterable {
-    case recommended
-    case name
-}
-
 struct WorkoutList: View {
+    // MARK: - Types
+
+    private enum SortOrder: String, CaseIterable {
+        case recommended
+        case name
+    }
+
+    private enum ViewState {
+        case loading
+        case loaded([WorkoutListItem])
+        case error(String)
+    }
+
+    private struct WorkoutListItem: Identifiable {
+        let id: String
+        let name: String
+        let description: String
+        let source: WorkoutListSource
+    }
+
+    private enum WorkoutListSource {
+        case local(LoadedWorkout)
+        case remote(id: Int)
+    }
+
     // MARK: - Properties
 
     private let localItems = WorkoutCatalog.all()
     private let workoutAPI = WorkoutAPI()
+
     @EnvironmentObject private var bluetooth: BluetoothManager
     @State private var viewState: ViewState = .loading
-    @State private var selectedWorkout: LoadedWorkout? = nil
+    @State private var selectedWorkout: LoadedWorkout?
     @State private var sortOrder: SortOrder = .recommended
     @State private var searchText: String = ""
-    @State private var isLoadingSelection: Bool = false
-    
+    @State private var isLoadingSelection = false
+
+    // MARK: - Computed Properties
+
     private var filteredWorkouts: [WorkoutListItem] {
         guard case let .loaded(items) = viewState else { return [] }
         return items
             .filter { searchText.isEmpty || $0.name.localizedStandardContains(searchText) }
             .sorted {
-            switch sortOrder {
-            case .recommended: return false
-            case .name: return $0.name.localizedStandardCompare($1.name) == .orderedAscending
+                switch sortOrder {
+                case .recommended:
+                    return false
+                case .name:
+                    return $0.name.localizedStandardCompare($1.name) == .orderedAscending
+                }
             }
-        }
     }
-
-
-    // MARK: - Body
 
     var body: some View {
         List {
@@ -56,24 +78,26 @@ struct WorkoutList: View {
                     .listRowBackground(Color.clear)
             case .loaded:
                 if filteredWorkouts.isEmpty {
-                Text("No workouts available.")
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    Text("No workouts available.")
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                } else {
+                    ForEach(filteredWorkouts) { item in
+                        Button {
+                            handleSelection(item)
+                        } label: {
+                            WorkoutCard(
+                                name: item.name,
+                                description: item.description
+                            )
+                        }
+                        .disabled(isLoadingSelection)
+                    }
+                    .listRowInsets(.init(top: Constants.xs, leading: Constants.l, bottom: Constants.xs, trailing: Constants.l))
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
-                } else {
-                ForEach(filteredWorkouts) { item in
-                    Button {
-                        handleSelection(item)
-                    } label: {
-                        WorkoutCard(name: item.name,
-                                    description: item.description)
-                    }
-                    .disabled(isLoadingSelection)
-                }
-                .listRowInsets(.init(top: Constants.xs, leading: Constants.l, bottom: Constants.xs, trailing: Constants.l))
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
                 }
             }
         }
@@ -130,6 +154,8 @@ struct WorkoutList: View {
         .searchable(text: $searchText)
     }
 
+    // MARK: - Actions
+
     private func handleSelection(_ item: WorkoutListItem) {
         switch item.source {
         case .local(let loaded):
@@ -154,23 +180,7 @@ struct WorkoutList: View {
     }
 }
 
-private enum ViewState {
-    case loading
-    case loaded([WorkoutListItem])
-    case error(String)
-}
-
-private struct WorkoutListItem: Identifiable {
-    let id: String
-    let name: String
-    let description: String
-    let source: WorkoutListSource
-}
-
-private enum WorkoutListSource {
-    case local(LoadedWorkout)
-    case remote(id: Int)
-}
+// MARK: - Preview
 
 #Preview("Workout List", traits: .portrait) {
     NavigationStack {
