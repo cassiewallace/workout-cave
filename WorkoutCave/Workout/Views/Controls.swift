@@ -10,12 +10,11 @@ import SwiftUI
 struct Controls: ToolbarContent {
     @ObservedObject var engine: WorkoutEngine
     @Binding var isStopConfirmationPresented: Bool
-    var onRestart: () -> Void
     
     @ToolbarContentBuilder
     var body: some ToolbarContent {
         if let workout = engine.workout {
-            if !workout.isJustRide || engine.playbackState != .finished {
+            if !workout.isJustRide {
                 ToolbarItem(placement: .bottomBar) {
                     Control(
                         controlType: .skip,
@@ -53,13 +52,6 @@ struct Controls: ToolbarContent {
                 }
             }
             
-            ToolbarItem(placement: .bottomBar) {
-                Control(
-                    controlType: .restart,
-                    action: onRestart,
-                    isDisabled: engine.playbackState == .idle
-                )
-            }
         }
     }
 }

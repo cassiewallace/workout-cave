@@ -114,8 +114,7 @@ struct WorkoutPlayback: View {
                 }
                 Controls(
                     engine: engine,
-                    isStopConfirmationPresented: stopConfirmationBindingForControls,
-                    onRestart: engine.restart
+                    isStopConfirmationPresented: stopConfirmationBindingForControls
                 )
             }
             .bluetoothStatus(using: bluetooth)
