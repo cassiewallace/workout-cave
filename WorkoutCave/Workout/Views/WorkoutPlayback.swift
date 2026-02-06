@@ -344,7 +344,7 @@ struct WorkoutPlayback: View {
     }
 
     private func handleStopConfirmation() {
-        dismissStopConfirmation()
+        isStopConfirmationPresented = false
         shouldResumeAfterCancel = false
         if stopConfirmationSource == .close {
             dismiss()
@@ -355,12 +355,8 @@ struct WorkoutPlayback: View {
         }
     }
 
-    private func dismissStopConfirmation() {
-        isStopConfirmationPresented = false
-    }
-
     private func handleStopCancel() {
-        dismissStopConfirmation()
+        isStopConfirmationPresented = false
         if stopConfirmationSource == .stop, shouldResumeAfterCancel {
             engine.start()
         }
