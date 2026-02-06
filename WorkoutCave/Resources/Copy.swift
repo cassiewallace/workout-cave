@@ -48,6 +48,7 @@ enum Copy {
         static let ftpSection = "Training Zones"
         static let setPowerZones = "Functional Threshold Power (FTP)"
         static let appearanceSection = "Appearance"
+        static let theme = "Theme"
         static let unitsSection = "Units"
         static let connectBike = "Connect to a bike"
         static let bluetoothDialogPlaceholder = "Display bluetooth dialog"

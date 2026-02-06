@@ -27,23 +27,19 @@ struct Settings: View {
                 }
             }
             Section(Copy.settings.appearanceSection) {
-                Picker(Copy.settings.appearanceSection, selection: appAppearanceBinding) {
+                Picker(Copy.settings.theme, selection: appAppearanceBinding) {
                     ForEach(AppAppearance.allCases) { appearance in
                         Text(appearance.displayName).tag(appearance)
                     }
                 }
-                .padding(-Constants.m)
-                .pickerStyle(.segmented)
-            }
-            .listRowBackground(Color.clear)
-            Section(Copy.settings.unitsSection) {
+                .pickerStyle(.menu)
+                
                 Picker(Copy.settings.unitsSection, selection: speedUnitBinding) {
                     ForEach(SpeedUnit.allCases) { unit in
                         Text(unit.displayName).tag(unit)
                     }
                 }
-//                .labelsHidden()
-                .pickerStyle(.inline)
+                .pickerStyle(.menu)
             }
             Section(Copy.settings.legalSection) {
                 NavigationLink(Copy.settings.termsButton) {
