@@ -343,11 +343,14 @@ struct WorkoutPlayback: View {
 
     private func handleStopConfirmation() {
         dismissStopConfirmation()
-        engine.finish()
+        shouldResumeAfterCancel = false
         if stopConfirmationSource == .close {
             dismiss()
         }
-        shouldResumeAfterCancel = false
+        Task { @MainActor in
+            await Task.yield()
+            engine.finish()
+        }
     }
 
     private func dismissStopConfirmation() {
