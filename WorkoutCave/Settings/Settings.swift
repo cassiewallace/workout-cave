@@ -28,6 +28,15 @@ struct Settings: View {
                 ftpSection
                 powerZones
             }
+            Section(Copy.settings.unitsSection) {
+                Picker(Copy.settings.unitsSection, selection: speedUnitBinding) {
+                    ForEach(SpeedUnit.allCases) { unit in
+                        Text(unit.displayName).tag(unit)
+                    }
+                }
+                .labelsHidden()
+                .pickerStyle(.inline)
+            }
             Section(Copy.settings.legalSection) {
                 NavigationLink(Copy.settings.termsButton) {
                     TermsAndConditionsView()
@@ -131,6 +140,20 @@ struct Settings: View {
         }
 
         try? modelContext.save()
+    }
+
+    private var speedUnitBinding: Binding<SpeedUnit> {
+        Binding(
+            get: { userSettings?.speedUnit ?? .mph },
+            set: { newValue in
+                if let userSettings {
+                    userSettings.speedUnit = newValue
+                } else {
+                    modelContext.insert(UserSettings(id: "me", speedUnitRawValue: newValue.rawValue))
+                }
+                try? modelContext.save()
+            }
+        )
     }
 }
 

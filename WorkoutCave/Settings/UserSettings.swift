@@ -13,15 +13,36 @@ final class UserSettings {
     @Attribute(.unique) var id: String
     var ftpWatts: Int?
     var hasSeenIntro: Bool?
+    var speedUnitRawValue: String?
 
-    init(id: String = "me", ftpWatts: Int? = nil, hasSeenIntro: Bool? = nil) {
+    init(
+        id: String = "me",
+        ftpWatts: Int? = nil,
+        hasSeenIntro: Bool? = nil,
+        speedUnitRawValue: String? = nil
+    ) {
         self.id = id
         self.ftpWatts = ftpWatts
         self.hasSeenIntro = hasSeenIntro
+        self.speedUnitRawValue = speedUnitRawValue
     }
 }
 
+enum SpeedUnit: String, CaseIterable, Identifiable {
+    case mph
+    case kph
+
+    var id: String { rawValue }
+
+    var displayName: String { rawValue }
+}
+
 extension UserSettings {
+    var speedUnit: SpeedUnit {
+        get { SpeedUnit(rawValue: speedUnitRawValue ?? "") ?? .mph }
+        set { speedUnitRawValue = newValue.rawValue }
+    }
+
     func powerZone(for watts: Int?) -> PowerZone? {
         guard let watts, let ftpWatts, ftpWatts > 0 else { return nil }
         return PowerZone.zone(for: watts, ftp: ftpWatts)

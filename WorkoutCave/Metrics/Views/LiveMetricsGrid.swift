@@ -62,6 +62,14 @@ struct LiveMetricsGrid: View {
         }
         .frame(height: fixedHeight, alignment: .top)
     }
+
+    private var speedUnit: SpeedUnit {
+        userSettings?.speedUnit ?? .mph
+    }
+
+    private var speedLabel: String {
+        "\(Copy.metrics.speed) (\(speedUnit.rawValue))"
+    }
     
     private func metricRows(maxRows: Int) -> [[Metric]] {
         // Build a dedicated "zone row" so Target Zone + Current Zone
@@ -147,8 +155,8 @@ struct LiveMetricsGrid: View {
             )
         case .speed:
             MetricCard(
-                name: Copy.metrics.speed,
-                value: bluetooth.metrics.speedKph.map { String(format: Copy.format.oneDecimal, $0) } ?? Copy.placeholder.missingValue,
+                name: speedLabel,
+                value: speedValueLabel() ?? Copy.placeholder.missingValue,
                 fontSize: fontSize,
                 maxHeight: maxHeight,
                 maxWidth: maxWidth
@@ -162,6 +170,18 @@ struct LiveMetricsGrid: View {
                 maxWidth: maxWidth
             )
         }
+    }
+
+    private func speedValueLabel() -> String? {
+        guard let kph = bluetooth.metrics.speedKph else { return nil }
+        let value: Double
+        switch speedUnit {
+        case .mph:
+            value = kph * 0.621_371
+        case .kph:
+            value = kph
+        }
+        return String(format: Copy.format.oneDecimal, value)
     }
 }
 
