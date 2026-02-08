@@ -275,15 +275,26 @@ struct WorkoutPlayback: View {
     }
     
     private var playbackMetrics: [Metric] {
+        if let m = engine.workout?.metrics, !m.isEmpty {
+            var list = m
+            if engine.workout?.hasIntervals == true, !m.contains(.targetZone) {
+                list = list + [.targetZone]
+            }
+            return list
+        }
         var metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate]
         if engine.workout?.hasIntervals == true { metrics.append(.targetZone) }
         return metrics
     }
 
+    private var finishedMetricsForGrid: [Metric] {
+        engine.workout?.finishedMetrics ?? [.averagePower, .heartRate]
+    }
+
     @ViewBuilder
     private var metricsGridOverlay: some View {
         if engine.playbackState == .finished {
-            metricsGrid(metrics: [.averagePower, .heartRate], averagePowerLabel: averagePowerLabel)
+            metricsGrid(metrics: finishedMetricsForGrid, averagePowerLabel: averagePowerLabel)
         } else {
             metricsGrid(metrics: playbackMetrics)
         }
@@ -310,11 +321,16 @@ struct WorkoutPlayback: View {
     }
     
     private var compactMetricsOverlay: some View {
-        LiveMetricsGrid(
+        let metrics: [Metric] = {
+            let full = playbackMetrics
+            if full.count <= 2 { return full }
+            return Array(full.prefix(2))
+        }()
+        return LiveMetricsGrid(
             bluetooth: bluetooth,
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
-            metrics: [.zone, .heartRate],
+            metrics: metrics,
             columnsPerRow: 1,
             fontSize: 12,
             maxHeight: 64,
@@ -323,9 +339,10 @@ struct WorkoutPlayback: View {
     }
 
     private var compactFinishedMetricsOverlay: some View {
-        LiveMetricsGrid(
+        let metrics: [Metric] = finishedMetricsForGrid
+        return LiveMetricsGrid(
             bluetooth: bluetooth,
-            metrics: [.averagePower, .heartRate],
+            metrics: metrics,
             averagePowerLabel: averagePowerLabel,
             columnsPerRow: 1,
             fontSize: 12,

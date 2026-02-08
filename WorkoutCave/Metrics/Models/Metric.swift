@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Metric: Hashable {
+enum Metric: String, Hashable, Codable, CaseIterable {
     case averagePower
     case targetZone
     case zone

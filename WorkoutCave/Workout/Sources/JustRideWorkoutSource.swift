@@ -15,8 +15,7 @@ struct JustRideWorkoutSource: WorkoutSource {
             id: Self.workoutId,
             name: Copy.navigationTitle.justRide,
             description: nil,
-            intervals: [],
-            duration: nil
+            intervals: []
         )
     }
 }

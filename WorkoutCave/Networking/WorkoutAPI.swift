@@ -34,7 +34,7 @@ struct WorkoutAPI {
     func fetchWorkout(id: Int) async throws -> Workout {
         let rows: [WorkoutRow] = try await client
             .from("workouts")
-            .select("id,name,description,duration,intervals(name,duration,message,type,power_lower,power_upper,order_index)")
+            .select("id,name,description,duration,metrics,finished_metrics,intervals(name,duration,message,type,power_lower,power_upper,order_index)")
             .eq("id", value: id)
             .execute()
             .value
@@ -68,7 +68,15 @@ private struct WorkoutRow: Decodable {
     let name: String
     let description: String?
     let duration: Int?
+    let metrics: [String]?
+    let finishedMetrics: [String]?
     let intervals: [IntervalRow]?
+
+    enum CodingKeys: String, CodingKey {
+        case id, name, description, duration, intervals
+        case metrics
+        case finishedMetrics = "finished_metrics"
+    }
 
     func toWorkout() -> Workout {
         let sortedIntervals = (intervals ?? []).sorted {
@@ -85,12 +93,17 @@ private struct WorkoutRow: Decodable {
             )
         }
 
+        let mappedMetrics = (metrics ?? []).compactMap { Metric(rawValue: $0) }
+        let mappedFinishedMetrics = (finishedMetrics ?? []).compactMap { Metric(rawValue: $0) }
+
         return Workout(
             id: String(id),
             name: name,
             description: description,
             intervals: mappedIntervals,
-            duration: duration.map { TimeInterval($0) }
+            duration: duration.map { TimeInterval($0) },
+            metrics: mappedMetrics.isEmpty ? nil : mappedMetrics,
+            finishedMetrics: mappedFinishedMetrics.isEmpty ? nil : mappedFinishedMetrics
         )
     }
 }

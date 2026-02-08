@@ -22,8 +22,12 @@ struct Workout: Identifiable, Codable {
     let name: String
     let description: String?
     let intervals: [Interval]
-    /// For interval-less workouts: fixed duration in seconds (e.g. FTP Test). Nil = open-ended (e.g. Just Ride).
+    /// For interval-less workouts: fixed duration in seconds. Nil = open-ended.
     let duration: TimeInterval?
+    /// Metrics to show during playback. Nil = default set.
+    let metrics: [Metric]?
+    /// Metrics to show when finished. Nil = default ([.averagePower, .heartRate]).
+    let finishedMetrics: [Metric]?
 
     var isJustRide: Bool {
         id == Self.justRideId
@@ -45,13 +49,17 @@ struct Workout: Identifiable, Codable {
         name: String,
         description: String?,
         intervals: [Interval],
-        duration: TimeInterval? = nil
+        duration: TimeInterval? = nil,
+        metrics: [Metric]? = nil,
+        finishedMetrics: [Metric]? = nil
     ) {
         self.id = id
         self.name = name
         self.description = description
         self.intervals = intervals
         self.duration = duration
+        self.metrics = metrics
+        self.finishedMetrics = finishedMetrics
     }
 }
 
