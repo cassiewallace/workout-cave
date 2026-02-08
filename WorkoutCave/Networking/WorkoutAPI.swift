@@ -34,7 +34,7 @@ struct WorkoutAPI {
     func fetchWorkout(id: Int) async throws -> Workout {
         let rows: [WorkoutRow] = try await client
             .from("workouts")
-            .select("id,name,description,intervals(name,duration,message,type,power_lower,power_upper,order_index)")
+            .select("id,name,description,duration,intervals(name,duration,message,type,power_lower,power_upper,order_index)")
             .eq("id", value: id)
             .execute()
             .value
@@ -67,6 +67,7 @@ private struct WorkoutRow: Decodable {
     let id: Int
     let name: String
     let description: String?
+    let duration: Int?
     let intervals: [IntervalRow]?
 
     func toWorkout() -> Workout {
@@ -88,7 +89,8 @@ private struct WorkoutRow: Decodable {
             id: String(id),
             name: name,
             description: description,
-            intervals: mappedIntervals
+            intervals: mappedIntervals,
+            duration: duration.map { TimeInterval($0) }
         )
     }
 }

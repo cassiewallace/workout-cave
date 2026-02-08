@@ -15,32 +15,43 @@ protocol WorkoutSource {
 
 struct Workout: Identifiable, Codable {
     // MARK: - Properties
-    
+
     static let justRideId = "just-ride"
-    
+
     let id: String
     let name: String
     let description: String?
     let intervals: [Interval]
-    
+    /// For interval-less workouts: fixed duration in seconds (e.g. FTP Test). Nil = open-ended (e.g. Just Ride).
+    let duration: TimeInterval?
+
     var isJustRide: Bool {
         id == Self.justRideId
     }
-    
+
+    var hasIntervals: Bool {
+        !intervals.isEmpty
+    }
+
     var totalDuration: TimeInterval {
-        intervals.reduce(0) { $0 + $1.duration }
+        if hasIntervals {
+            return intervals.reduce(0) { $0 + $1.duration }
+        }
+        return duration ?? 0
     }
 
     init(
         id: String,
         name: String,
         description: String?,
-        intervals: [Interval]
+        intervals: [Interval],
+        duration: TimeInterval? = nil
     ) {
         self.id = id
         self.name = name
         self.description = description
         self.intervals = intervals
+        self.duration = duration
     }
 }
 

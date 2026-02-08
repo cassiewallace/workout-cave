@@ -15,15 +15,8 @@ struct JustRideWorkoutSource: WorkoutSource {
             id: Self.workoutId,
             name: Copy.navigationTitle.justRide,
             description: nil,
-            intervals: [
-                Workout.Interval(
-                    duration: 6 * 60 * 60,
-                    name: Copy.navigationTitle.justRide,
-                    message: nil,
-                    type: .freeRide,
-                    powerTarget: nil
-                )
-            ]
+            intervals: [],
+            duration: nil
         )
     }
 }

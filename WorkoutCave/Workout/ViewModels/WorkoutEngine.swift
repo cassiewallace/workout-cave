@@ -40,20 +40,33 @@ class WorkoutEngine: ObservableObject {
     
     var currentInterval: Workout.Interval? {
         guard let workout = workout,
+              workout.hasIntervals,
               currentIntervalIndex >= 0,
               currentIntervalIndex < workout.intervals.count else {
             return nil
         }
         return workout.intervals[currentIntervalIndex]
     }
-    
+
     var remainingTimeInInterval: TimeInterval {
-        guard let interval = currentInterval else { return 0 }
-        return max(0, interval.duration - elapsedTimeInInterval)
+        guard let workout = workout else { return 0 }
+        if workout.hasIntervals, let interval = currentInterval {
+            return max(0, interval.duration - elapsedTimeInInterval)
+        }
+        if let duration = workout.duration {
+            return max(0, duration - elapsedTimeInInterval)
+        }
+        return 0
     }
 
     var isJustRide: Bool {
         workout?.isJustRide == true
+    }
+
+    /// True when workout has no intervals and no fixed duration (e.g. Just Ride). Timer shows elapsed.
+    var isOpenEnded: Bool {
+        guard let workout = workout else { return false }
+        return !workout.hasIntervals && workout.duration == nil
     }
     
     var intervalProgress: Double {
@@ -63,18 +76,21 @@ class WorkoutEngine: ObservableObject {
             return 1.0
         }
 
-        let completedIntervalsTime = workout.intervals
-            .prefix(currentIntervalIndex)
-            .reduce(0) { $0 + $1.duration }
+        let totalElapsed: TimeInterval
+        if workout.hasIntervals {
+            let completedIntervalsTime = workout.intervals
+                .prefix(currentIntervalIndex)
+                .reduce(0) { $0 + $1.duration }
+            let currentIntervalElapsed = min(
+                elapsedTimeInInterval,
+                workout.intervals[currentIntervalIndex].duration
+            )
+            totalElapsed = completedIntervalsTime + currentIntervalElapsed
+        } else {
+            totalElapsed = elapsedTimeInInterval
+        }
 
-        let currentIntervalElapsed = min(
-            elapsedTimeInInterval,
-            workout.intervals[currentIntervalIndex].duration
-        )
-
-        let totalElapsed = completedIntervalsTime + currentIntervalElapsed
         let totalDuration = workout.totalDuration
-
         guard totalDuration > 0 else { return 0 }
 
         return min(totalElapsed / totalDuration, 1.0)
@@ -136,10 +152,10 @@ class WorkoutEngine: ObservableObject {
     }
     
     func skipInterval() {
-        guard let workout = workout else { return }
-        
+        guard let workout = workout, workout.hasIntervals else { return }
+
         stopTimer()
-        
+
         if currentIntervalIndex < workout.intervals.count - 1 {
             currentIntervalIndex += 1
             elapsedTimeInInterval = 0
@@ -170,18 +186,20 @@ class WorkoutEngine: ObservableObject {
     func updateForForeground() {
         guard playbackState == .running,
               let intervalStartTime = intervalStartTime,
-              let interval = currentInterval else {
+              let workout = workout else {
             return
         }
-        
-        // Recalculate elapsed time based on wall-clock time
+
         let now = Date()
         let totalElapsed = pausedElapsedTime + now.timeIntervalSince(intervalStartTime)
         elapsedTimeInInterval = totalElapsed
-        
-        // If interval completed while in background, advance
-        if elapsedTimeInInterval >= interval.duration {
-            advanceToNextInterval()
+
+        if workout.hasIntervals, let interval = currentInterval {
+            if elapsedTimeInInterval >= interval.duration {
+                advanceToNextInterval()
+            }
+        } else if let duration = workout.duration, totalElapsed >= duration {
+            finish()
         }
     }
     
@@ -214,18 +232,20 @@ class WorkoutEngine: ObservableObject {
     private func updateElapsedTime() {
         guard playbackState == .running,
               let intervalStartTime = intervalStartTime,
-              let interval = currentInterval else {
+              let workout = workout else {
             return
         }
-        
-        // Calculate elapsed time based on wall-clock time
+
         let now = Date()
         let totalElapsed = pausedElapsedTime + now.timeIntervalSince(intervalStartTime)
         elapsedTimeInInterval = totalElapsed
-        
-        // Check if interval is complete
-        if elapsedTimeInInterval >= interval.duration {
-            advanceToNextInterval()
+
+        if workout.hasIntervals, let interval = currentInterval {
+            if elapsedTimeInInterval >= interval.duration {
+                advanceToNextInterval()
+            }
+        } else if let duration = workout.duration, totalElapsed >= duration {
+            finish()
         }
     }
     

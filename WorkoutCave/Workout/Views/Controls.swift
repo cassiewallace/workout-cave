@@ -14,7 +14,7 @@ struct Controls: ToolbarContent {
     @ToolbarContentBuilder
     var body: some ToolbarContent {
         if let workout = engine.workout {
-            if !workout.isJustRide && (engine.playbackState == .running || engine.playbackState == .paused) {
+            if workout.hasIntervals && (engine.playbackState == .running || engine.playbackState == .paused) {
                 ToolbarItem(placement: .bottomBar) {
                     Control(
                         controlType: .skip,

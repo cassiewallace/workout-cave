@@ -188,7 +188,7 @@ struct WorkoutPlayback: View {
     private func playbackContent(workout: Workout) -> some View {
         ZStack(alignment: .topLeading) {
             VStack(spacing: sectionSpacing) {
-                if !engine.isJustRide {
+                if engine.workout?.hasIntervals == true {
                     intervalContent
                 }
                 Spacer(minLength: 0)
@@ -266,17 +266,17 @@ struct WorkoutPlayback: View {
 
     @ViewBuilder
     private var timer: some View {
-        Text(formatElapsedTime(engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
+        Text(formatElapsedTime(engine.isOpenEnded ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
             .font(.system(size: timerFontSize, weight: .bold))
             .monospacedDigit()
             .dynamicTypeSize(.large)
-            .animation(.easeInOut(duration: 0.2), value: engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
-            .accessibilityLabel("\(engine.isJustRide ? Copy.accessibility.elapsedTime : Copy.accessibility.timeRemaining): \(formatElapsedTime(engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))")
+            .animation(.easeInOut(duration: 0.2), value: engine.isOpenEnded ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
+            .accessibilityLabel("\(engine.isOpenEnded ? Copy.accessibility.elapsedTime : Copy.accessibility.timeRemaining): \(formatElapsedTime(engine.isOpenEnded ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))")
     }
     
     private var playbackMetrics: [Metric] {
         var metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate]
-        if !engine.isJustRide { metrics.append(.targetZone) }
+        if engine.workout?.hasIntervals == true { metrics.append(.targetZone) }
         return metrics
     }
 
