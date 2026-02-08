@@ -57,13 +57,13 @@ struct WorkoutSummary: Identifiable, Hashable {
     let description: String?
 }
 
-private struct WorkoutSummaryRow: Decodable {
+struct WorkoutSummaryRow: Decodable {
     let id: Int
     let name: String
     let description: String?
 }
 
-private struct WorkoutRow: Decodable {
+struct WorkoutRow: Decodable {
     let id: Int
     let name: String
     let description: String?
@@ -108,7 +108,7 @@ private struct WorkoutRow: Decodable {
     }
 }
 
-private struct IntervalRow: Decodable {
+struct IntervalRow: Decodable {
     let name: String
     let duration: Int
     let message: String?
