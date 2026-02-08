@@ -271,7 +271,7 @@ struct WorkoutPlayback: View {
             .monospacedDigit()
             .dynamicTypeSize(.large)
             .animation(.easeInOut(duration: 0.2), value: engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
-            .accessibilityLabel(engine.isJustRide ? Copy.accessibility.elapsedTime : Copy.accessibility.timeRemaining)
+            .accessibilityLabel("\(engine.isJustRide ? Copy.accessibility.elapsedTime : Copy.accessibility.timeRemaining): \(formatElapsedTime(engine.isJustRide ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))")
     }
     
     private var playbackMetrics: [Metric] {
