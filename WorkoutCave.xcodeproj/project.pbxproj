@@ -13,7 +13,6 @@
 		653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */; };
 		653F6FA32F11C3ED006DE91E /* FTMSIndoorBikeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FA22F11C3ED006DE91E /* FTMSIndoorBikeParser.swift */; };
 		653F6FA92F11D0A4006DE91E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FA82F11D0A2006DE91E /* Settings.swift */; };
-		9F3A1B2C3D4E5F60718293A4 /* FTPSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3A1B2C3D4E5F60718293A5 /* FTPSettings.swift */; };
 		653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB42F141145006DE91E /* UserSettings.swift */; };
 		653F6FB72F14244E006DE91E /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB62F142447006DE91E /* WorkoutCard.swift */; };
 		654ABC272F3123CA000263D9 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 654ABC262F3123CA000263D9 /* Media.xcassets */; };
@@ -33,6 +32,7 @@
 		65F55A032EFAFEF7007AD1D9 /* PowerZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F55A022EFAFEF6007AD1D9 /* PowerZone.swift */; };
 		65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7DF2EF471170047A9FC /* WorkoutList.swift */; };
 		65FBC7E42EF49B350047A9FC /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7E32EF49B320047A9FC /* Control.swift */; };
+		9F3A1B2C3D4E5F60718293A4 /* FTPSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3A1B2C3D4E5F60718293A5 /* FTPSettings.swift */; };
 		A1000001 /* WorkoutCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002 /* WorkoutCave.swift */; };
 		A1000003 /* WorkoutPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* WorkoutPlayback.swift */; };
 		A1000005 /* WorkoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* WorkoutEngine.swift */; };
@@ -53,6 +53,16 @@
 		B11300052F315700000013 /* ZWOParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10E00052F31570000000E /* ZWOParserTests.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		B105002C2F315700000006 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1000021 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A1000017;
+			remoteInfo = WorkoutCave;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		652071312F217B1700EDFBA1 /* CardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStyle.swift; sourceTree = "<group>"; };
 		653F6F972F11AED0006DE91E /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
@@ -60,7 +70,6 @@
 		653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BikeMetrics.swift; sourceTree = "<group>"; };
 		653F6FA22F11C3ED006DE91E /* FTMSIndoorBikeParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTMSIndoorBikeParser.swift; sourceTree = "<group>"; };
 		653F6FA82F11D0A2006DE91E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		9F3A1B2C3D4E5F60718293A5 /* FTPSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPSettings.swift; sourceTree = "<group>"; };
 		653F6FB42F141145006DE91E /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		653F6FB62F142447006DE91E /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		654ABC262F3123CA000263D9 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
@@ -79,6 +88,7 @@
 		65F55A022EFAFEF6007AD1D9 /* PowerZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerZone.swift; sourceTree = "<group>"; };
 		65FBC7DF2EF471170047A9FC /* WorkoutList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutList.swift; sourceTree = "<group>"; };
 		65FBC7E32EF49B320047A9FC /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
+		9F3A1B2C3D4E5F60718293A5 /* FTPSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPSettings.swift; sourceTree = "<group>"; };
 		A1000000 /* WorkoutCave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000002 /* WorkoutCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCave.swift; sourceTree = "<group>"; };
 		A1000004 /* WorkoutPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPlayback.swift; sourceTree = "<group>"; };
@@ -208,13 +218,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		658349372F31570F00F517A1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		65F559FA2EF5D423007AD1D9 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,21 +242,8 @@
 			children = (
 				A1000015 /* WorkoutCave */,
 				B10100112F315700000001 /* WorkoutCaveTests */,
-				658349372F31570F00F517A1 /* Frameworks */,
 				A1000016 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		B10100112F315700000001 /* WorkoutCaveTests */ = {
-			isa = PBXGroup;
-			children = (
-				B10A00012F31570000000A /* WorkoutTests.swift */,
-				B10B00022F31570000000B /* PowerTargetTests.swift */,
-				B10C00032F31570000000C /* PowerZoneTests.swift */,
-				B10D00042F31570000000D /* WorkoutAPIMappingTests.swift */,
-				B10E00052F31570000000E /* ZWOParserTests.swift */,
-			);
-			path = WorkoutCaveTests;
 			sourceTree = "<group>";
 		};
 		A1000015 /* WorkoutCave */ = {
@@ -342,6 +332,18 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		B10100112F315700000001 /* WorkoutCaveTests */ = {
+			isa = PBXGroup;
+			children = (
+				B10A00012F31570000000A /* WorkoutTests.swift */,
+				B10B00022F31570000000B /* PowerTargetTests.swift */,
+				B10C00032F31570000000C /* PowerZoneTests.swift */,
+				B10D00042F31570000000D /* WorkoutAPIMappingTests.swift */,
+				B10E00052F31570000000E /* ZWOParserTests.swift */,
+			);
+			path = WorkoutCaveTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -427,18 +429,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B10400192F315700000004 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B10F00012F31570000000F /* WorkoutTests.swift in Sources */,
-				B11000022F315700000010 /* PowerTargetTests.swift in Sources */,
-				B11100032F315700000011 /* PowerZoneTests.swift in Sources */,
-				B11200042F315700000012 /* WorkoutAPIMappingTests.swift in Sources */,
-				B11300052F315700000013 /* ZWOParserTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A1000019 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -479,17 +469,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin PBXContainerItemProxy section */
-		B105002C2F315700000006 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A1000021 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A1000017 /* WorkoutCave */;
-			remoteInfo = WorkoutCave;
+		B10400192F315700000004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B10F00012F31570000000F /* WorkoutTests.swift in Sources */,
+				B11000022F315700000010 /* PowerTargetTests.swift in Sources */,
+				B11100032F315700000011 /* PowerZoneTests.swift in Sources */,
+				B11200042F315700000012 /* WorkoutAPIMappingTests.swift in Sources */,
+				B11300052F315700000013 /* ZWOParserTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXContainerItemProxy section */
+/* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		651C9F2B2F3153A50057B4AD /* PBXTargetDependency */ = {
@@ -739,20 +731,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B10700182F315700000007 /* Build configuration list for PBXNativeTarget "WorkoutCaveTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B10800232F315700000008 /* Debug */,
-				B10900242F315700000009 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A1000022 /* Build configuration list for PBXProject "WorkoutCave" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A1000023 /* Debug */,
 				A1000024 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B10700182F315700000007 /* Build configuration list for PBXNativeTarget "WorkoutCaveTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B10800232F315700000008 /* Debug */,
+				B10900242F315700000009 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
