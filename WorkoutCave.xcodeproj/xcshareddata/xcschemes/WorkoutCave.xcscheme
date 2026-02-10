@@ -53,8 +53,6 @@
                BlueprintName = "WorkoutCaveTests"
                ReferencedContainer = "container:WorkoutCave.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-            </SkippedTests>
             <LocationScenarioReference
                identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
                referenceType = "1">
@@ -82,6 +80,9 @@
             ReferencedContainer = "container:WorkoutCave.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable key="OS_ACTIVITY_MODE" value="disable" isEnabled="YES"/>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
