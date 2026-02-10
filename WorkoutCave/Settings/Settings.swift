@@ -25,6 +25,9 @@ struct Settings: View {
                 NavigationLink(Copy.settings.setPowerZones) {
                     FTPSettings()
                 }
+                NavigationLink(Copy.settings.heartRate) {
+                    HeartRateSettings()
+                }
             }
             Section(Copy.settings.appearanceSection) {
                 Picker(Copy.settings.theme, selection: appAppearanceBinding) {
@@ -43,7 +46,7 @@ struct Settings: View {
             }
             Section(Copy.settings.legalSection) {
                 NavigationLink(Copy.terms.title) {
-                    TermsAndConditionsView()
+                    TermsAndConditions()
                 }
             }
             Section {

@@ -504,7 +504,7 @@ private struct WorkoutPlaybackPreviewHost: View {
     }
 }
 
-private struct WorkoutPlaybackJustRideHostView: View {
+private struct WorkoutPlaybackJustRideHost: View {
     let playbackState: PlaybackState
     @StateObject private var bluetooth = BluetoothManager()
     @StateObject private var engine: WorkoutEngine
@@ -556,5 +556,5 @@ private struct WorkoutPlaybackJustRideHostView: View {
 
 @MainActor
 private func WorkoutPlaybackJustRidePreviewHost(playbackState: PlaybackState) -> some View {
-    WorkoutPlaybackJustRideHostView(playbackState: playbackState)
+    WorkoutPlaybackJustRideHost(playbackState: playbackState)
 }

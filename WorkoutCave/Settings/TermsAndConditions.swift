@@ -1,5 +1,5 @@
 //
-//  TermsAndConditionsView.swift
+//  TermsAndConditions.swift
 //  WorkoutCave
 //
 //  Created by Cassie Wallace on 2/2/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TermsAndConditionsView: View {
+struct TermsAndConditions: View {
     private let termsText: String = {
         guard let url = Bundle.main.url(
             forResource: Copy.terms.fileName,
@@ -42,6 +42,6 @@ struct TermsAndConditionsView: View {
 
 #Preview {
     NavigationStack {
-        TermsAndConditionsView()
+        TermsAndConditions()
     }
 }

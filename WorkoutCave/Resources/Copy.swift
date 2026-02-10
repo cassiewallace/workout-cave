@@ -38,19 +38,35 @@ enum Copy {
     enum settings {
         static let setFTP = "Set FTP"
         static let ftpPlaceholder = "FTP"
+        static let setMaxHR = "Set Max HR"
+        static let maxHRPlaceholder = "Max HR"
         static let save = "Save"
         static let powerZones = "Power Zones"
+        static let heartRateZones = "Heart Rate Zones"
         static let setFTPToViewZones = "Set FTP to view zones."
+        static let setMaxHRToViewZones = "Set Max HR to view zones."
         static let gridZone = "Zone"
         static let gridName = "Name"
         static let gridTarget = "Target"
         static let devicesSection = "Devices"
         static let ftpSection = "Training Zones"
         static let setPowerZones = "Functional Threshold Power (FTP)"
+        static let heartRate = "Heart Rate"
+        static let setHeartRateZones = "Heart Rate Zones"
         static let appearanceSection = "Appearance"
         static let theme = "Theme"
         static let unitsSection = "Units"
         static let legalSection = "Legal"
+    }
+
+    enum heartRateZone {
+        enum label {
+            static let zone1 = "Recovery"
+            static let zone2 = "Endurance"
+            static let zone3 = "Tempo"
+            static let zone4 = "Threshold"
+            static let zone5 = "Max"
+        }
     }
 
     enum terms {
@@ -134,6 +150,8 @@ enum Copy {
         static let wattsSuffix = " W"
         static let wattsPlusSuffix = "+ W"
         static let wattsRangeSeparator = "–"
+        static let bpmSuffix = " bpm"
+        static let bpmRangeSeparator = "–"
     }
 
     enum format {

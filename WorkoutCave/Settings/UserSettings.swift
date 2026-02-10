@@ -12,6 +12,7 @@ import SwiftUI
 final class UserSettings {
     @Attribute(.unique) var id: String
     var ftpWatts: Int?
+    var maxHR: Int?
     var hasSeenIntro: Bool?
     var speedUnitRawValue: String?
     var appearanceRawValue: String?
@@ -19,12 +20,14 @@ final class UserSettings {
     init(
         id: String = "me",
         ftpWatts: Int? = nil,
+        maxHR: Int? = nil,
         hasSeenIntro: Bool? = nil,
         speedUnitRawValue: String? = nil,
         appearanceRawValue: String? = nil
     ) {
         self.id = id
         self.ftpWatts = ftpWatts
+        self.maxHR = maxHR
         self.hasSeenIntro = hasSeenIntro
         self.speedUnitRawValue = speedUnitRawValue
         self.appearanceRawValue = appearanceRawValue
@@ -84,6 +87,11 @@ extension UserSettings {
     func powerZone(for watts: Int?) -> PowerZone? {
         guard let watts, let ftpWatts, ftpWatts > 0 else { return nil }
         return PowerZone.zone(for: watts, ftp: ftpWatts)
+    }
+
+    func heartRateZone(for bpm: Int?) -> HeartRateZone? {
+        guard let bpm, let maxHR, maxHR > 0 else { return nil }
+        return HeartRateZone.zone(for: bpm, maxHR: maxHR)
     }
 }
 

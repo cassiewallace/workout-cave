@@ -33,12 +33,15 @@
 		65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7DF2EF471170047A9FC /* WorkoutList.swift */; };
 		65FBC7E42EF49B350047A9FC /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7E32EF49B320047A9FC /* Control.swift */; };
 		9F3A1B2C3D4E5F60718293A4 /* FTPSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3A1B2C3D4E5F60718293A5 /* FTPSettings.swift */; };
+		C10200022F315700000002 /* HeartRateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10100012F315700000001 /* HeartRateZone.swift */; };
+		C10400042F315700000004 /* ZoneSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10300032F315700000003 /* ZoneSettings.swift */; };
+		C10600062F315700000006 /* HeartRateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10500052F315700000005 /* HeartRateSettings.swift */; };
 		A1000001 /* WorkoutCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002 /* WorkoutCave.swift */; };
 		A1000003 /* WorkoutPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* WorkoutPlayback.swift */; };
 		A1000005 /* WorkoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* WorkoutEngine.swift */; };
 		A1000007 /* ZWOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000008 /* ZWOParser.swift */; };
 		A1000009 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000010 /* Workout.swift */; };
-		A2000001 /* TermsAndConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* TermsAndConditionsView.swift */; };
+		A2000001 /* TermsAndConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* TermsAndConditions.swift */; };
 		A2000003 /* TermsAndConditions.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2000004 /* TermsAndConditions.txt */; };
 		A2000005 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* Metric.swift */; };
 		A2000008 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* Onboarding.swift */; };
@@ -51,6 +54,7 @@
 		B11100032F315700000011 /* PowerZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10C00032F31570000000C /* PowerZoneTests.swift */; };
 		B11200042F315700000012 /* WorkoutAPIMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10D00042F31570000000D /* WorkoutAPIMappingTests.swift */; };
 		B11300052F315700000013 /* ZWOParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10E00052F31570000000E /* ZWOParserTests.swift */; };
+		C20200022F315700000002 /* HeartRateZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20100012F315700000001 /* HeartRateZoneTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +93,9 @@
 		65FBC7DF2EF471170047A9FC /* WorkoutList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutList.swift; sourceTree = "<group>"; };
 		65FBC7E32EF49B320047A9FC /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		9F3A1B2C3D4E5F60718293A5 /* FTPSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPSettings.swift; sourceTree = "<group>"; };
+		C10100012F315700000001 /* HeartRateZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateZone.swift; sourceTree = "<group>"; };
+		C10300032F315700000003 /* ZoneSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneSettings.swift; sourceTree = "<group>"; };
+		C10500052F315700000005 /* HeartRateSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateSettings.swift; sourceTree = "<group>"; };
 		A1000000 /* WorkoutCave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000002 /* WorkoutCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCave.swift; sourceTree = "<group>"; };
 		A1000004 /* WorkoutPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPlayback.swift; sourceTree = "<group>"; };
@@ -96,7 +103,7 @@
 		A1000008 /* ZWOParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWOParser.swift; sourceTree = "<group>"; };
 		A1000010 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		A1000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A2000002 /* TermsAndConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsView.swift; sourceTree = "<group>"; };
+		A2000002 /* TermsAndConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditions.swift; sourceTree = "<group>"; };
 		A2000004 /* TermsAndConditions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TermsAndConditions.txt; sourceTree = "<group>"; };
 		A2000006 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
 		A2000007 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
@@ -110,6 +117,7 @@
 		B10C00032F31570000000C /* PowerZoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerZoneTests.swift; sourceTree = "<group>"; };
 		B10D00042F31570000000D /* WorkoutAPIMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutAPIMappingTests.swift; sourceTree = "<group>"; };
 		B10E00052F31570000000E /* ZWOParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWOParserTests.swift; sourceTree = "<group>"; };
+		C20100012F315700000001 /* HeartRateZoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateZoneTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,7 +208,9 @@
 				653F6FB42F141145006DE91E /* UserSettings.swift */,
 				653F6FA82F11D0A2006DE91E /* Settings.swift */,
 				9F3A1B2C3D4E5F60718293A5 /* FTPSettings.swift */,
-				A2000002 /* TermsAndConditionsView.swift */,
+				C10500052F315700000005 /* HeartRateSettings.swift */,
+				C10300032F315700000003 /* ZoneSettings.swift */,
+				A2000002 /* TermsAndConditions.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -231,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				653F6F9E2F11C3D1006DE91E /* BikeMetrics.swift */,
+				C10100012F315700000001 /* HeartRateZone.swift */,
 				A2000006 /* Metric.swift */,
 				65F55A022EFAFEF6007AD1D9 /* PowerZone.swift */,
 			);
@@ -338,6 +349,7 @@
 				B10A00012F31570000000A /* WorkoutTests.swift */,
 				B10B00022F31570000000B /* PowerTargetTests.swift */,
 				B10C00032F31570000000C /* PowerZoneTests.swift */,
+				C20100012F315700000001 /* HeartRateZoneTests.swift */,
 				B10D00042F31570000000D /* WorkoutAPIMappingTests.swift */,
 				B10E00052F31570000000E /* ZWOParserTests.swift */,
 			);
@@ -447,6 +459,9 @@
 				653F6FB72F14244E006DE91E /* WorkoutCard.swift in Sources */,
 				653F6FA92F11D0A4006DE91E /* Settings.swift in Sources */,
 				9F3A1B2C3D4E5F60718293A4 /* FTPSettings.swift in Sources */,
+				C10200022F315700000002 /* HeartRateZone.swift in Sources */,
+				C10400042F315700000004 /* ZoneSettings.swift in Sources */,
+				C10600062F315700000006 /* HeartRateSettings.swift in Sources */,
 				653F6F9C2F11B7A6006DE91E /* MetricCard.swift in Sources */,
 				65F559F72EF5CEBD007AD1D9 /* ZwiftWorkoutSource.swift in Sources */,
 				65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */,
@@ -459,7 +474,7 @@
 				65FBC7E42EF49B350047A9FC /* Control.swift in Sources */,
 				65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */,
 				A1000007 /* ZWOParser.swift in Sources */,
-				A2000001 /* TermsAndConditionsView.swift in Sources */,
+				A2000001 /* TermsAndConditions.swift in Sources */,
 				65F55A032EFAFEF7007AD1D9 /* PowerZone.swift in Sources */,
 				653F6FB52F14114A006DE91E /* UserSettings.swift in Sources */,
 				653F6F9F2F11C3D3006DE91E /* BikeMetrics.swift in Sources */,
@@ -476,6 +491,7 @@
 				B10F00012F31570000000F /* WorkoutTests.swift in Sources */,
 				B11000022F315700000010 /* PowerTargetTests.swift in Sources */,
 				B11100032F315700000011 /* PowerZoneTests.swift in Sources */,
+				C20200022F315700000002 /* HeartRateZoneTests.swift in Sources */,
 				B11200042F315700000012 /* WorkoutAPIMappingTests.swift in Sources */,
 				B11300052F315700000013 /* ZWOParserTests.swift in Sources */,
 			);

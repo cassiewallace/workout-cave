@@ -16,87 +16,32 @@ struct FTPSettings: View {
 
     @State private var ftpText: String = Copy.placeholder.empty
 
-    var body: some View {
-        List {
-            ftpSection
-            powerZones
+    private var zoneRows: [ZoneRowDisplay] {
+        guard let ftp = userSettings?.ftpWatts, ftp > 0 else { return [] }
+        return PowerZone.allCases.map { zone in
+            ZoneRowDisplay(
+                zoneNumber: zone.name,
+                zoneName: zone.label,
+                targetRange: zone.wattRangeLabel(ftp: ftp)
+            )
         }
-        .scrollContentBackground(.hidden)
-        .background(Color("AppBackground"))
-        .scrollDismissesKeyboard(.interactively)
-        .navigationTitle(Copy.settings.setPowerZones)
-        .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.insetGrouped)
+    }
+
+    var body: some View {
+        ZoneSettings(
+            navigationTitle: Copy.settings.setPowerZones,
+            inputLabel: Copy.settings.setFTP,
+            inputPlaceholder: Copy.settings.ftpPlaceholder,
+            inputText: $ftpText,
+            savedValue: userSettings?.ftpWatts,
+            onSave: saveFTP,
+            zonesSectionTitle: Copy.settings.powerZones,
+            emptyMessage: Copy.settings.setFTPToViewZones,
+            zoneRows: zoneRows
+        )
         .onAppear {
             if ftpText.isEmpty, let ftp = userSettings?.ftpWatts {
                 ftpText = String(ftp)
-            }
-        }
-    }
-
-    private var ftpSection: some View {
-        VStack(alignment: .leading, spacing: Constants.s) {
-            Text(Copy.settings.setFTP)
-                .font(.title3)
-                .bold()
-
-            HStack {
-                TextField(Copy.settings.ftpPlaceholder, text: $ftpText)
-                    .keyboardType(.numberPad)
-                    .textFieldStyle(.roundedBorder)
-                    .accessibilityLabel("FTP in watts")
-
-                Button(Copy.settings.save) { saveFTP() }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(Int(ftpText) == nil)
-            }
-        }
-    }
-
-    private var powerZones: some View {
-        VStack(alignment: .leading, spacing: Constants.s) {
-            Text(Copy.settings.powerZones)
-                .font(.title2)
-                .bold()
-
-            if let ftp = userSettings?.ftpWatts, ftp > 0 {
-                Grid(
-                    alignment: .leading,
-                    horizontalSpacing: Constants.m,
-                    verticalSpacing: Constants.xs + Constants.xxs
-                ) {
-                    GridRow {
-                        Text(Copy.settings.gridZone)
-                        Text(Copy.settings.gridName)
-                        Text(Copy.settings.gridTarget)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-
-                    Divider().gridCellColumns(3)
-
-                    ForEach(PowerZone.allCases) { zone in
-                        GridRow {
-                            Text(String(format: Copy.format.zoneNumber, zone.rawValue))
-                                .fontWeight(.semibold)
-                                .frame(width: 44, alignment: .leading)
-
-                            Text(zone.label)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.9)
-
-                            Text(zone.wattRangeLabel(ftp: ftp))
-                                .monospacedDigit()
-                                .foregroundStyle(.secondary)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        }
-                    }
-                }
-                .padding(.top, Constants.xxs)
-            } else {
-                Text(Copy.settings.setFTPToViewZones)
-                    .foregroundStyle(.secondary)
             }
         }
     }
