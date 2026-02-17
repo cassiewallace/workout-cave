@@ -201,15 +201,10 @@ struct LiveMetricsGrid: View {
 }
 
 private struct LiveMetricsGridPreviewHost: View {
-    private var bluetooth: BluetoothManager {
-        let manager = BluetoothManager()
-        manager.metrics.heartRateBpm = 100
-        return manager
-    }
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
-        context.insert(UserSettings(id: "me", ftpWatts: 250, maxHR: 180))
+        context.insert(PreviewData.userSettings())
         try? context.save()
         return c
     }()
@@ -217,7 +212,7 @@ private struct LiveMetricsGridPreviewHost: View {
     var body: some View {
         TabView {
             LiveMetricsGrid(
-                bluetooth: bluetooth,
+                bluetooth: PreviewData.bluetoothManager(),
                 targetZoneLabel: "Z2–Z3",
                 zoneTitle: Copy.metrics.currentZone,
                 metrics: [.targetZone, .zone, .power, .cadence, .speed, .heartRate]
@@ -225,7 +220,7 @@ private struct LiveMetricsGridPreviewHost: View {
             .padding()
             
             LiveMetricsGrid(
-                bluetooth: bluetooth,
+                bluetooth: PreviewData.bluetoothManager(),
                 targetZoneLabel: "Z1",
                 zoneTitle: Copy.metrics.currentZone,
                 metrics: [.zone, .heartRate],
@@ -236,7 +231,7 @@ private struct LiveMetricsGridPreviewHost: View {
             )
         }
         .modelContainer(container)
-        .environmentObject(bluetooth)
+        .environmentObject(PreviewData.bluetoothManager())
         .tabViewStyle(.page(indexDisplayMode: .automatic))
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
     }

@@ -105,6 +105,6 @@ extension Bundle {
         Settings()
     }
     .modelContainer(for: UserSettings.self)
-    .environmentObject(BluetoothManager())
+    .environmentObject(PreviewData.bluetoothManager())
 }
 

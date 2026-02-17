@@ -468,7 +468,7 @@ private struct WorkoutPlaybackPreviewHost: View {
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
-        context.insert(UserSettings(id: "me", ftpWatts: 250))
+        context.insert(PreviewData.userSettings())
         try? context.save()
         return c
     }()
@@ -526,13 +526,15 @@ private struct WorkoutPlaybackPreviewHost: View {
 
 private struct WorkoutPlaybackJustRideHost: View {
     let playbackState: PlaybackState
-    @StateObject private var bluetooth = BluetoothManager()
     @StateObject private var engine: WorkoutEngine
+    private var bluetooth: BluetoothManager {
+        return PreviewData.bluetoothManager()
+    }
 
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
-        context.insert(UserSettings(id: "me", ftpWatts: 250))
+        context.insert(PreviewData.userSettings())
         try? context.save()
         return c
     }()

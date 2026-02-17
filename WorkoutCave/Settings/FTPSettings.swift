@@ -53,7 +53,7 @@ struct FTPSettings: View {
         if let userSettings {
             userSettings.ftpWatts = ftp
         } else {
-            modelContext.insert(UserSettings(id: "me", ftpWatts: ftp))
+            modelContext.insert(PreviewData.userSettings(ftpWatts: ftp))
         }
 
         try? modelContext.save()

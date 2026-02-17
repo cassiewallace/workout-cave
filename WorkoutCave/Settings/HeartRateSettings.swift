@@ -53,7 +53,7 @@ struct HeartRateSettings: View {
         if let userSettings {
             userSettings.maxHR = maxHR
         } else {
-            modelContext.insert(UserSettings(id: "me", maxHR: maxHR))
+            modelContext.insert(PreviewData.userSettings(maxHR: maxHR))
         }
 
         try? modelContext.save()
@@ -64,7 +64,7 @@ private struct HeartRateSettingsPreviewHost: View {
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
-        context.insert(UserSettings(id: "me", maxHR: 180))
+        context.insert(PreviewData.userSettings())
         try? context.save()
         return c
     }()

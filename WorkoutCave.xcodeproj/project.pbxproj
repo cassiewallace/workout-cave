@@ -18,6 +18,7 @@
 		654ABC272F3123CA000263D9 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 654ABC262F3123CA000263D9 /* Media.xcassets */; };
 		658197292F16CF5D0004C85A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658197282F16CF5D0004C85A /* Icons.xcassets */; };
 		658349392F31570F00F517A1 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 658349382F31570F00F517A1 /* Supabase */; };
+		659CC19C2F45239800A6CF67 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659CC19B2F45239700A6CF67 /* PreviewData.swift */; };
 		65C89C7D2F3BDDEE00DF1C06 /* HeartRateMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C89C7C2F3BDDEC00DF1C06 /* HeartRateMeter.swift */; };
 		65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */; };
 		65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6E2F1F067600C8F940 /* Controls.swift */; };
@@ -79,6 +80,7 @@
 		653F6FB62F142447006DE91E /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		654ABC262F3123CA000263D9 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		658197282F16CF5D0004C85A /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		659CC19B2F45239700A6CF67 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		65C89C7C2F3BDDEC00DF1C06 /* HeartRateMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateMeter.swift; sourceTree = "<group>"; };
 		65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatus.swift; sourceTree = "<group>"; };
 		65DAFA6E2F1F067600C8F940 /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 		658197252F16CE8F0004C85A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				659CC19B2F45239700A6CF67 /* PreviewData.swift */,
 				65DAFA742F1FD3B100C8F940 /* Copy.swift */,
 				65DAFA722F1FCAFE00C8F940 /* Constants.swift */,
 				A2000004 /* TermsAndConditions.txt */,
@@ -450,6 +453,7 @@
 			files = (
 				653F6FA32F11C3ED006DE91E /* FTMSIndoorBikeParser.swift in Sources */,
 				65DE043E2F22D488007F7071 /* BluetoothDialog.swift in Sources */,
+				659CC19C2F45239800A6CF67 /* PreviewData.swift in Sources */,
 				65C89C7D2F3BDDEE00DF1C06 /* HeartRateMeter.swift in Sources */,
 				65DAFA732F1FCAFE00C8F940 /* Constants.swift in Sources */,
 				65DAFA752F1FD3B100C8F940 /* Copy.swift in Sources */,

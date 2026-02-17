@@ -54,10 +54,10 @@ struct MetricCard: View {
             MetricCard(type: .power, value: String(180))
             MetricCard(type: .heartRate, value: String(126), heartRateBpm: 126, maxHeartRate: 180)
         }
-        MetricCard(type: .heartRate, value: String(162), heartRateBpm: 162, maxHeartRate: 180)
+        MetricCard(type: .heartRate, value: String(162), heartRateBpm: 122, maxHeartRate: 180)
         
         // Without max HR set
-        MetricCard(type: .heartRate, value: String(120), heartRateBpm: 120, maxHeartRate: nil)
+        MetricCard(type: .heartRate, value: String(120), heartRateBpm: 160, maxHeartRate: 200)
     }
     .padding()
 }
