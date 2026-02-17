@@ -18,6 +18,7 @@ struct LiveMetricsGrid: View {
     var zoneTitle: String
     var metrics: [Metric]
     var averagePowerLabel: String?
+    var maxHeartRate: Int?  // Optional override for max heart rate
     var columnsPerRow: Int
     var fontSize: CGFloat
     var maxHeight: CGFloat
@@ -29,6 +30,7 @@ struct LiveMetricsGrid: View {
         zoneTitle: String = Copy.metrics.powerZone,
         metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate],
         averagePowerLabel: String? = nil,
+        maxHeartRate: Int? = nil,
         columnsPerRow: Int = 2,
         fontSize: CGFloat = 18,
         maxHeight: CGFloat = 120,
@@ -39,6 +41,7 @@ struct LiveMetricsGrid: View {
         self.zoneTitle = zoneTitle
         self.metrics = metrics
         self.averagePowerLabel = averagePowerLabel
+        self.maxHeartRate = maxHeartRate
         self.columnsPerRow = max(1, columnsPerRow)
         self.fontSize = fontSize
         self.maxHeight = maxHeight
@@ -175,7 +178,7 @@ struct LiveMetricsGrid: View {
                 type: .heartRate,
                 value: bluetooth.metrics.heartRateBpm.map(String.init) ?? Copy.placeholder.missingValue,
                 heartRateBpm: bluetooth.metrics.heartRateBpm,
-                maxHeartRate: userSettings?.maxHR,
+                maxHeartRate: maxHeartRate ?? userSettings?.maxHR,
                 fontSize: fontSize,
                 maxHeight: maxHeight,
                 maxWidth: maxWidth
@@ -215,7 +218,8 @@ private struct LiveMetricsGridPreviewHost: View {
                 bluetooth: PreviewData.bluetoothManager(),
                 targetZoneLabel: "Z2–Z3",
                 zoneTitle: Copy.metrics.currentZone,
-                metrics: [.targetZone, .zone, .power, .cadence, .speed, .heartRate]
+                metrics: [.targetZone, .zone, .power, .cadence, .speed, .heartRate],
+                maxHeartRate: 180
             )
             .padding()
             
@@ -224,6 +228,7 @@ private struct LiveMetricsGridPreviewHost: View {
                 targetZoneLabel: "Z1",
                 zoneTitle: Copy.metrics.currentZone,
                 metrics: [.zone, .heartRate],
+                maxHeartRate: 180,
                 columnsPerRow: 1,
                 fontSize: 12,
                 maxHeight: 64,

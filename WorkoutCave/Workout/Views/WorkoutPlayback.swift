@@ -43,17 +43,20 @@ struct WorkoutPlayback: View {
 
     let workoutSource: WorkoutSource
     private let autoLoad: Bool
+    private let previewMaxHeartRate: Int?  // Optional override for previews
 
     @MainActor
-    init(workoutSource: WorkoutSource, autoLoad: Bool = true) {
+    init(workoutSource: WorkoutSource, autoLoad: Bool = true, previewMaxHeartRate: Int? = nil) {
         self.workoutSource = workoutSource
         self.autoLoad = autoLoad
+        self.previewMaxHeartRate = previewMaxHeartRate
         _engine = StateObject(wrappedValue: WorkoutEngine())
     }
 
-    init(workoutSource: WorkoutSource, autoLoad: Bool, engine: WorkoutEngine) {
+    init(workoutSource: WorkoutSource, autoLoad: Bool, engine: WorkoutEngine, previewMaxHeartRate: Int? = nil) {
         self.workoutSource = workoutSource
         self.autoLoad = autoLoad
+        self.previewMaxHeartRate = previewMaxHeartRate
         _engine = StateObject(wrappedValue: engine)
     }
     
@@ -328,6 +331,7 @@ struct WorkoutPlayback: View {
             zoneTitle: Copy.metrics.currentZone,
             metrics: metrics,
             averagePowerLabel: averagePowerLabel,
+            maxHeartRate: previewMaxHeartRate,
             maxHeight: metricsGridRowHeight
         )
         .padding(.horizontal, horizontalPadding)
@@ -344,6 +348,7 @@ struct WorkoutPlayback: View {
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
             metrics: metrics,
+            maxHeartRate: previewMaxHeartRate,
             columnsPerRow: 1,
             fontSize: 12,
             maxHeight: 80,
@@ -357,6 +362,7 @@ struct WorkoutPlayback: View {
             bluetooth: bluetooth,
             metrics: metrics,
             averagePowerLabel: averagePowerLabel,
+            maxHeartRate: previewMaxHeartRate,
             columnsPerRow: 1,
             fontSize: 12,
             maxHeight: 80,
@@ -468,7 +474,10 @@ private struct WorkoutPlaybackPreviewHost: View {
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
-        context.insert(PreviewData.userSettings())
+        let settings = PreviewData.userSettings()
+        // Set maxHR for heart rate meter preview
+        settings.maxHR = 180
+        context.insert(settings)
         try? context.save()
         return c
     }()
@@ -497,7 +506,8 @@ private struct WorkoutPlaybackPreviewHost: View {
             WorkoutPlayback(
                 workoutSource: Self.previewWorkoutSource,
                 autoLoad: false,
-                engine: engine
+                engine: engine,
+                previewMaxHeartRate: 180
             )
         }
         .modelContainer(container)
@@ -534,7 +544,10 @@ private struct WorkoutPlaybackJustRideHost: View {
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
-        context.insert(PreviewData.userSettings())
+        let settings = PreviewData.userSettings()
+        // Set maxHR for heart rate meter preview
+        settings.maxHR = 180
+        context.insert(settings)
         try? context.save()
         return c
     }()
@@ -550,7 +563,8 @@ private struct WorkoutPlaybackJustRideHost: View {
             WorkoutPlayback(
                 workoutSource: JustRideWorkoutSource(),
                 autoLoad: false,
-                engine: engine
+                engine: engine,
+                previewMaxHeartRate: 180
             )
         }
         .modelContainer(container)
