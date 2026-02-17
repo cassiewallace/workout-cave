@@ -50,17 +50,9 @@ struct LiveMetricsGrid: View {
             let rows = metricRows(maxRows: 3)
 
             ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
-                if columnsPerRow == 1 {
-                    VStack(spacing: Constants.m) {
-                        ForEach(Array(row.enumerated()), id: \.offset) { _, metric in
-                            metricCard(metric, targetZoneLabel: targetZoneLabel)
-                        }
-                    }
-                } else {
-                    HStack(spacing: Constants.m) {
-                        ForEach(Array(row.enumerated()), id: \.offset) { _, metric in
-                            metricCard(metric, targetZoneLabel: targetZoneLabel)
-                        }
+                HStack(spacing: Constants.m) {
+                    ForEach(Array(row.enumerated()), id: \.offset) { _, metric in
+                        metricCard(metric, targetZoneLabel: targetZoneLabel)
                     }
                 }
             }
@@ -79,34 +71,44 @@ struct LiveMetricsGrid: View {
     private func metricRows(maxRows: Int) -> [[Metric]] {
         var rows: [[Metric]] = []
         
-        // Row 1: Power-related metrics (targetZone, zone, power, averagePower)
-        var powerRow: [Metric] = []
-        if metrics.contains(.targetZone), targetZoneLabel != nil {
-            powerRow.append(.targetZone)
-        }
-        if metrics.contains(.zone) {
-            powerRow.append(.zone)
-        }
-        if metrics.contains(.power) {
-            powerRow.append(.power)
-        }
-        if metrics.contains(.averagePower) {
-            powerRow.append(.averagePower)
-        }
-        if !powerRow.isEmpty && rows.count < maxRows {
-            rows.append(powerRow)
+        // If columnsPerRow is 1, use simple stacking (for compact layouts)
+        if columnsPerRow == 1 {
+            for metric in metrics.prefix(maxRows) {
+                rows.append([metric])
+            }
+            return rows
         }
         
-        // Row 2: Speed and Cadence
-        var speedCadenceRow: [Metric] = []
-        if metrics.contains(.speed) {
-            speedCadenceRow.append(.speed)
+        // Otherwise, use custom semantic grouping
+        
+        // Row 1: Zone metrics (targetZone, zone)
+        var zoneRow: [Metric] = []
+        if metrics.contains(.targetZone), targetZoneLabel != nil {
+            zoneRow.append(.targetZone)
+        }
+        if metrics.contains(.zone) {
+            zoneRow.append(.zone)
+        }
+        if !zoneRow.isEmpty && rows.count < maxRows {
+            rows.append(zoneRow)
+        }
+        
+        // Row 2: Power and Cadence
+        var powerCadenceRow: [Metric] = []
+        if metrics.contains(.power) {
+            powerCadenceRow.append(.power)
         }
         if metrics.contains(.cadence) {
-            speedCadenceRow.append(.cadence)
+            powerCadenceRow.append(.cadence)
         }
-        if !speedCadenceRow.isEmpty && rows.count < maxRows {
-            rows.append(speedCadenceRow)
+        if metrics.contains(.averagePower) {
+            powerCadenceRow.append(.averagePower)
+        }
+        if metrics.contains(.speed) {
+            powerCadenceRow.append(.speed)
+        }
+        if !powerCadenceRow.isEmpty && rows.count < maxRows {
+            rows.append(powerCadenceRow)
         }
         
         // Row 3: Heart Rate (gets its own row)
@@ -229,8 +231,8 @@ private struct LiveMetricsGridPreviewHost: View {
                 metrics: [.zone, .heartRate],
                 columnsPerRow: 1,
                 fontSize: 12,
-                maxHeight: 80,
-                maxWidth: 120
+                maxHeight: 64,
+                maxWidth: 96
             )
         }
         .modelContainer(container)

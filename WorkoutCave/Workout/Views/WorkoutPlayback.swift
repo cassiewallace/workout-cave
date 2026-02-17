@@ -296,7 +296,7 @@ struct WorkoutPlayback: View {
             }
             return list
         }
-        var metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate]
+        var metrics: [Metric] = [.zone, .power, .cadence, .heartRate]
         if engine.workout?.hasIntervals == true { metrics.append(.targetZone) }
         return metrics
     }
@@ -455,8 +455,15 @@ struct WorkoutPlayback: View {
 
 private struct WorkoutPlaybackPreviewHost: View {
     let playbackState: PlaybackState?
-    @StateObject private var bluetooth = BluetoothManager()
     @StateObject private var engine: WorkoutEngine
+    
+    private var bluetooth: BluetoothManager {
+        let bluetooth = BluetoothManager()
+        bluetooth.metrics.heartRateBpm = 150
+        bluetooth.metrics.powerWatts = 110
+        bluetooth.metrics.cadenceRpm = 69
+        return bluetooth
+    }
 
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)

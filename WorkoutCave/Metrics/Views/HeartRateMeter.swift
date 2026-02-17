@@ -26,7 +26,7 @@ struct HeartRateMeter: View {
                             zone == .zone5 ? .trailing :
                             .interior,
                           color: zone.color,
-                          opacity: zone.range.contains(heartRateFraction) ? 1 : 0.4)
+                          opacity: heartRateFraction >= zone.range.lowerBound ? 1 : 0.2)
             }
         }
     }
@@ -60,11 +60,20 @@ struct HeartRateMeter: View {
 
 #Preview {
     VStack(spacing: 20) {
+        // Zone 1 (50-60% of 180 = 90-108 bpm)
+        HeartRateMeter(bpm: 100, maxHeartRate: 180)
+        
+        // Zone 2 (60-70% of 180 = 108-126 bpm)
+        HeartRateMeter(bpm: 117, maxHeartRate: 180)
+        
         // Zone 3 (70-80% of 180 = 126-144 bpm)
-        HeartRateMeter(bpm: 126, maxHeartRate: 180)
+        HeartRateMeter(bpm: 135, maxHeartRate: 180)
+        
+        // Zone 4 (80-90% of 180 = 144-162 bpm)
+        HeartRateMeter(bpm: 153, maxHeartRate: 180)
         
         // Zone 5 (90-100% of 180 = 162-180 bpm)
-        HeartRateMeter(bpm: 162, maxHeartRate: 180)
+        HeartRateMeter(bpm: 170, maxHeartRate: 180)
         
         // No max HR set
         HeartRateMeter(bpm: 120, maxHeartRate: nil)
