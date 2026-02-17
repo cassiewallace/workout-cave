@@ -346,8 +346,8 @@ struct WorkoutPlayback: View {
             metrics: metrics,
             columnsPerRow: 1,
             fontSize: 12,
-            maxHeight: 64,
-            maxWidth: 96
+            maxHeight: 80,
+            maxWidth: 120
         )
     }
 
@@ -359,8 +359,8 @@ struct WorkoutPlayback: View {
             averagePowerLabel: averagePowerLabel,
             columnsPerRow: 1,
             fontSize: 12,
-            maxHeight: 64,
-            maxWidth: 96
+            maxHeight: 80,
+            maxWidth: 120
         )
     }
 

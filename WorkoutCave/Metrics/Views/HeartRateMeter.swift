@@ -19,7 +19,7 @@ struct HeartRateMeter: View {
     }
     
     var body: some View {
-        HStack(spacing: Constants.xxs) {
+        HStack(spacing: 1) {
             ForEach(HeartRateZone.allCases) { zone in
                 MeterPill(position:
                             zone == .zone1 ? .leading :

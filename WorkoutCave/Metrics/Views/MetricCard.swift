@@ -32,7 +32,7 @@ struct MetricCard: View {
                 .foregroundColor(.secondary)
             
             Text(value)
-                .font(.system(size: fontSize * 2.5, weight: .bold))
+                .font(.system(size: fontSize * 2, weight: .bold))
             
             if type == .heartRate {
                 HeartRateMeter(bpm: heartRateBpm, maxHeartRate: maxHeartRate)

@@ -50,9 +50,17 @@ struct LiveMetricsGrid: View {
             let rows = metricRows(maxRows: 3)
 
             ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
-                HStack(spacing: Constants.m) {
-                    ForEach(Array(row.enumerated()), id: \.offset) { _, metric in
-                        metricCard(metric, targetZoneLabel: targetZoneLabel)
+                if columnsPerRow == 1 {
+                    VStack(spacing: Constants.m) {
+                        ForEach(Array(row.enumerated()), id: \.offset) { _, metric in
+                            metricCard(metric, targetZoneLabel: targetZoneLabel)
+                        }
+                    }
+                } else {
+                    HStack(spacing: Constants.m) {
+                        ForEach(Array(row.enumerated()), id: \.offset) { _, metric in
+                            metricCard(metric, targetZoneLabel: targetZoneLabel)
+                        }
                     }
                 }
             }
@@ -221,8 +229,8 @@ private struct LiveMetricsGridPreviewHost: View {
                 metrics: [.zone, .heartRate],
                 columnsPerRow: 1,
                 fontSize: 12,
-                maxHeight: 64,
-                maxWidth: 96
+                maxHeight: 80,
+                maxWidth: 120
             )
         }
         .modelContainer(container)
