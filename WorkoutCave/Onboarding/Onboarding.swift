@@ -21,9 +21,9 @@ struct Onboarding: View {
 
                 LinearGradient(
                     colors: [
-                        Color(.systemBackground).opacity(0.10),
-                        Color(.systemBackground).opacity(0.70),
-                        Color(.systemBackground).opacity(0.95)
+                        Color(.black).opacity(0.10),
+                        Color(.black).opacity(0.70),
+                        Color(.black).opacity(0.95)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
