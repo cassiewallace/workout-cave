@@ -86,11 +86,6 @@ struct WorkoutPlayback: View {
         isCompactVertical ? Constants.xs : Constants.m
     }
 
-    private var metricsGridHeight: CGFloat {
-        let rowCount: CGFloat = 3
-        return (metricsGridRowHeight * rowCount) + (Constants.m * (rowCount - 1))
-    }
-
     private var horizontalPadding: CGFloat {
         isCompactVertical ? Constants.m : Constants.l
     }
@@ -333,7 +328,6 @@ struct WorkoutPlayback: View {
             zoneTitle: Copy.metrics.currentZone,
             metrics: metrics,
             averagePowerLabel: averagePowerLabel,
-            fixedHeight: metricsGridHeight,
             maxHeight: metricsGridRowHeight
         )
         .padding(.horizontal, horizontalPadding)

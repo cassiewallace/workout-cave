@@ -18,6 +18,7 @@
 		654ABC272F3123CA000263D9 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 654ABC262F3123CA000263D9 /* Media.xcassets */; };
 		658197292F16CF5D0004C85A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658197282F16CF5D0004C85A /* Icons.xcassets */; };
 		658349392F31570F00F517A1 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 658349382F31570F00F517A1 /* Supabase */; };
+		65C89C7D2F3BDDEE00DF1C06 /* HeartRateMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C89C7C2F3BDDEC00DF1C06 /* HeartRateMeter.swift */; };
 		65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */; };
 		65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6E2F1F067600C8F940 /* Controls.swift */; };
 		65DAFA732F1FCAFE00C8F940 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA722F1FCAFE00C8F940 /* Constants.swift */; };
@@ -33,9 +34,6 @@
 		65FBC7E02EF4711F0047A9FC /* WorkoutList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7DF2EF471170047A9FC /* WorkoutList.swift */; };
 		65FBC7E42EF49B350047A9FC /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FBC7E32EF49B320047A9FC /* Control.swift */; };
 		9F3A1B2C3D4E5F60718293A4 /* FTPSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3A1B2C3D4E5F60718293A5 /* FTPSettings.swift */; };
-		C10200022F315700000002 /* HeartRateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10100012F315700000001 /* HeartRateZone.swift */; };
-		C10400042F315700000004 /* ZoneSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10300032F315700000003 /* ZoneSettings.swift */; };
-		C10600062F315700000006 /* HeartRateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10500052F315700000005 /* HeartRateSettings.swift */; };
 		A1000001 /* WorkoutCave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002 /* WorkoutCave.swift */; };
 		A1000003 /* WorkoutPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* WorkoutPlayback.swift */; };
 		A1000005 /* WorkoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* WorkoutEngine.swift */; };
@@ -54,6 +52,9 @@
 		B11100032F315700000011 /* PowerZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10C00032F31570000000C /* PowerZoneTests.swift */; };
 		B11200042F315700000012 /* WorkoutAPIMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10D00042F31570000000D /* WorkoutAPIMappingTests.swift */; };
 		B11300052F315700000013 /* ZWOParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10E00052F31570000000E /* ZWOParserTests.swift */; };
+		C10200022F315700000002 /* HeartRateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10100012F315700000001 /* HeartRateZone.swift */; };
+		C10400042F315700000004 /* ZoneSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10300032F315700000003 /* ZoneSettings.swift */; };
+		C10600062F315700000006 /* HeartRateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10500052F315700000005 /* HeartRateSettings.swift */; };
 		C20200022F315700000002 /* HeartRateZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20100012F315700000001 /* HeartRateZoneTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +79,7 @@
 		653F6FB62F142447006DE91E /* WorkoutCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCard.swift; sourceTree = "<group>"; };
 		654ABC262F3123CA000263D9 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		658197282F16CF5D0004C85A /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		65C89C7C2F3BDDEC00DF1C06 /* HeartRateMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateMeter.swift; sourceTree = "<group>"; };
 		65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatus.swift; sourceTree = "<group>"; };
 		65DAFA6E2F1F067600C8F940 /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
 		65DAFA722F1FCAFE00C8F940 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -93,9 +95,6 @@
 		65FBC7DF2EF471170047A9FC /* WorkoutList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutList.swift; sourceTree = "<group>"; };
 		65FBC7E32EF49B320047A9FC /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		9F3A1B2C3D4E5F60718293A5 /* FTPSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FTPSettings.swift; sourceTree = "<group>"; };
-		C10100012F315700000001 /* HeartRateZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateZone.swift; sourceTree = "<group>"; };
-		C10300032F315700000003 /* ZoneSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneSettings.swift; sourceTree = "<group>"; };
-		C10500052F315700000005 /* HeartRateSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateSettings.swift; sourceTree = "<group>"; };
 		A1000000 /* WorkoutCave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutCave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000002 /* WorkoutCave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCave.swift; sourceTree = "<group>"; };
 		A1000004 /* WorkoutPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPlayback.swift; sourceTree = "<group>"; };
@@ -117,6 +116,9 @@
 		B10C00032F31570000000C /* PowerZoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerZoneTests.swift; sourceTree = "<group>"; };
 		B10D00042F31570000000D /* WorkoutAPIMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutAPIMappingTests.swift; sourceTree = "<group>"; };
 		B10E00052F31570000000E /* ZWOParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWOParserTests.swift; sourceTree = "<group>"; };
+		C10100012F315700000001 /* HeartRateZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateZone.swift; sourceTree = "<group>"; };
+		C10300032F315700000003 /* ZoneSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneSettings.swift; sourceTree = "<group>"; };
+		C10500052F315700000005 /* HeartRateSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateSettings.swift; sourceTree = "<group>"; };
 		C20100012F315700000001 /* HeartRateZoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateZoneTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -196,6 +198,7 @@
 		653F6FA62F11CED5006DE91E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				65C89C7C2F3BDDEC00DF1C06 /* HeartRateMeter.swift */,
 				65DAFA802F20AAAA00C8F940 /* LiveMetricsGrid.swift */,
 				653F6F9B2F11B7A4006DE91E /* MetricCard.swift */,
 			);
@@ -447,6 +450,7 @@
 			files = (
 				653F6FA32F11C3ED006DE91E /* FTMSIndoorBikeParser.swift in Sources */,
 				65DE043E2F22D488007F7071 /* BluetoothDialog.swift in Sources */,
+				65C89C7D2F3BDDEE00DF1C06 /* HeartRateMeter.swift in Sources */,
 				65DAFA732F1FCAFE00C8F940 /* Constants.swift in Sources */,
 				65DAFA752F1FD3B100C8F940 /* Copy.swift in Sources */,
 				65DAFA812F20AAAA00C8F940 /* LiveMetricsGrid.swift in Sources */,

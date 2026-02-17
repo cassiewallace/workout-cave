@@ -11,6 +11,8 @@ import SwiftUI
 enum Constants {
     /// 0pt
     static let none: CGFloat = 0
+    /// 2pt
+    static let xxxs: CGFloat = 2
     /// 4pt
     static let xxs: CGFloat = 4
     /// 6pt

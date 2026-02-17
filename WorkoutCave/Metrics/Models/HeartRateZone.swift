@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 /// Standard 5-zone heart rate model as percentage of maximum heart rate.
 enum HeartRateZone: Int, CaseIterable, Identifiable {
@@ -41,6 +42,16 @@ enum HeartRateZone: Int, CaseIterable, Identifiable {
         case .zone3: return 0.70 ... 0.80
         case .zone4: return 0.80 ... 0.90
         case .zone5: return 0.90 ... 1.00
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .zone1: return .green
+        case .zone2: return .blue
+        case .zone3: return .yellow
+        case .zone4: return .orange
+        case .zone5: return .red
         }
     }
 

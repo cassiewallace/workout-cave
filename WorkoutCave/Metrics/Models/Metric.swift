@@ -8,11 +8,11 @@
 import Foundation
 
 enum Metric: String, Hashable, Codable, CaseIterable {
-    case averagePower
-    case targetZone
+    case averagePower = "Average Power"
+    case targetZone = "Target Zone"
     case zone
     case power
     case cadence
     case speed
-    case heartRate
+    case heartRate = "Heart Rate"
 }

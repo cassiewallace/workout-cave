@@ -18,7 +18,6 @@ struct LiveMetricsGrid: View {
     var zoneTitle: String
     var metrics: [Metric]
     var averagePowerLabel: String?
-    var fixedHeight: CGFloat?
     var columnsPerRow: Int
     var fontSize: CGFloat
     var maxHeight: CGFloat
@@ -30,7 +29,6 @@ struct LiveMetricsGrid: View {
         zoneTitle: String = Copy.metrics.powerZone,
         metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate],
         averagePowerLabel: String? = nil,
-        fixedHeight: CGFloat? = nil,
         columnsPerRow: Int = 2,
         fontSize: CGFloat = 18,
         maxHeight: CGFloat = 120,
@@ -41,7 +39,6 @@ struct LiveMetricsGrid: View {
         self.zoneTitle = zoneTitle
         self.metrics = metrics
         self.averagePowerLabel = averagePowerLabel
-        self.fixedHeight = fixedHeight
         self.columnsPerRow = max(1, columnsPerRow)
         self.fontSize = fontSize
         self.maxHeight = maxHeight
@@ -60,7 +57,7 @@ struct LiveMetricsGrid: View {
                 }
             }
         }
-        .frame(height: fixedHeight, alignment: .top)
+        .frame(alignment: .top)
     }
 
     private var speedUnit: SpeedUnit {
@@ -72,41 +69,43 @@ struct LiveMetricsGrid: View {
     }
     
     private func metricRows(maxRows: Int) -> [[Metric]] {
-        // Build a dedicated "zone row" so Target Zone + Current Zone
-        // always appear together when available.
-        var zoneRow: [Metric] = []
+        var rows: [[Metric]] = []
+        
+        // Row 1: Power-related metrics (targetZone, zone, power, averagePower)
+        var powerRow: [Metric] = []
         if metrics.contains(.targetZone), targetZoneLabel != nil {
-            zoneRow.append(.targetZone)
+            powerRow.append(.targetZone)
         }
         if metrics.contains(.zone) {
-            zoneRow.append(.zone)
+            powerRow.append(.zone)
         }
-
-        let remaining = metrics.filter { metric in
-            switch metric {
-            case .targetZone:
-                return !(metrics.contains(.targetZone) && targetZoneLabel != nil)
-            case .zone:
-                return false
-            default:
-                return true
-            }
+        if metrics.contains(.power) {
+            powerRow.append(.power)
+        }
+        if metrics.contains(.averagePower) {
+            powerRow.append(.averagePower)
+        }
+        if !powerRow.isEmpty && rows.count < maxRows {
+            rows.append(powerRow)
         }
         
-        var rows: [[Metric]] = []
-        if !zoneRow.isEmpty {
-            rows.append(zoneRow)
+        // Row 2: Speed and Cadence
+        var speedCadenceRow: [Metric] = []
+        if metrics.contains(.speed) {
+            speedCadenceRow.append(.speed)
         }
-
-        let remainingRowCapacity = max(0, maxRows - rows.count)
-        guard remainingRowCapacity > 0 else { return rows }
-
-        var i = 0
-        while i < remaining.count, rows.count < maxRows {
-            let end = min(i + columnsPerRow, remaining.count)
-            rows.append(Array(remaining[i..<end]))
-            i = end
+        if metrics.contains(.cadence) {
+            speedCadenceRow.append(.cadence)
         }
+        if !speedCadenceRow.isEmpty && rows.count < maxRows {
+            rows.append(speedCadenceRow)
+        }
+        
+        // Row 3: Heart Rate (gets its own row)
+        if metrics.contains(.heartRate) && rows.count < maxRows {
+            rows.append([.heartRate])
+        }
+        
         return rows
     }
     
@@ -115,7 +114,7 @@ struct LiveMetricsGrid: View {
         switch metric {
         case .averagePower:
             MetricCard(
-                name: Copy.metrics.averagePower,
+                type: .averagePower,
                 value: averagePowerLabel ?? Copy.placeholder.missingValue,
                 fontSize: fontSize,
                 maxHeight: maxHeight,
@@ -123,7 +122,7 @@ struct LiveMetricsGrid: View {
             )
         case .targetZone:
             MetricCard(
-                name: Copy.metrics.targetZone,
+                type: .targetZone,
                 value: targetZoneLabel ?? Copy.placeholder.missingValue,
                 fontSize: fontSize,
                 maxHeight: maxHeight,
@@ -131,7 +130,7 @@ struct LiveMetricsGrid: View {
             )
         case .zone:
             MetricCard(
-                name: zoneTitle,
+                type: .zone,
                 value: PowerZone.zoneNameLabel(for: bluetooth.metrics.powerWatts, ftp: userSettings?.ftpWatts),
                 fontSize: fontSize,
                 maxHeight: maxHeight,
@@ -139,7 +138,7 @@ struct LiveMetricsGrid: View {
             )
         case .power:
             MetricCard(
-                name: Copy.metrics.power,
+                type: .power,
                 value: bluetooth.metrics.powerWatts.map(String.init) ?? Copy.placeholder.missingValue,
                 fontSize: fontSize,
                 maxHeight: maxHeight,
@@ -147,7 +146,7 @@ struct LiveMetricsGrid: View {
             )
         case .cadence:
             MetricCard(
-                name: Copy.metrics.cadence,
+                type: .cadence,
                 value: bluetooth.metrics.cadenceRpm.map { String(Int($0.rounded())) } ?? Copy.placeholder.missingValue,
                 fontSize: fontSize,
                 maxHeight: maxHeight,
@@ -155,7 +154,7 @@ struct LiveMetricsGrid: View {
             )
         case .speed:
             MetricCard(
-                name: speedLabel,
+                type: .speed,
                 value: speedValueLabel() ?? Copy.placeholder.missingValue,
                 fontSize: fontSize,
                 maxHeight: maxHeight,
@@ -163,8 +162,10 @@ struct LiveMetricsGrid: View {
             )
         case .heartRate:
             MetricCard(
-                name: Copy.metrics.heartRate,
+                type: .heartRate,
                 value: bluetooth.metrics.heartRateBpm.map(String.init) ?? Copy.placeholder.missingValue,
+                heartRateBpm: bluetooth.metrics.heartRateBpm,
+                maxHeartRate: userSettings?.maxHR,
                 fontSize: fontSize,
                 maxHeight: maxHeight,
                 maxWidth: maxWidth
@@ -190,11 +191,15 @@ struct LiveMetricsGrid: View {
 }
 
 private struct LiveMetricsGridPreviewHost: View {
-    @StateObject private var bluetooth = BluetoothManager()
+    private var bluetooth: BluetoothManager {
+        let manager = BluetoothManager()
+        manager.metrics.heartRateBpm = 100
+        return manager
+    }
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
-        context.insert(UserSettings(id: "me", ftpWatts: 250))
+        context.insert(UserSettings(id: "me", ftpWatts: 250, maxHR: 180))
         try? context.save()
         return c
     }()
