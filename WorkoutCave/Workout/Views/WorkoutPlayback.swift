@@ -528,7 +528,7 @@ private struct WorkoutPlaybackJustRideHost: View {
     let playbackState: PlaybackState
     @StateObject private var engine: WorkoutEngine
     private var bluetooth: BluetoothManager {
-        return PreviewData.bluetoothManager()
+        PreviewData.bluetoothManager()
     }
 
     private let container: ModelContainer = {
