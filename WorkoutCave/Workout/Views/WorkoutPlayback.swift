@@ -10,6 +10,24 @@ import SwiftUI
 
 struct WorkoutPlayback: View {
     // MARK: - Properties
+    
+    // MARK: ViewState
+    
+    private enum ViewState {
+        case loading
+        case loaded(Workout)
+        case error(String)
+    }
+    
+    private var viewState: ViewState {
+        if let workout = engine.workout {
+            return .loaded(workout)
+        } else if let error = engine.errorMessage {
+            return .error(error)
+        } else {
+            return .loading
+        }
+    }
 
     @StateObject private var engine: WorkoutEngine
     @EnvironmentObject private var bluetooth: BluetoothManager
@@ -86,12 +104,13 @@ struct WorkoutPlayback: View {
     var body: some View {
         NavigationStack {
             Group {
-                if let workout = engine.workout {
-                    playbackContent(workout: workout)
-                } else if let error = engine.errorMessage {
-                    errorView(error: error)
-                } else {
+                switch viewState {
+                case .loading:
                     loadingView
+                case .loaded(let workout):
+                    playbackContent(workout: workout)
+                case .error(let errorMessage):
+                    errorView(error: errorMessage)
                 }
             }
             .navigationTitle(workoutTitle)
