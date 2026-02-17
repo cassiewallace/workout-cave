@@ -19,6 +19,7 @@
 		658197292F16CF5D0004C85A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658197282F16CF5D0004C85A /* Icons.xcassets */; };
 		658349392F31570F00F517A1 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 658349382F31570F00F517A1 /* Supabase */; };
 		659CC19C2F45239800A6CF67 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659CC19B2F45239700A6CF67 /* PreviewData.swift */; };
+		659CC19E2F452AA200A6CF67 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 659CC19D2F452AA200A6CF67 /* AppIcon.icon */; };
 		65C89C7D2F3BDDEE00DF1C06 /* HeartRateMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C89C7C2F3BDDEC00DF1C06 /* HeartRateMeter.swift */; };
 		65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */; };
 		65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DAFA6E2F1F067600C8F940 /* Controls.swift */; };
@@ -81,6 +82,7 @@
 		654ABC262F3123CA000263D9 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		658197282F16CF5D0004C85A /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		659CC19B2F45239700A6CF67 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
+		659CC19D2F452AA200A6CF67 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		65C89C7C2F3BDDEC00DF1C06 /* HeartRateMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateMeter.swift; sourceTree = "<group>"; };
 		65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatus.swift; sourceTree = "<group>"; };
 		65DAFA6E2F1F067600C8F940 /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				A2000004 /* TermsAndConditions.txt */,
 				658197282F16CF5D0004C85A /* Icons.xcassets */,
 				654ABC262F3123CA000263D9 /* Media.xcassets */,
+				659CC19D2F452AA200A6CF67 /* AppIcon.icon */,
 				65DE04392F21AB48007F7071 /* Launch Screen.storyboard */,
 			);
 			path = Resources;
@@ -437,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65F55A002EFAF391007AD1D9 /* README.md in Resources */,
+				659CC19E2F452AA200A6CF67 /* AppIcon.icon in Resources */,
 				A2000003 /* TermsAndConditions.txt in Resources */,
 				658197292F16CF5D0004C85A /* Icons.xcassets in Resources */,
 				65DE043A2F21AB48007F7071 /* Launch Screen.storyboard in Resources */,

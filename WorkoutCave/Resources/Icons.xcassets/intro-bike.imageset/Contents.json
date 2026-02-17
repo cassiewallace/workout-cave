@@ -1,17 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "intro-bike.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "intro-bike.jpg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
