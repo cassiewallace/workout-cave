@@ -22,10 +22,10 @@ struct MetricCard: View {
             Text(name)
                 .font(.system(size: fontSize, weight: .semibold))
                 .lineLimit(1)
-                .minimumScaleFactor(0.8)
+                .foregroundColor(.secondary)
             
             Text(value)
-                .font(.system(size: fontSize * 2, weight: .bold))
+                .font(.system(size: fontSize * 2.5, weight: .bold))
         }
         .padding(.vertical, verticalPadding)
         .padding(.horizontal, horizontalPadding)
