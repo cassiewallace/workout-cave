@@ -36,7 +36,7 @@ struct Onboarding: View {
                     Text(Copy.onboarding.description)
                         .font(.title2)
                         .multilineTextAlignment(.center)
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(.white)
                         .padding(.horizontal, Constants.xl)
                         .padding(.vertical, Constants.m)
 
