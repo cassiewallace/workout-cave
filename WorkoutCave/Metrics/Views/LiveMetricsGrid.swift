@@ -19,7 +19,6 @@ struct MetricsGrid: View {
     var metrics: [Metric]
     var averagePowerLabel: String?
     var maxHeartRate: Int?  // Optional override for max heart rate
-    var columnsPerRow: Int
     var fontSize: CGFloat
     var maxHeight: CGFloat
     var maxWidth: CGFloat
@@ -31,7 +30,6 @@ struct MetricsGrid: View {
         metrics: [Metric] = [.zone, .power, .cadence, .speed, .heartRate],
         averagePowerLabel: String? = nil,
         maxHeartRate: Int? = nil,
-        columnsPerRow: Int = 2,
         fontSize: CGFloat = 18,
         maxHeight: CGFloat = 120,
         maxWidth: CGFloat = .infinity
@@ -42,10 +40,19 @@ struct MetricsGrid: View {
         self.metrics = metrics
         self.averagePowerLabel = averagePowerLabel
         self.maxHeartRate = maxHeartRate
-        self.columnsPerRow = max(1, columnsPerRow)
         self.fontSize = fontSize
         self.maxHeight = maxHeight
         self.maxWidth = maxWidth
+    }
+    
+    /// Automatically determines the optimal number of columns per row based on the metrics provided
+    private var columnsPerRow: Int {
+        // For 3 or fewer metrics, use single column for better visual balance
+        if metrics.count <= 3 {
+            return 1
+        }
+        // For standard use cases, use 2 columns for semantic grouping
+        return 2
     }
     
     var body: some View {
@@ -228,7 +235,6 @@ private struct MetricsGridPreviewHost: View {
                 zoneTitle: Copy.metrics.currentZone,
                 metrics: [.zone, .heartRate],
                 maxHeartRate: 180,
-                columnsPerRow: 1,
                 fontSize: 12,
                 maxHeight: 64,
                 maxWidth: 96

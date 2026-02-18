@@ -68,8 +68,8 @@ struct WorkoutRow: Decodable {
     let name: String
     let description: String?
     let duration: Int?
-    let metrics: [String]?
-    let finishedMetrics: [String]?
+    let metrics: [Metric]?
+    let finishedMetrics: [Metric]?
     let intervals: [IntervalRow]?
 
     enum CodingKeys: String, CodingKey {
@@ -93,17 +93,14 @@ struct WorkoutRow: Decodable {
             )
         }
 
-        let mappedMetrics = (metrics ?? []).compactMap { Metric(rawValue: $0) }
-        let mappedFinishedMetrics = (finishedMetrics ?? []).compactMap { Metric(rawValue: $0) }
-
         return Workout(
             id: String(id),
             name: name,
             description: description,
             intervals: mappedIntervals,
             duration: duration.map { TimeInterval($0) },
-            metrics: mappedMetrics.isEmpty ? nil : mappedMetrics,
-            finishedMetrics: mappedFinishedMetrics.isEmpty ? nil : mappedFinishedMetrics
+            metrics: metrics,
+            finishedMetrics: finishedMetrics
         )
     }
 }

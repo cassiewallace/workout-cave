@@ -335,15 +335,14 @@ struct WorkoutPlayback: View {
         engine.workout?.name ?? Copy.placeholder.empty
     }
     
-    private var metricsGrid: some View {
-        MetricsGrid(
+    private var metricsGrid: some View {        
+        return MetricsGrid(
             bluetooth: bluetooth,
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
             metrics: metrics,
             averagePowerLabel: engine.playbackState == .finished ? averagePowerLabel : nil,
             maxHeartRate: previewMaxHeartRate,
-            columnsPerRow: isCompactVertical ? 1 : 2,
             fontSize: isCompactVertical ? 12 : 18,
             maxHeight: isCompactVertical ? 80 : 120,
             maxWidth: isCompactVertical ? 120 : .infinity
