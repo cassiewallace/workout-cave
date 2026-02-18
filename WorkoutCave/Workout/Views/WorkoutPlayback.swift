@@ -417,16 +417,21 @@ struct WorkoutPlayback: View {
 }
 
 #Preview("Interval Workout") {
-    WorkoutPlaybackPreviewHost()
+    WorkoutPlaybackPreview(workoutSource: .intervalWorkout)
 }
 
 #Preview("Just Ride") {
-    WorkoutPlaybackJustRidePreviewHost(playbackState: .idle)
+    WorkoutPlaybackPreview(workoutSource: .justRide)
 }
 
-private struct WorkoutPlaybackPreviewHost: View {
-    let playbackState: PlaybackState?
-    @StateObject private var engine: WorkoutEngine
+private struct WorkoutPlaybackPreview: View {
+    let workoutSource: PreviewWorkoutSource
+    @StateObject private var engine = WorkoutEngine()
+    
+    enum PreviewWorkoutSource {
+        case intervalWorkout
+        case justRide
+    }
     
     private var bluetooth: BluetoothManager {
         let bluetooth = BluetoothManager()
@@ -440,48 +445,46 @@ private struct WorkoutPlaybackPreviewHost: View {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
         let settings = PreviewData.userSettings()
-        // Set maxHR for heart rate meter preview
         settings.maxHR = 180
         context.insert(settings)
         try? context.save()
         return c
     }()
 
-    private static let previewWorkoutSource: WorkoutSource = {
-        let zwo = """
-        <workout_file>
-            <name>Preview Workout</name>
-            <workout>
-                <SteadyState Duration="300" Power="0.5" pace="0">
-                    <textevent timeoffset="0" message="Welcome! Let's warm up at an easy pace. This is a longer warmup than usual to support bloodflow and mental readiness."/>
-                </SteadyState>
-                <SteadyState Duration="180" Power="0.75" pace="0">
-                    <textevent timeoffset="0" message="Building intensity now. Find your rhythm."/>
-                </SteadyState>
-                <IntervalsT Repeat="3" OnDuration="60" OffDuration="60" OnPower="0.95" OffPower="0.5" pace="0">
-                    <textevent timeoffset="0" message="Push hard! Give it everything you've got!"/>
-                    <textevent timeoffset="60" message="Recovery time. Catch your breath."/>
-                </IntervalsT>
-                <SteadyState Duration="240" Power="0.6" pace="0">
-                    <textevent timeoffset="0" message="Great work! Cool down at an easy pace."/>
-                </SteadyState>
-            </workout>
-        </workout_file>
-        """
-        let data = Data(zwo.utf8)
-        return ZwiftWorkoutSource(id: "preview", data: data)
-    }()
-
-    @MainActor
-    init(playbackState: PlaybackState? = nil) {
-        self.playbackState = playbackState
-        _engine = StateObject(wrappedValue: WorkoutEngine())
+    private var source: WorkoutSource {
+        switch workoutSource {
+        case .intervalWorkout:
+            let zwo = """
+            <workout_file>
+                <name>Preview Workout</name>
+                <workout>
+                    <SteadyState Duration="300" Power="0.5" pace="0">
+                        <textevent timeoffset="0" message="Welcome! Let's warm up at an easy pace. This is a longer warmup than usual to support bloodflow and mental readiness."/>
+                    </SteadyState>
+                    <SteadyState Duration="180" Power="0.75" pace="0">
+                        <textevent timeoffset="0" message="Building intensity now. Find your rhythm."/>
+                    </SteadyState>
+                    <IntervalsT Repeat="3" OnDuration="60" OffDuration="60" OnPower="0.95" OffPower="0.5" pace="0">
+                        <textevent timeoffset="0" message="Push hard! Give it everything you've got!"/>
+                        <textevent timeoffset="60" message="Recovery time. Catch your breath."/>
+                    </IntervalsT>
+                    <SteadyState Duration="240" Power="0.6" pace="0">
+                        <textevent timeoffset="0" message="Great work! Cool down at an easy pace."/>
+                    </SteadyState>
+                </workout>
+            </workout_file>
+            """
+            let data = Data(zwo.utf8)
+            return ZwiftWorkoutSource(id: "preview", data: data)
+        case .justRide:
+            return JustRideWorkoutSource()
+        }
     }
 
     var body: some View {
         NavigationStack {
             WorkoutPlayback(
-                workoutSource: Self.previewWorkoutSource,
+                workoutSource: source,
                 autoLoad: false,
                 engine: engine,
                 previewMaxHeartRate: 180
@@ -490,84 +493,8 @@ private struct WorkoutPlaybackPreviewHost: View {
         .modelContainer(container)
         .environmentObject(bluetooth)
         .task {
-            engine.load(source: Self.previewWorkoutSource)
+            engine.load(source: source)
             engine.setPowerProvider { bluetooth.metrics.powerWatts }
-            applyPreviewPlaybackState(playbackState)
         }
     }
-
-    private func applyPreviewPlaybackState(_ state: PlaybackState?) {
-        guard let state else { return }
-        switch state {
-        case .finished:
-            engine.finish()
-        case .idle:
-            engine.restart()
-        case .paused:
-            engine.pause()
-        case .running:
-            engine.start()
-        }
-    }
-}
-
-private struct WorkoutPlaybackJustRideHost: View {
-    let playbackState: PlaybackState
-    @StateObject private var engine: WorkoutEngine
-    private var bluetooth: BluetoothManager {
-        PreviewData.bluetoothManager()
-    }
-
-    private let container: ModelContainer = {
-        let c = try! ModelContainer(for: UserSettings.self)
-        let context = c.mainContext
-        let settings = PreviewData.userSettings()
-        // Set maxHR for heart rate meter preview
-        settings.maxHR = 180
-        context.insert(settings)
-        try? context.save()
-        return c
-    }()
-
-    @MainActor
-    init(playbackState: PlaybackState) {
-        self.playbackState = playbackState
-        _engine = StateObject(wrappedValue: WorkoutEngine())
-    }
-
-    var body: some View {
-        NavigationStack {
-            WorkoutPlayback(
-                workoutSource: JustRideWorkoutSource(),
-                autoLoad: false,
-                engine: engine,
-                previewMaxHeartRate: 180
-            )
-        }
-        .modelContainer(container)
-        .environmentObject(bluetooth)
-        .task {
-            engine.load(source: JustRideWorkoutSource())
-            engine.setPowerProvider { bluetooth.metrics.powerWatts }
-            applyPreviewPlaybackState(playbackState)
-        }
-    }
-
-    private func applyPreviewPlaybackState(_ state: PlaybackState) {
-        switch state {
-        case .finished:
-            engine.finish()
-        case .idle:
-            engine.restart()
-        case .paused:
-            engine.pause()
-        case .running:
-            engine.start()
-        }
-    }
-}
-
-@MainActor
-private func WorkoutPlaybackJustRidePreviewHost(playbackState: PlaybackState) -> some View {
-    WorkoutPlaybackJustRideHost(playbackState: playbackState)
 }
