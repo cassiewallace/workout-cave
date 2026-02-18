@@ -75,14 +75,13 @@ struct WorkoutPlayback: View {
     
     @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightRegular: CGFloat = 120
     @ScaledMetric(relativeTo: .title3) private var intervalMessageHeightCompact: CGFloat = 64
-    @ScaledMetric(relativeTo: .body) private var metricsGridRowHeight: CGFloat = 96
 
     private var isCompactVertical: Bool {
         verticalSizeClass == .compact
     }
 
     private var sectionSpacing: CGFloat {
-        isCompactVertical ? Constants.l : (Constants.xl)
+        Constants.l
     }
 
     private var innerSpacing: CGFloat {
@@ -94,7 +93,7 @@ struct WorkoutPlayback: View {
     }
 
     private var timerFontSize: CGFloat {
-        isCompactVertical ? Constants.xxxl : Constants.xxxl * 1.5
+        Constants.xxxl
     }
     
     // MARK: - Body
@@ -207,25 +206,23 @@ struct WorkoutPlayback: View {
             VStack(spacing: sectionSpacing) {
                 if engine.workout?.hasIntervals == true {
                     intervalContent
+                } else {
+                    Spacer(minLength: 0)
+                }
+                
+                if !isCompactVertical {
+                    metricsGrid
                 }
                 Spacer(minLength: 0)
                 timer
                 progressBar
+                    .padding(.bottom, Constants.xl)
             }
-            .padding(.top, sectionSpacing + Constants.m)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            
-            if !isCompactVertical {
-                metricsGridOverlay
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            }
+            .padding(.top, Constants.xl)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             if isCompactVertical {
-                if engine.playbackState == .finished {
-                    compactFinishedMetricsOverlay
-                } else {
-                    compactMetricsOverlay
-                }
+                metricsGrid
             }
         }
     }
@@ -279,95 +276,79 @@ struct WorkoutPlayback: View {
             .minimumScaleFactor(0.6)
             .allowsTightening(true)
             .truncationMode(.tail)
+            .padding(.horizontal, isCompactVertical ? Constants.xxxl * 2 : 0)
     }
 
     @ViewBuilder
     private var timer: some View {
         Text(formatElapsedTime(engine.isOpenEnded ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
-            .font(.system(size: timerFontSize, weight: .bold))
+            .font(.system(size: timerFontSize, weight: .semibold))
             .monospacedDigit()
             .dynamicTypeSize(.large)
             .animation(.easeInOut(duration: 0.2), value: engine.isOpenEnded ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)
             .accessibilityLabel("\(engine.isOpenEnded ? Copy.accessibility.elapsedTime : Copy.accessibility.timeRemaining): \(formatElapsedTime(engine.isOpenEnded ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))")
     }
     
-    private var playbackMetrics: [Metric] {
-        if let m = engine.workout?.metrics, !m.isEmpty {
+    /// Determines which metrics to display based on playback state and layout context.
+    ///
+    /// This property handles all metric selection logic for both regular and compact layouts:
+    ///
+    /// **Finished State:**
+    /// - Uses `workout.finishedMetrics` if available (typically average power, heart rate)
+    /// - Falls back to `[.averagePower, .heartRate]` if not defined
+    /// - Shows all finished metrics regardless of layout (compact or regular)
+    ///
+    /// **Active/Paused State:**
+    /// - Prioritizes custom metrics from `workout.metrics` if defined
+    /// - Automatically adds `.targetZone` for interval workouts if not already present
+    /// - Falls back to default metrics: `[.zone, .power, .cadence, .heartRate]` (+ `.targetZone` for intervals)
+    ///
+    /// **Compact Layout Optimization:**
+    /// - In compact vertical mode (landscape), limits to first 2 metrics during active playback
+    /// - Finished state always shows all metrics even in compact mode
+    /// - Regular layout always shows all metrics
+    private var metrics: [Metric] {
+        // Determine base metrics
+        let baseMetrics: [Metric]
+        if engine.playbackState == .finished {
+            baseMetrics = engine.workout?.finishedMetrics ?? [.averagePower, .heartRate]
+        } else if let m = engine.workout?.metrics, !m.isEmpty {
             var list = m
             if engine.workout?.hasIntervals == true, !m.contains(.targetZone) {
                 list = list + [.targetZone]
             }
-            return list
-        }
-        var metrics: [Metric] = [.zone, .power, .cadence, .heartRate]
-        if engine.workout?.hasIntervals == true { metrics.append(.targetZone) }
-        return metrics
-    }
-
-    private var finishedMetricsForGrid: [Metric] {
-        engine.workout?.finishedMetrics ?? [.averagePower, .heartRate]
-    }
-
-    @ViewBuilder
-    private var metricsGridOverlay: some View {
-        if engine.playbackState == .finished {
-            metricsGrid(metrics: finishedMetricsForGrid, averagePowerLabel: averagePowerLabel)
+            baseMetrics = list
         } else {
-            metricsGrid(metrics: playbackMetrics)
+            var defaultMetrics: [Metric] = [.zone, .power, .cadence, .heartRate]
+            if engine.workout?.hasIntervals == true { defaultMetrics.append(.targetZone) }
+            baseMetrics = defaultMetrics
         }
+        
+        // Limit metrics for compact layout during active playback
+        if isCompactVertical && engine.playbackState != .finished {
+            return baseMetrics.count <= 2 ? baseMetrics : Array(baseMetrics.prefix(2))
+        }
+        
+        return baseMetrics
     }
-
     private var workoutTitle: String {
         engine.workout?.name ?? Copy.placeholder.empty
     }
-
-    private func metricsGrid(
-        metrics: [Metric],
-        averagePowerLabel: String? = nil
-    ) -> some View {
-        LiveMetricsGrid(
-            bluetooth: bluetooth,
-            targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
-            zoneTitle: Copy.metrics.currentZone,
-            metrics: metrics,
-            averagePowerLabel: averagePowerLabel,
-            maxHeartRate: previewMaxHeartRate,
-            maxHeight: metricsGridRowHeight
-        )
-        .padding(.horizontal, horizontalPadding)
-    }
     
-    private var compactMetricsOverlay: some View {
-        let metrics: [Metric] = {
-            let full = playbackMetrics
-            if full.count <= 2 { return full }
-            return Array(full.prefix(2))
-        }()
-        return LiveMetricsGrid(
+    private var metricsGrid: some View {
+        MetricsGrid(
             bluetooth: bluetooth,
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
             metrics: metrics,
+            averagePowerLabel: engine.playbackState == .finished ? averagePowerLabel : nil,
             maxHeartRate: previewMaxHeartRate,
-            columnsPerRow: 1,
-            fontSize: 12,
-            maxHeight: 80,
-            maxWidth: 120
+            columnsPerRow: isCompactVertical ? 1 : 2,
+            fontSize: isCompactVertical ? 12 : 18,
+            maxHeight: isCompactVertical ? 80 : 120,
+            maxWidth: isCompactVertical ? 120 : .infinity
         )
-    }
-
-    private var compactFinishedMetricsOverlay: some View {
-        let metrics: [Metric] = finishedMetricsForGrid
-        return LiveMetricsGrid(
-            bluetooth: bluetooth,
-            metrics: metrics,
-            averagePowerLabel: averagePowerLabel,
-            maxHeartRate: previewMaxHeartRate,
-            columnsPerRow: 1,
-            fontSize: 12,
-            maxHeight: 80,
-            maxWidth: 120
-        )
+        .padding(.horizontal, isCompactVertical ? 0 : horizontalPadding)
     }
 
     // MARK: - Helpers
@@ -435,28 +416,12 @@ struct WorkoutPlayback: View {
 
 }
 
-#Preview("Portrait", traits: .portrait) {
+#Preview("Interval Workout") {
     WorkoutPlaybackPreviewHost()
 }
 
-#Preview("Landscape", traits: .landscapeLeft) {
-    WorkoutPlaybackPreviewHost()
-}
-
-#Preview("Finished - Portrait", traits: .portrait) {
-    WorkoutPlaybackPreviewHost(playbackState: .finished)
-}
-
-#Preview("Finished - Landscape", traits: .landscapeLeft) {
-    WorkoutPlaybackPreviewHost(playbackState: .finished)
-}
-
-#Preview("Just Ride - Not Started", traits: .portrait) {
+#Preview("Just Ride") {
     WorkoutPlaybackJustRidePreviewHost(playbackState: .idle)
-}
-
-#Preview("Just Ride - Finished", traits: .portrait) {
-    WorkoutPlaybackJustRidePreviewHost(playbackState: .finished)
 }
 
 private struct WorkoutPlaybackPreviewHost: View {
@@ -487,7 +452,19 @@ private struct WorkoutPlaybackPreviewHost: View {
         <workout_file>
             <name>Preview Workout</name>
             <workout>
-                <SteadyState Duration="60" Power="0.5" pace="0"/>
+                <SteadyState Duration="300" Power="0.5" pace="0">
+                    <textevent timeoffset="0" message="Welcome! Let's warm up at an easy pace. This is a longer warmup than usual to support bloodflow and mental readiness."/>
+                </SteadyState>
+                <SteadyState Duration="180" Power="0.75" pace="0">
+                    <textevent timeoffset="0" message="Building intensity now. Find your rhythm."/>
+                </SteadyState>
+                <IntervalsT Repeat="3" OnDuration="60" OffDuration="60" OnPower="0.95" OffPower="0.5" pace="0">
+                    <textevent timeoffset="0" message="Push hard! Give it everything you've got!"/>
+                    <textevent timeoffset="60" message="Recovery time. Catch your breath."/>
+                </IntervalsT>
+                <SteadyState Duration="240" Power="0.6" pace="0">
+                    <textevent timeoffset="0" message="Great work! Cool down at an easy pace."/>
+                </SteadyState>
             </workout>
         </workout_file>
         """

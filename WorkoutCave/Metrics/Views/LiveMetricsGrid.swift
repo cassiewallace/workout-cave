@@ -1,5 +1,5 @@
 //
-//  LiveMetricsGrid.swift
+//  MetricsGrid.swift
 //  WorkoutCave
 //
 //  Created by Cassie Wallace on 1/19/26.
@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct LiveMetricsGrid: View {
+struct MetricsGrid: View {
     let bluetooth: BluetoothManager
     @Query(filter: #Predicate<UserSettings> { $0.id == "me" })
     private var settings: [UserSettings]
@@ -60,7 +60,6 @@ struct LiveMetricsGrid: View {
                 }
             }
         }
-        .frame(alignment: .top)
     }
 
     private var speedUnit: SpeedUnit {
@@ -200,10 +199,10 @@ struct LiveMetricsGrid: View {
 }
 
 #Preview {
-    LiveMetricsGridPreviewHost()
+    MetricsGridPreviewHost()
 }
 
-private struct LiveMetricsGridPreviewHost: View {
+private struct MetricsGridPreviewHost: View {
     private let container: ModelContainer = {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
@@ -214,7 +213,7 @@ private struct LiveMetricsGridPreviewHost: View {
     
     var body: some View {
         TabView {
-            LiveMetricsGrid(
+            MetricsGrid(
                 bluetooth: PreviewData.bluetoothManager(),
                 targetZoneLabel: "Z2–Z3",
                 zoneTitle: Copy.metrics.currentZone,
@@ -223,7 +222,7 @@ private struct LiveMetricsGridPreviewHost: View {
             )
             .padding()
             
-            LiveMetricsGrid(
+            MetricsGrid(
                 bluetooth: PreviewData.bluetoothManager(),
                 targetZoneLabel: "Z1",
                 zoneTitle: Copy.metrics.currentZone,
