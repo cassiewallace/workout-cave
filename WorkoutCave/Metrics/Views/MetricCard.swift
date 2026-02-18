@@ -13,8 +13,8 @@ struct MetricCard: View {
     var heartRateBpm: Int?
     var maxHeartRate: Int?
     
-    @ScaledMetric(relativeTo: .body) var fontSize: CGFloat = 14
-    @ScaledMetric(relativeTo: .body) var maxHeight: CGFloat = 120
+    @ScaledMetric(relativeTo: .body) var fontSize: CGFloat = Constants.m
+    @ScaledMetric(relativeTo: .body) var maxHeight: CGFloat = Constants.xxxl * 2
     @ScaledMetric(relativeTo: .body) var maxWidth: CGFloat = .infinity
     @ScaledMetric(relativeTo: .body) var horizontalPadding: CGFloat = Constants.s
     @ScaledMetric(relativeTo: .body) var verticalPadding: CGFloat = Constants.xl
@@ -27,18 +27,19 @@ struct MetricCard: View {
     var body: some View {
         VStack(spacing: contentSpacing) {
             Text(type.rawValue.capitalized)
-                .font(.system(size: fontSize, weight: .semibold))
+                .font(.system(size: fontSize, weight: .medium))
                 .lineLimit(1)
                 .foregroundColor(.secondary)
             
             Text(value)
-                .font(.system(size: fontSize * 2, weight: .bold))
+                .font(.system(size: fontSize * 2, weight: .semibold))
             
             if type == .heartRate {
                 HeartRateMeter(bpm: heartRateBpm, maxHeartRate: maxHeartRate)
+                .padding(.top, Constants.xxs)
             }
         }
-        .padding(.vertical, verticalPadding)
+        .padding(.vertical, verticalPadding / (type == .heartRate ? 1.25 : 1))
         .padding(.horizontal, horizontalPadding)
         .frame(maxWidth: maxWidth, maxHeight: maxHeight, alignment: .center)
         .fixedSize(horizontal: false, vertical: true)
