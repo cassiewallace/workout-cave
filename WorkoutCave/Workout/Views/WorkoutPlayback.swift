@@ -100,58 +100,48 @@ struct WorkoutPlayback: View {
 
     var body: some View {
         NavigationStack {
-            Group {
-                switch viewState {
-                case .loading:
-                    loadingView
-                case .loaded(let workout):
-                    playbackContent(workout: workout)
-                case .error(let errorMessage):
-                    errorView(error: errorMessage)
-                }
-            }
-            .navigationTitle(workoutTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar(.hidden, for: .tabBar)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        if engine.playbackState == .finished {
-                            dismiss()
-                        } else if engine.playbackState == .running || engine.playbackState == .paused {
-                            presentStopPrompt(source: .close, pauseIfRunning: false)
-                        } else {
-                            dismiss()
+            content
+                .navigationTitle(workoutTitle)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar(.hidden, for: .tabBar)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            if engine.playbackState == .running || engine.playbackState == .paused {
+                                presentStopPrompt(source: .close, pauseIfRunning: false)
+                            } else {
+                                dismiss()
+                            }
+                        } label: {
+                            Image(systemName: "xmark")
                         }
-                    } label: {
-                        Image(systemName: "xmark")
+                        .buttonStyle(.borderless)
+                        .accessibilityLabel(Copy.accessibility.close)
                     }
-                    .accessibilityLabel(Copy.accessibility.close)
+                    Controls(
+                        engine: engine,
+                        isStopConfirmationPresented: stopConfirmationBindingForControls
+                    )
                 }
-                Controls(
-                    engine: engine,
-                    isStopConfirmationPresented: stopConfirmationBindingForControls
-                )
-            }
-            .bluetoothStatus(using: bluetooth)
-            .alert(isPresented: $isStopConfirmationPresented) {
-                Alert(
-                    title: Text(Copy.workoutPlayback.stopRideDialogTitle),
-                    primaryButton: .destructive(
-                        Text(Copy.workoutPlayback.stopRideDialogStop),
-                        action: handleStopConfirmation
-                    ),
-                    secondaryButton: .cancel(
-                        Text(Copy.workoutPlayback.stopRideDialogCancel),
-                        action: handleStopCancel
-                    ))
-            }
-            .safeAreaInset(edge: .bottom) {
-                if engine.playbackState == .finished {
-                    Color.clear
-                        .frame(height: 44)
-                        .accessibilityHidden(true)
+                .bluetoothStatus(using: bluetooth)
+                .safeAreaInset(edge: .bottom) {
+                    if engine.playbackState == .finished {
+                        Color.clear
+                            .frame(height: Constants.xl)
+                            .accessibilityHidden(true)
+                    }
                 }
+        }
+        .confirmationDialog(
+            Copy.workoutPlayback.stopRideDialogTitle,
+            isPresented: $isStopConfirmationPresented,
+            titleVisibility: .visible
+        ) {
+            Button(Copy.workoutPlayback.stopRideDialogCancel, role: .cancel) {
+                handleStopCancel()
+            }
+            Button(Copy.workoutPlayback.stopRideDialogStop, role: .destructive) {
+                handleStopConfirmation()
             }
         }
         .task {
@@ -166,6 +156,21 @@ struct WorkoutPlayback: View {
         }
         .onChange(of: engine.playbackState) { oldState, newState in
             _ = (oldState, newState)
+        }
+        .onDisappear {
+            engine.pause()
+        }
+    }
+    
+    @ViewBuilder
+    private var content: some View {
+        switch viewState {
+        case .loading:
+            loadingView
+        case .loaded(let workout):
+            playbackContent(workout: workout)
+        case .error(let errorMessage):
+            errorView(error: errorMessage)
         }
     }
 
@@ -240,24 +245,28 @@ struct WorkoutPlayback: View {
 
     @ViewBuilder
     private var intervalContent: some View {
-        Group {
+        VStack(spacing: innerSpacing) {
             if engine.playbackState == .finished {
-                VStack(spacing: innerSpacing) {
-                    Text(Copy.workoutPlayback.workoutComplete)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.green)
-                        .multilineTextAlignment(.center)
-                }
+                Text(Copy.workoutPlayback.workoutComplete)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("NeonGreen"))
+                    .multilineTextAlignment(.center)
             } else if let interval = engine.currentInterval {
-                VStack(spacing: innerSpacing) {
-                    Text(interval.name)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                    
-                    intervalMessage(message: interval.message)
-                }
+                Text(interval.name)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+                
+                Text(interval.message ?? Copy.placeholder.empty)
+                    .font(.title3)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.6)
+                    .allowsTightening(true)
+                    .truncationMode(.tail)
+                    .padding(.horizontal, isCompactVertical ? Constants.xxxl * 2 : 0)
             }
         }
         .frame(
@@ -265,18 +274,6 @@ struct WorkoutPlayback: View {
             alignment: .top
         )
         .padding(.horizontal, horizontalPadding)
-    }
-
-    private func intervalMessage(message: String?) -> some View {
-        Text(message ?? Copy.placeholder.empty)
-            .font(.title3)
-            .foregroundColor(.secondary)
-            .multilineTextAlignment(.center)
-            .lineLimit(3)
-            .minimumScaleFactor(0.6)
-            .allowsTightening(true)
-            .truncationMode(.tail)
-            .padding(.horizontal, isCompactVertical ? Constants.xxxl * 2 : 0)
     }
 
     @ViewBuilder
@@ -376,26 +373,24 @@ struct WorkoutPlayback: View {
             set: { newValue in
                 if newValue {
                     presentStopPrompt(source: .stop, pauseIfRunning: true)
+                } else {
+                    isStopConfirmationPresented = newValue
                 }
-                isStopConfirmationPresented = newValue
             }
         )
     }
 
     private func handleStopConfirmation() {
-        isStopConfirmationPresented = false
-        shouldResumeAfterCancel = false
         if stopConfirmationSource == .close {
+            // When closing, just dismiss without finishing (avoids rebuilding view during dismiss)
             dismiss()
-        }
-        Task { @MainActor in
-            await Task.yield()
+        } else {
+            // When stopping mid-workout, finish and show completed state
             engine.finish()
         }
     }
 
     private func handleStopCancel() {
-        isStopConfirmationPresented = false
         if stopConfirmationSource == .stop, shouldResumeAfterCancel {
             engine.start()
         }
@@ -404,12 +399,15 @@ struct WorkoutPlayback: View {
 
     private func presentStopPrompt(source: StopConfirmationSource, pauseIfRunning: Bool) {
         stopConfirmationSource = source
+        
         if pauseIfRunning, engine.playbackState == .running {
             shouldResumeAfterCancel = true
             engine.pause()
         } else {
             shouldResumeAfterCancel = false
         }
+        
+        // Present alert immediately to block interaction
         isStopConfirmationPresented = true
     }
 

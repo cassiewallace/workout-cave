@@ -76,23 +76,30 @@ final class BluetoothManager: NSObject, ObservableObject {
     
     func activateAndConnect() {
         if central == nil {
-            central = CBCentralManager(delegate: self, queue: .main)
+            // Initialize on main queue but operations happen on background
+            central = CBCentralManager(delegate: self, queue: DispatchQueue.global(qos: .userInitiated))
         } else {
             startScanningOrReconnect()
         }
     }
 
     private func startScanningOrReconnect() {
-        discoveredPeripherals.removeAll()
+        DispatchQueue.main.async {
+            self.discoveredPeripherals.removeAll()
+        }
         discoveredMap.removeAll()
-        state = .scanning
+        DispatchQueue.main.async {
+            self.state = .scanning
+        }
         central?.scanForPeripherals(withServices: [FTMSUUID.service], options: nil)
     }
 
     func connect(to peripheralID: UUID) {
         guard let peripheral = discoveredMap[peripheralID] else { return }
         self.peripheral = peripheral
-        state = .connecting
+        DispatchQueue.main.async {
+            self.state = .connecting
+        }
         central.stopScan()
         peripheral.delegate = self
         central.connect(peripheral)
@@ -105,12 +112,16 @@ final class BluetoothManager: NSObject, ObservableObject {
             name: name,
             rssi: rssi.intValue
         )
-        if let index = discoveredPeripherals.firstIndex(where: { $0.id == entry.id }) {
-            discoveredPeripherals[index] = entry
-        } else {
-            discoveredPeripherals.append(entry)
+        
+        DispatchQueue.main.async {
+            if let index = self.discoveredPeripherals.firstIndex(where: { $0.id == entry.id }) {
+                self.discoveredPeripherals[index] = entry
+            } else {
+                self.discoveredPeripherals.append(entry)
+            }
+            self.discoveredPeripherals.sort { $0.rssi > $1.rssi }
         }
-        discoveredPeripherals.sort { $0.rssi > $1.rssi }
+        
         discoveredMap[entry.id] = peripheral
     }
 }
@@ -119,16 +130,18 @@ final class BluetoothManager: NSObject, ObservableObject {
 
 extension BluetoothManager: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        switch central.state {
-        case .poweredOn:
-            state = .scanning
-            central.scanForPeripherals(withServices: [FTMSUUID.service], options: nil)
-        case .unauthorized:
-            state = .unauthorized
-        case .poweredOff:
-            state = .poweredOff
-        default:
-            state = .idle
+        DispatchQueue.main.async {
+            switch central.state {
+            case .poweredOn:
+                self.state = .scanning
+                central.scanForPeripherals(withServices: [FTMSUUID.service], options: nil)
+            case .unauthorized:
+                self.state = .unauthorized
+            case .poweredOff:
+                self.state = .poweredOff
+            default:
+                self.state = .idle
+            }
         }
     }
 
@@ -141,7 +154,9 @@ extension BluetoothManager: CBCentralManagerDelegate {
 
     func centralManager(_ central: CBCentralManager,
                         didConnect peripheral: CBPeripheral) {
-        state = .connected
+        DispatchQueue.main.async {
+            self.state = .connected
+        }
         peripheral.discoverServices([FTMSUUID.service])
     }
 }
@@ -177,7 +192,9 @@ extension BluetoothManager: CBPeripheralDelegate {
               let data = characteristic.value else { return }
 
         if let parsed = parser.parse(data) {
-            metrics = parsed
+            DispatchQueue.main.async {
+                self.metrics = parsed
+            }
         }
     }
 }
