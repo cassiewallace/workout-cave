@@ -445,6 +445,7 @@ private struct WorkoutPlaybackPreview: View {
         let c = try! ModelContainer(for: UserSettings.self)
         let context = c.mainContext
         let settings = PreviewData.userSettings()
+        settings.ftpWatts = 250
         settings.maxHR = 180
         context.insert(settings)
         try? context.save()
