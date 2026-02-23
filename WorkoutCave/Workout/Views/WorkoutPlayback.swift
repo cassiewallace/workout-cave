@@ -11,8 +11,6 @@ import SwiftUI
 struct WorkoutPlayback: View {
     // MARK: - Properties
     
-    // MARK: ViewState
-    
     private enum ViewState {
         case loading
         case loaded(Workout)
