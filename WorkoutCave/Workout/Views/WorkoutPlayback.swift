@@ -336,7 +336,7 @@ struct WorkoutPlayback: View {
             targetZoneLabel: engine.currentInterval?.powerTarget?.zones().zoneLabel,
             zoneTitle: Copy.metrics.currentZone,
             metrics: metrics,
-            averagePowerLabel: engine.playbackState == .finished ? averagePowerLabel : nil,
+            averagePowerLabel: averagePowerLabel,
             maxHeartRate: previewMaxHeartRate,
             fontSize: isCompactVertical ? 12 : 18,
             maxHeight: isCompactVertical ? 80 : 120,
