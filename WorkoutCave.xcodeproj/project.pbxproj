@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		651526132F7D922A005E1734 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 651526122F7D922A005E1734 /* PrivacyInfo.xcprivacy */; };
 		652071322F217B1A00EDFBA1 /* CardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652071312F217B1700EDFBA1 /* CardStyle.swift */; };
 		653F6F982F11AED4006DE91E /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F972F11AED0006DE91E /* BluetoothManager.swift */; };
 		653F6F9C2F11B7A6006DE91E /* MetricCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6F9B2F11B7A4006DE91E /* MetricCard.swift */; };
@@ -71,6 +72,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		651526122F7D922A005E1734 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		652071312F217B1700EDFBA1 /* CardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStyle.swift; sourceTree = "<group>"; };
 		653F6F972F11AED0006DE91E /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		653F6F9B2F11B7A4006DE91E /* MetricCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCard.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				659CC19B2F45239700A6CF67 /* PreviewData.swift */,
 				65DAFA742F1FD3B100C8F940 /* Copy.swift */,
 				65DAFA722F1FCAFE00C8F940 /* Constants.swift */,
+				651526122F7D922A005E1734 /* PrivacyInfo.xcprivacy */,
 				A2000004 /* TermsAndConditions.txt */,
 				658197282F16CF5D0004C85A /* Icons.xcassets */,
 				654ABC262F3123CA000263D9 /* Media.xcassets */,
@@ -442,6 +445,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65F55A002EFAF391007AD1D9 /* README.md in Resources */,
+				651526132F7D922A005E1734 /* PrivacyInfo.xcprivacy in Resources */,
 				659CC19E2F452AA200A6CF67 /* AppIcon.icon in Resources */,
 				A2000003 /* TermsAndConditions.txt in Resources */,
 				658197292F16CF5D0004C85A /* Icons.xcassets in Resources */,
