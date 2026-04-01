@@ -57,6 +57,7 @@ enum Copy {
         static let theme = "Theme"
         static let unitsSection = "Units"
         static let legalSection = "Legal"
+        static let privacyPolicy = "Privacy Policy"
     }
 
     enum heartRateZone {

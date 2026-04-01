@@ -48,6 +48,7 @@ struct Settings: View {
                 NavigationLink(Copy.terms.title) {
                     TermsAndConditions()
                 }
+                Link(Copy.settings.privacyPolicy, destination: URL(string: "https://www.iubenda.com/privacy-policy/60925604")!)
             }
             Section {
                 Text("v\(Bundle.main.appVersion)")
