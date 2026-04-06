@@ -2,6 +2,8 @@
 
 Workout Cave is a personal iOS app for playing structured bike workouts with a clean, focused UI.
 
+[Download on the App Store](https://apps.apple.com/us/app/workout-cave/id6759304881)
+
 ## Features
 
 - **Workouts**: "Just Ride" (metrics-only) plus structured workouts from Supabase
