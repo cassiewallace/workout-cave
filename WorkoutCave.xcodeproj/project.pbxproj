@@ -42,6 +42,7 @@
 		A1000005 /* WorkoutEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* WorkoutEngine.swift */; };
 		A1000007 /* ZWOParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000008 /* ZWOParser.swift */; };
 		A1000009 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000010 /* Workout.swift */; };
+		A1000012 /* WorkoutOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000011 /* WorkoutOverview.swift */; };
 		A2000001 /* TermsAndConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* TermsAndConditions.swift */; };
 		A2000003 /* TermsAndConditions.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2000004 /* TermsAndConditions.txt */; };
 		A2000005 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* Metric.swift */; };
@@ -108,6 +109,7 @@
 		A1000006 /* WorkoutEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEngine.swift; sourceTree = "<group>"; };
 		A1000008 /* ZWOParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZWOParser.swift; sourceTree = "<group>"; };
 		A1000010 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
+		A1000011 /* WorkoutOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutOverview.swift; sourceTree = "<group>"; };
 		A1000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2000002 /* TermsAndConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditions.swift; sourceTree = "<group>"; };
 		A2000004 /* TermsAndConditions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TermsAndConditions.txt; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				653F6FB62F142447006DE91E /* WorkoutCard.swift */,
 				65FBC7DF2EF471170047A9FC /* WorkoutList.swift */,
 				A1000004 /* WorkoutPlayback.swift */,
+				A1000011 /* WorkoutOverview.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				652071322F217B1A00EDFBA1 /* CardStyle.swift in Sources */,
 				65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */,
 				A1000009 /* Workout.swift in Sources */,
+				A1000012 /* WorkoutOverview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

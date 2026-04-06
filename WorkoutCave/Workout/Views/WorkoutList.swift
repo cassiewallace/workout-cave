@@ -108,7 +108,7 @@ struct WorkoutList: View {
             }
         }
         .fullScreenCover(item: $selectedWorkout) { workout in
-            WorkoutPlayback(workoutSource: workout.source)
+            WorkoutPlayback(workoutSource: workout.source, preloadedWorkout: workout.workout)
                 .environmentObject(bluetooth)
         }
         .listStyle(.plain)

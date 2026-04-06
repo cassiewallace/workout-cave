@@ -90,6 +90,12 @@ enum Copy {
         static let stopRideDialogTitle = "Are you sure you want to end this ride?"
         static let stopRideDialogStop = "End ride"
         static let stopRideDialogCancel = "Cancel"
+        static let startWorkout = "Start"
+        static let totalDuration = "Total Duration"
+    }
+
+    enum workoutOverview {
+        static let ftpSuffix = "% FTP"
     }
 
     enum bluetooth {

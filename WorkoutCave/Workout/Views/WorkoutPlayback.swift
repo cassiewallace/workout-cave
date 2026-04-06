@@ -40,22 +40,29 @@ struct WorkoutPlayback: View {
     private var userSettings: UserSettings? { settings.first }
 
     let workoutSource: WorkoutSource
+    let preloadedWorkout: Workout?
     private let autoLoad: Bool
     private let previewMaxHeartRate: Int?  // Optional override for previews
 
+    @State private var showOverview: Bool
+
     @MainActor
-    init(workoutSource: WorkoutSource, autoLoad: Bool = true, previewMaxHeartRate: Int? = nil) {
+    init(workoutSource: WorkoutSource, preloadedWorkout: Workout? = nil, autoLoad: Bool = true, previewMaxHeartRate: Int? = nil) {
         self.workoutSource = workoutSource
+        self.preloadedWorkout = preloadedWorkout
         self.autoLoad = autoLoad
         self.previewMaxHeartRate = previewMaxHeartRate
         _engine = StateObject(wrappedValue: WorkoutEngine())
+        _showOverview = State(initialValue: preloadedWorkout.map { !$0.isJustRide } ?? false)
     }
 
     init(workoutSource: WorkoutSource, autoLoad: Bool, engine: WorkoutEngine, previewMaxHeartRate: Int? = nil) {
         self.workoutSource = workoutSource
+        self.preloadedWorkout = nil
         self.autoLoad = autoLoad
         self.previewMaxHeartRate = previewMaxHeartRate
         _engine = StateObject(wrappedValue: engine)
+        _showOverview = State(initialValue: false)
     }
     
     // MARK: - Just Ride stop
@@ -98,37 +105,47 @@ struct WorkoutPlayback: View {
 
     var body: some View {
         NavigationStack {
-            content
-                .navigationTitle(workoutTitle)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar(.hidden, for: .tabBar)
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            if engine.playbackState == .running || engine.playbackState == .paused {
-                                presentStopPrompt(source: .close, pauseIfRunning: false)
-                            } else {
-                                dismiss()
-                            }
-                        } label: {
-                            Image(systemName: "xmark")
-                        }
-                        .buttonStyle(.borderless)
-                        .accessibilityLabel(Copy.accessibility.close)
+            Group {
+                if showOverview, let workout = preloadedWorkout {
+                    WorkoutOverview(workout: workout) {
+                        showOverview = false
                     }
+                } else {
+                    content
+                        .safeAreaInset(edge: .bottom) {
+                            if engine.playbackState == .finished {
+                                Color.clear
+                                    .frame(height: Constants.xl)
+                                    .accessibilityHidden(true)
+                            }
+                        }
+                }
+            }
+            .navigationTitle(showOverview ? (preloadedWorkout?.name ?? Copy.placeholder.empty) : workoutTitle)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .tabBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        if engine.playbackState == .running || engine.playbackState == .paused {
+                            presentStopPrompt(source: .close, pauseIfRunning: false)
+                        } else {
+                            dismiss()
+                        }
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .buttonStyle(.borderless)
+                    .accessibilityLabel(Copy.accessibility.close)
+                }
+                if !showOverview {
                     Controls(
                         engine: engine,
                         isStopConfirmationPresented: stopConfirmationBindingForControls
                     )
                 }
-                .bluetoothStatus(using: bluetooth)
-                .safeAreaInset(edge: .bottom) {
-                    if engine.playbackState == .finished {
-                        Color.clear
-                            .frame(height: Constants.xl)
-                            .accessibilityHidden(true)
-                    }
-                }
+            }
+            .bluetoothStatus(using: bluetooth)
         }
         .confirmationDialog(
             Copy.workoutPlayback.stopRideDialogTitle,
