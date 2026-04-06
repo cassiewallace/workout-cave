@@ -29,7 +29,6 @@ struct WorkoutPlayback: View {
 
     @StateObject private var engine: WorkoutEngine
     @EnvironmentObject private var bluetooth: BluetoothManager
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     
@@ -41,15 +40,17 @@ struct WorkoutPlayback: View {
 
     let workoutSource: WorkoutSource
     let preloadedWorkout: Workout?
+    private let onDismiss: () -> Void
     private let autoLoad: Bool
     private let previewMaxHeartRate: Int?  // Optional override for previews
 
     @State private var showOverview: Bool
 
     @MainActor
-    init(workoutSource: WorkoutSource, preloadedWorkout: Workout? = nil, autoLoad: Bool = true, previewMaxHeartRate: Int? = nil) {
+    init(workoutSource: WorkoutSource, preloadedWorkout: Workout? = nil, onDismiss: @escaping () -> Void, autoLoad: Bool = true, previewMaxHeartRate: Int? = nil) {
         self.workoutSource = workoutSource
         self.preloadedWorkout = preloadedWorkout
+        self.onDismiss = onDismiss
         self.autoLoad = autoLoad
         self.previewMaxHeartRate = previewMaxHeartRate
         _engine = StateObject(wrappedValue: WorkoutEngine())
@@ -59,6 +60,7 @@ struct WorkoutPlayback: View {
     init(workoutSource: WorkoutSource, autoLoad: Bool, engine: WorkoutEngine, previewMaxHeartRate: Int? = nil) {
         self.workoutSource = workoutSource
         self.preloadedWorkout = nil
+        self.onDismiss = {}
         self.autoLoad = autoLoad
         self.previewMaxHeartRate = previewMaxHeartRate
         _engine = StateObject(wrappedValue: engine)
@@ -130,10 +132,12 @@ struct WorkoutPlayback: View {
                         if engine.playbackState == .running || engine.playbackState == .paused {
                             presentStopPrompt(source: .close, pauseIfRunning: false)
                         } else {
-                            dismiss()
+                            onDismiss()
                         }
                     } label: {
                         Image(systemName: "xmark")
+                            .padding(Constants.s)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(.borderless)
                     .accessibilityLabel(Copy.accessibility.close)
@@ -398,7 +402,7 @@ struct WorkoutPlayback: View {
     private func handleStopConfirmation() {
         if stopConfirmationSource == .close {
             // When closing, just dismiss without finishing (avoids rebuilding view during dismiss)
-            dismiss()
+            onDismiss()
         } else {
             // When stopping mid-workout, finish and show completed state
             engine.finish()
