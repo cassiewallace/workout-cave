@@ -160,5 +160,8 @@ private struct PreviewMetricCell: View {
 }
 
 #Preview {
-    Onboarding(onDismiss: {})
+    Color.clear
+        .sheet(isPresented: .constant(true)) {
+            Onboarding(onDismiss: {})
+        }
 }
