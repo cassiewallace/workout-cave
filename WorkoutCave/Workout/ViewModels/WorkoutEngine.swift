@@ -5,8 +5,9 @@
 //  Created by Cassie Wallace on 12/18/25.
 //
 
-import Foundation
 import Combine
+import Foundation
+import UIKit
 
 enum PlaybackState {
     case idle
@@ -181,6 +182,7 @@ class WorkoutEngine: ObservableObject {
         stopAverageTimer()
         playbackState = .finished
         intervalStartTime = nil
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
     
     func updateForForeground() {
@@ -251,12 +253,13 @@ class WorkoutEngine: ObservableObject {
     
     private func advanceToNextInterval() {
         guard let workout = workout else { return }
-        
+
         if currentIntervalIndex < workout.intervals.count - 1 {
             currentIntervalIndex += 1
             elapsedTimeInInterval = 0
             pausedElapsedTime = 0
             intervalStartTime = Date()
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
         } else {
             finish()
         }
