@@ -78,6 +78,13 @@ enum Copy {
         static let loadFailure = "Unable to load the Terms and Conditions."
     }
 
+    enum bluetoothPrompt {
+        static let title = "Connect your bike"
+        static let body = "Link your bike to see live power, cadence, and heart rate during your workout."
+        static let connectCTA = "Connect"
+        static let skipCTA = "Not now"
+    }
+
     enum onboarding {
         static let headline = "Train with purpose."
         static let description = "Real-time power, cadence, and heart rate from your bike. Follow structured intervals or just ride."

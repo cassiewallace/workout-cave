@@ -67,8 +67,12 @@ struct WorkoutPlayback: View {
         _showOverview = State(initialValue: false)
     }
     
+    // MARK: - Bluetooth prompt
+
+    @AppStorage("hasSeenBluetoothPrompt") private var hasSeenBluetoothPrompt: Bool = false
+
     // MARK: - Just Ride stop
-    
+
     @State private var isStopConfirmationPresented: Bool = false
     @State private var stopConfirmationSource: StopConfirmationSource = .stop
     @State private var shouldResumeAfterCancel: Bool = false
@@ -109,9 +113,12 @@ struct WorkoutPlayback: View {
         NavigationStack {
             Group {
                 if showOverview, let workout = preloadedWorkout {
-                    WorkoutOverview(workout: workout) {
-                        showOverview = false
-                    }
+                    WorkoutOverview(
+                        workout: workout,
+                        onStart: { showOverview = false },
+                        bluetooth: bluetooth,
+                        hasSeenBluetoothPrompt: $hasSeenBluetoothPrompt
+                    )
                 } else {
                     content
                         .safeAreaInset(edge: .bottom) {
@@ -230,6 +237,14 @@ struct WorkoutPlayback: View {
             VStack(spacing: sectionSpacing) {
                 if engine.workout?.hasIntervals == true {
                     intervalContent
+                } else if !hasSeenBluetoothPrompt && bluetooth.state != .connected && engine.playbackState == .idle {
+                    BluetoothPromptCard {
+                        bluetooth.activateAndConnect()
+                        hasSeenBluetoothPrompt = true
+                    } onSkip: {
+                        hasSeenBluetoothPrompt = true
+                    }
+                    .padding(.horizontal, horizontalPadding)
                 } else {
                     Spacer(minLength: 0)
                 }

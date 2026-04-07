@@ -11,12 +11,23 @@ struct WorkoutOverview: View {
 
     let workout: Workout
     let onStart: () -> Void
+    var bluetooth: BluetoothManager? = nil
+    @Binding var hasSeenBluetoothPrompt: Bool
 
     // MARK: - Body
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Constants.xl) {
+                if let bluetooth, !hasSeenBluetoothPrompt, bluetooth.state != .connected {
+                    BluetoothPromptCard {
+                        bluetooth.activateAndConnect()
+                        hasSeenBluetoothPrompt = true
+                    } onSkip: {
+                        hasSeenBluetoothPrompt = true
+                    }
+                }
+
                 if let description = workout.description {
                     Text(description)
                         .font(.title3)
@@ -227,7 +238,7 @@ private struct StartButtonStyle: ViewModifier {
     let workout = try! source.loadWorkout()
 
     NavigationStack {
-        WorkoutOverview(workout: workout) { }
+        WorkoutOverview(workout: workout, onStart: { }, hasSeenBluetoothPrompt: .constant(false))
             .navigationTitle(workout.name)
             .navigationBarTitleDisplayMode(.inline)
     }
