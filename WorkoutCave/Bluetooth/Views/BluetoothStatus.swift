@@ -19,8 +19,6 @@ private struct BluetoothStatusIndicator: View {
                 .resizable()
                 .frame(width: iconSize, height: iconSize)
                 .foregroundColor(statusIconTint)
-                .padding(Constants.s)
-                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Copy.accessibility.bluetoothConnection)
