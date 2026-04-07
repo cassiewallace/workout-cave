@@ -79,8 +79,18 @@ enum Copy {
     }
 
     enum onboarding {
-        static let description = "Workout Cave gives you focused indoor rides with live metrics so you can train the way you want."
+        static let headline = "Train with purpose."
+        static let description = "Real-time power, cadence, and heart rate from your bike. Follow structured intervals or just ride."
         static let cta = "Let's go"
+
+        enum preview {
+            static let intervalName = "Threshold"
+            static let targetZoneValue = "Z4 Threshold"
+            static let currentZoneValue = "Z3 Tempo"
+            static let powerValue = "245 W"
+            static let cadenceValue = "88 rpm"
+            static let timer = "12:34"
+        }
     }
 
     enum workoutPlayback {

@@ -298,7 +298,7 @@ struct WorkoutPlayback: View {
     @ViewBuilder
     private var timer: some View {
         Text(formatElapsedTime(engine.isOpenEnded ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval))
-            .font(.system(size: timerFontSize, weight: .semibold))
+            .font(.system(size: timerFontSize, weight: .semibold, design: .monospaced))
             .monospacedDigit()
             .dynamicTypeSize(.large)
             .animation(.easeInOut(duration: 0.2), value: engine.isOpenEnded ? engine.elapsedTimeInInterval : engine.remainingTimeInInterval)

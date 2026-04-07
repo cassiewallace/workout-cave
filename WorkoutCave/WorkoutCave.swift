@@ -100,9 +100,7 @@ private struct RootView: View {
         Binding(
             get: { !hasSeenIntro },
             set: { newValue in
-                if !newValue {
-                    markIntroSeen()
-                }
+                if !newValue { markIntroSeen() }
             }
         )
     }
