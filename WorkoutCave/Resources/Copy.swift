@@ -94,6 +94,7 @@ enum Copy {
     }
 
     enum workoutPlayback {
+        static let intervals = "Intervals"
         static let loadingWorkout = "Loading workout…"
         static let errorLoadingWorkout = "Error loading workout"
         static let workoutComplete = "Workout Complete"

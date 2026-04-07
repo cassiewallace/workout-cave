@@ -18,6 +18,7 @@ struct Onboarding: View {
                 WorkoutPreviewCard()
                     .opacity(0.85)
                     .padding()
+                    .accessibilityHidden(true)
 
                 VStack(spacing: Constants.s) {
                     Text(Copy.onboarding.headline)

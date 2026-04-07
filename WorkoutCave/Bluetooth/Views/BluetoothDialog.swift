@@ -36,7 +36,8 @@ struct BluetoothDialog: View {
                     HStack {
                         Image("bluetooth")
                             .resizable()
-                            .frame(width: 16, height: 16)
+                            .frame(width: Constants.l, height: Constants.l)
+                            .accessibilityHidden(true)
                         Text(device.name)
                         Spacer()
                     }

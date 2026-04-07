@@ -62,7 +62,7 @@ struct WorkoutOverview: View {
 
     private var intervalListSection: some View {
         VStack(alignment: .leading, spacing: Constants.s) {
-            Text("Intervals")
+            Text(Copy.workoutPlayback.intervals)
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundStyle(.primary)
@@ -108,6 +108,7 @@ private struct OverviewIntervalRow: View {
                 .fill(interval.type.color)
                 .frame(width: Constants.xs, height: Constants.xl)
                 .padding(.top, Constants.xxs)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: Constants.xxxs) {
                 Text(interval.name)
@@ -129,6 +130,7 @@ private struct OverviewIntervalRow: View {
         }
         .padding(.horizontal, Constants.m)
         .padding(.vertical, Constants.s)
+        .accessibilityElement(children: .combine)
     }
 
     private func formattedDuration(_ time: TimeInterval) -> String {

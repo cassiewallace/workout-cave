@@ -207,7 +207,7 @@ struct WorkoutPlayback: View {
     private func errorView(error: String) -> some View {
         VStack(spacing: Constants.l + Constants.xxs) {
             Image(systemName: "exclamationmark.triangle")
-                .font(.system(size: 48))
+                .font(.largeTitle)
                 .foregroundStyle(.orange)
                 .accessibilityHidden(true)
 
