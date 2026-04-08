@@ -237,10 +237,9 @@ struct WorkoutPlayback: View {
             VStack(spacing: sectionSpacing) {
                 if engine.workout?.hasIntervals == true {
                     intervalContent
-                } else if !hasSeenBluetoothPrompt && bluetooth.state != .connected && engine.playbackState == .idle {
+                } else if !hasSeenBluetoothPrompt && bluetooth.state == .idle && engine.playbackState == .idle {
                     BluetoothPromptCard {
                         bluetooth.activateAndConnect()
-                        hasSeenBluetoothPrompt = true
                     } onSkip: {
                         hasSeenBluetoothPrompt = true
                     }

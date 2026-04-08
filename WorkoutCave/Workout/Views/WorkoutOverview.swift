@@ -19,10 +19,9 @@ struct WorkoutOverview: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Constants.xl) {
-                if let bluetooth, !hasSeenBluetoothPrompt, bluetooth.state != .connected {
+                if let bluetooth, !hasSeenBluetoothPrompt, bluetooth.state == .idle {
                     BluetoothPromptCard {
                         bluetooth.activateAndConnect()
-                        hasSeenBluetoothPrompt = true
                     } onSkip: {
                         hasSeenBluetoothPrompt = true
                     }
