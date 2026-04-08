@@ -60,6 +60,7 @@
 		C10400042F315700000004 /* ZoneSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10300032F315700000003 /* ZoneSettings.swift */; };
 		C10600062F315700000006 /* HeartRateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10500052F315700000005 /* HeartRateSettings.swift */; };
 		C20200022F315700000002 /* HeartRateZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20100012F315700000001 /* HeartRateZoneTests.swift */; };
+		D98855C569F1629F4B59E46A /* BluetoothPromptCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5824F2125D5416ECC63F426C /* BluetoothPromptCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5824F2125D5416ECC63F426C /* BluetoothPromptCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BluetoothPromptCard.swift; sourceTree = "<group>"; };
 		651526122F7D922A005E1734 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		652071312F217B1700EDFBA1 /* CardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStyle.swift; sourceTree = "<group>"; };
 		653F6F972F11AED0006DE91E /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				65DE043D2F22D47B007F7071 /* BluetoothDialog.swift */,
 				65DAFA6C2F1EC11000C8F940 /* BluetoothStatus.swift */,
+				5824F2125D5416ECC63F426C /* BluetoothPromptCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				65DAFA6D2F1EC12100C8F940 /* BluetoothStatus.swift in Sources */,
 				A1000009 /* Workout.swift in Sources */,
 				A1000012 /* WorkoutOverview.swift in Sources */,
+				D98855C569F1629F4B59E46A /* BluetoothPromptCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
