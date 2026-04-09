@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct BluetoothPromptCard: View {
-    let onConnect: () -> Void
-    let onSkip: () -> Void
+    let onDismiss: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.m) {
@@ -33,14 +32,8 @@ struct BluetoothPromptCard: View {
                 }
             }
 
-            HStack(spacing: Constants.m) {
-                Button(Copy.bluetoothPrompt.connectCTA, action: onConnect)
-                    .buttonStyle(.borderedProminent)
-
-                Button(Copy.bluetoothPrompt.skipCTA, action: onSkip)
-                    .buttonStyle(.plain)
-                    .foregroundStyle(.secondary)
-            }
+            Button(Copy.bluetoothPrompt.dismissCTA, action: onDismiss)
+                .buttonStyle(.bordered)
         }
         .padding(Constants.l)
         .styledCard()
@@ -48,6 +41,6 @@ struct BluetoothPromptCard: View {
 }
 
 #Preview {
-    BluetoothPromptCard(onConnect: {}, onSkip: {})
+    BluetoothPromptCard(onDismiss: {})
         .padding()
 }

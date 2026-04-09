@@ -21,8 +21,6 @@ struct WorkoutOverview: View {
             VStack(alignment: .leading, spacing: Constants.xl) {
                 if let bluetooth, !hasSeenBluetoothPrompt, bluetooth.state == .idle {
                     BluetoothPromptCard {
-                        bluetooth.activateAndConnect()
-                    } onSkip: {
                         hasSeenBluetoothPrompt = true
                     }
                 }

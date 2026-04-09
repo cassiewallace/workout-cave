@@ -80,9 +80,8 @@ enum Copy {
 
     enum bluetoothPrompt {
         static let title = "Connect your bike"
-        static let body = "Link your bike to see live power, cadence, and heart rate during your workout."
-        static let connectCTA = "Connect"
-        static let skipCTA = "Not now"
+        static let body = "Tap the Bluetooth icon in the toolbar to connect your bike and see live power, cadence, and heart rate."
+        static let dismissCTA = "Got it"
     }
 
     enum onboarding {

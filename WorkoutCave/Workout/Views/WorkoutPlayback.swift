@@ -239,8 +239,6 @@ struct WorkoutPlayback: View {
                     intervalContent
                 } else if !hasSeenBluetoothPrompt && bluetooth.state == .idle && engine.playbackState == .idle {
                     BluetoothPromptCard {
-                        bluetooth.activateAndConnect()
-                    } onSkip: {
                         hasSeenBluetoothPrompt = true
                     }
                     .padding(.horizontal, horizontalPadding)
