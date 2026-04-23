@@ -18,7 +18,6 @@
 		653F6FB72F14244E006DE91E /* WorkoutCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F6FB62F142447006DE91E /* WorkoutCard.swift */; };
 		654ABC272F3123CA000263D9 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 654ABC262F3123CA000263D9 /* Media.xcassets */; };
 		658197292F16CF5D0004C85A /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658197282F16CF5D0004C85A /* Icons.xcassets */; };
-		658349392F31570F00F517A1 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 658349382F31570F00F517A1 /* Supabase */; };
 		659CC19C2F45239800A6CF67 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659CC19B2F45239700A6CF67 /* PreviewData.swift */; };
 		659CC19E2F452AA200A6CF67 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 659CC19D2F452AA200A6CF67 /* AppIcon.icon */; };
 		65C89C7D2F3BDDEE00DF1C06 /* HeartRateMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C89C7C2F3BDDEC00DF1C06 /* HeartRateMeter.swift */; };
@@ -47,7 +46,6 @@
 		A2000003 /* TermsAndConditions.txt in Resources */ = {isa = PBXBuildFile; fileRef = A2000004 /* TermsAndConditions.txt */; };
 		A2000005 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* Metric.swift */; };
 		A2000008 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* Onboarding.swift */; };
-		A3000003 /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000002 /* NetworkConfig.swift */; };
 		A3000005 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000004 /* NetworkClient.swift */; };
 		A3000007 /* WorkoutAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000006 /* WorkoutAPI.swift */; };
 		A3000009 /* NetworkWorkoutSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000008 /* NetworkWorkoutSource.swift */; };
@@ -59,6 +57,9 @@
 		C10200022F315700000002 /* HeartRateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10100012F315700000001 /* HeartRateZone.swift */; };
 		C10400042F315700000004 /* ZoneSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10300032F315700000003 /* ZoneSettings.swift */; };
 		C10600062F315700000006 /* HeartRateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10500052F315700000005 /* HeartRateSettings.swift */; };
+		FB000004 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FB000002 /* FirebaseFirestore */; };
+		FB000005 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FB000003 /* FirebaseCore */; };
+		FC000002 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC000001 /* GoogleService-Info.plist */; };
 		C20200022F315700000002 /* HeartRateZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20100012F315700000001 /* HeartRateZoneTests.swift */; };
 		D98855C569F1629F4B59E46A /* BluetoothPromptCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5824F2125D5416ECC63F426C /* BluetoothPromptCard.swift */; };
 /* End PBXBuildFile section */
@@ -117,7 +118,7 @@
 		A2000004 /* TermsAndConditions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TermsAndConditions.txt; sourceTree = "<group>"; };
 		A2000006 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
 		A2000007 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
-		A3000002 /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
+		A4000001 /* WorkoutCave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCave.entitlements; sourceTree = "<group>"; };
 		A3000004 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		A3000006 /* WorkoutAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutAPI.swift; sourceTree = "<group>"; };
 		A3000008 /* NetworkWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorkoutSource.swift; sourceTree = "<group>"; };
@@ -131,6 +132,7 @@
 		C10300032F315700000003 /* ZoneSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneSettings.swift; sourceTree = "<group>"; };
 		C10500052F315700000005 /* HeartRateSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateSettings.swift; sourceTree = "<group>"; };
 		C20100012F315700000001 /* HeartRateZoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateZoneTests.swift; sourceTree = "<group>"; };
+		FC000001 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +140,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				658349392F31570F00F517A1 /* Supabase in Frameworks */,
+				FB000004 /* FirebaseFirestore in Frameworks */,
+				FB000005 /* FirebaseCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +240,7 @@
 				65DAFA742F1FD3B100C8F940 /* Copy.swift */,
 				65DAFA722F1FCAFE00C8F940 /* Constants.swift */,
 				651526122F7D922A005E1734 /* PrivacyInfo.xcprivacy */,
+				FC000001 /* GoogleService-Info.plist */,
 				A2000004 /* TermsAndConditions.txt */,
 				658197282F16CF5D0004C85A /* Icons.xcassets */,
 				654ABC262F3123CA000263D9 /* Media.xcassets */,
@@ -288,6 +292,7 @@
 				652071302F217B0700EDFBA1 /* Core */,
 				658197252F16CE8F0004C85A /* Resources */,
 				A1000013 /* Info.plist */,
+				A4000001 /* WorkoutCave.entitlements */,
 				65F559FF2EFAF391007AD1D9 /* README.md */,
 			);
 			path = WorkoutCave;
@@ -354,7 +359,6 @@
 		A3000001 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				A3000002 /* NetworkConfig.swift */,
 				A3000004 /* NetworkClient.swift */,
 				A3000006 /* WorkoutAPI.swift */,
 				A3000008 /* NetworkWorkoutSource.swift */,
@@ -390,9 +394,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				651C9F2B2F3153A50057B4AD /* PBXTargetDependency */,
 			);
 			name = WorkoutCave;
+			packageProductDependencies = (
+				FB000002 /* FirebaseFirestore */,
+				FB000003 /* FirebaseCore */,
+			);
 			productName = WorkoutCave;
 			productReference = A1000000 /* WorkoutCave.app */;
 			productType = "com.apple.product-type.application";
@@ -432,12 +439,12 @@
 				Base,
 			);
 			mainGroup = A1000014;
-			packageReferences = (
-				651C9F252F3153610057B4AD /* XCRemoteSwiftPackageReference "supabase-swift" */,
-			);
 			productRefGroup = A1000016 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
+			packageReferences = (
+				FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			targets = (
 				A1000017 /* WorkoutCave */,
 				B10200172F315700000002 /* WorkoutCaveTests */,
@@ -452,6 +459,7 @@
 			files = (
 				65F55A002EFAF391007AD1D9 /* README.md in Resources */,
 				651526132F7D922A005E1734 /* PrivacyInfo.xcprivacy in Resources */,
+				FC000002 /* GoogleService-Info.plist in Resources */,
 				659CC19E2F452AA200A6CF67 /* AppIcon.icon in Resources */,
 				A2000003 /* TermsAndConditions.txt in Resources */,
 				658197292F16CF5D0004C85A /* Icons.xcassets in Resources */,
@@ -491,7 +499,6 @@
 				65DAFA6F2F1F067800C8F940 /* Controls.swift in Sources */,
 				A2000005 /* Metric.swift in Sources */,
 				A2000008 /* Onboarding.swift in Sources */,
-				A3000003 /* NetworkConfig.swift in Sources */,
 				A3000005 /* NetworkClient.swift in Sources */,
 				A3000007 /* WorkoutAPI.swift in Sources */,
 				A3000009 /* NetworkWorkoutSource.swift in Sources */,
@@ -526,16 +533,36 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		651C9F2B2F3153A50057B4AD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 651C9F2A2F3153A50057B4AD /* Supabase */;
-		};
 		B105002B2F315700000005 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A1000017 /* WorkoutCave */;
 			targetProxy = B105002C2F315700000006 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FB000002 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		FB000003 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A1000023 /* Debug */ = {
@@ -665,6 +692,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = WorkoutCave/WorkoutCave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = BXF2Y7X5P8;
@@ -699,6 +727,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = WorkoutCave/WorkoutCave.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = BXF2Y7X5P8;
@@ -797,29 +826,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		651C9F252F3153610057B4AD /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/supabase/supabase-swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.5.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		651C9F2A2F3153A50057B4AD /* Supabase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 651C9F252F3153610057B4AD /* XCRemoteSwiftPackageReference "supabase-swift" */;
-			productName = Supabase;
-		};
-		658349382F31570F00F517A1 /* Supabase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 651C9F252F3153610057B4AD /* XCRemoteSwiftPackageReference "supabase-swift" */;
-			productName = Supabase;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A1000021 /* Project object */;
 }

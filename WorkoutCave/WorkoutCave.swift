@@ -5,11 +5,16 @@
 //  Created by Cassie Wallace on 12/18/25.
 //
 
+import FirebaseCore
 import SwiftData
 import SwiftUI
 
 @main
 struct WorkoutCave: App {
+    init() {
+        FirebaseApp.configure()
+    }
+
     var body: some Scene {
         WindowGroup {
             RootView()

@@ -2,48 +2,41 @@
 //  WorkoutAPI.swift
 //  WorkoutCave
 //
-//  Created by Cassie Wallace on 2/2/26.
-//
 
-import Foundation
-import Supabase
+import FirebaseFirestore
 
 struct WorkoutAPI {
-    let client: SupabaseClient
+    private let database: Firestore
 
-    init(client: SupabaseClient = NetworkClient.shared.client) {
-        self.client = client
+    init(database: Firestore = NetworkClient.shared.database) {
+        self.database = database
     }
 
     func fetchWorkoutSummaries() async throws -> [WorkoutSummary] {
-        let rows: [WorkoutSummaryRow] = try await client
-            .from("workouts")
-            .select("id,name,description")
-            .order("id")
-            .execute()
-            .value
-        return rows.map {
+        let snapshot = try await database.collection("workouts").getDocuments()
+        return snapshot.documents.map { doc in
             WorkoutSummary(
-                id: $0.id,
-                name: $0.name,
-                description: $0.description
+                id: doc.documentID,
+                name: doc["name"] as? String ?? "",
+                description: doc["description"] as? String
             )
         }
     }
 
-    func fetchWorkout(id: Int) async throws -> Workout {
-        let rows: [WorkoutRow] = try await client
-            .from("workouts")
-            .select("id,name,description,duration,metrics,finished_metrics,intervals(name,duration,message,type,power_lower,power_upper,order_index)")
-            .eq("id", value: id)
-            .execute()
-            .value
-
-        guard let row = rows.first else {
+    func fetchWorkout(id: String) async throws -> Workout {
+        let workoutDoc = try await database.collection("workouts").document(id).getDocument()
+        guard workoutDoc.exists, let data = workoutDoc.data() else {
             throw WorkoutAPIError.notFound
         }
 
-        return row.toWorkout()
+        let intervalsSnapshot = try await database
+            .collection("workouts").document(id)
+            .collection("intervals")
+            .order(by: "order_index")
+            .getDocuments()
+
+        let intervals = intervalsSnapshot.documents.map { $0.data().toInterval() }
+        return data.toWorkout(id: id, intervals: intervals)
     }
 }
 
@@ -52,80 +45,38 @@ enum WorkoutAPIError: Error {
 }
 
 struct WorkoutSummary: Identifiable, Hashable {
-    let id: Int
+    let id: String
     let name: String
     let description: String?
 }
 
-struct WorkoutSummaryRow: Decodable {
-    let id: Int
-    let name: String
-    let description: String?
-}
+// MARK: - Firestore Mapping
 
-struct WorkoutRow: Decodable {
-    let id: Int
-    let name: String
-    let description: String?
-    let duration: Int?
-    let metrics: [Metric]?
-    let finishedMetrics: [Metric]?
-    let intervals: [IntervalRow]?
-
-    enum CodingKeys: String, CodingKey {
-        case id, name, description, duration, intervals
-        case metrics
-        case finishedMetrics = "finished_metrics"
-    }
-
-    func toWorkout() -> Workout {
-        let sortedIntervals = (intervals ?? []).sorted {
-            ($0.orderIndex ?? Int.max) < ($1.orderIndex ?? Int.max)
-        }
-
-        let mappedIntervals = sortedIntervals.map { row in
-            Workout.Interval(
-                duration: TimeInterval(row.duration),
-                name: row.name,
-                message: row.message,
-                type: Workout.Interval.IntervalType(rawValue: row.type ?? "") ?? .steadyState,
-                powerTarget: row.powerTarget
-            )
-        }
-
-        return Workout(
-            id: String(id),
-            name: name,
-            description: description,
-            intervals: mappedIntervals,
-            duration: duration.map { TimeInterval($0) },
-            metrics: metrics,
-            finishedMetrics: finishedMetrics
+extension Dictionary where Key == String, Value == Any {
+    func toWorkout(id: String, intervals: [Workout.Interval]) -> Workout {
+        Workout(
+            id: id,
+            name: self["name"] as? String ?? "",
+            description: self["description"] as? String,
+            intervals: intervals,
+            duration: (self["duration"] as? Int).map { TimeInterval($0) },
+            metrics: (self["metrics"] as? [String])?.compactMap { Metric(rawValue: $0) },
+            finishedMetrics: (self["finished_metrics"] as? [String])?.compactMap { Metric(rawValue: $0) }
         )
     }
-}
 
-struct IntervalRow: Decodable {
-    let name: String
-    let duration: Int
-    let message: String?
-    let type: String?
-    let powerLower: Double?
-    let powerUpper: Double?
-    let orderIndex: Int?
-
-    var powerTarget: Workout.Interval.PowerTarget? {
-        guard powerLower != nil || powerUpper != nil else { return nil }
-        return Workout.Interval.PowerTarget(lowerBound: powerLower, upperBound: powerUpper)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case name
-        case duration
-        case message
-        case type
-        case powerLower = "power_lower"
-        case powerUpper = "power_upper"
-        case orderIndex = "order_index"
+    func toInterval() -> Workout.Interval {
+        let powerLower = self["power_lower"] as? Double
+        let powerUpper = self["power_upper"] as? Double
+        let powerTarget: Workout.Interval.PowerTarget? = (powerLower != nil || powerUpper != nil)
+            ? Workout.Interval.PowerTarget(lowerBound: powerLower, upperBound: powerUpper)
+            : nil
+        return Workout.Interval(
+            duration: TimeInterval((self["duration"] as? Int) ?? 0),
+            name: self["name"] as? String ?? "",
+            message: self["message"] as? String,
+            type: Workout.Interval.IntervalType(rawValue: self["type"] as? String ?? "") ?? .steadyState,
+            powerTarget: powerTarget
+        )
     }
 }
