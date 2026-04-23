@@ -30,7 +30,7 @@ struct WorkoutList: View {
 
     private enum WorkoutListSource {
         case local(LoadedWorkout)
-        case remote(id: Int)
+        case remote(id: String)
     }
 
     // MARK: - Properties
@@ -117,7 +117,6 @@ struct WorkoutList: View {
         .navigationBarTitleDisplayMode(.large)
         .background(Color("AppBackground"))
         .task {
-            viewState = .loading
             let local: [WorkoutListItem] = Self.localWorkoutSources.compactMap { item in
                 guard let workout = try? item.source.loadWorkout() else {
                     return nil
@@ -131,6 +130,8 @@ struct WorkoutList: View {
                 )
             }
 
+            viewState = .loaded(local)
+
             do {
                 let remote = try await workoutAPI.fetchWorkoutSummaries()
                 let remoteItems = remote.map { summary in
@@ -143,7 +144,7 @@ struct WorkoutList: View {
                 }
                 viewState = .loaded(local + remoteItems)
             } catch {
-                viewState = .loaded(local)
+                // local workouts already shown; remote fetch failed silently
             }
         }
         .toolbar {
@@ -173,7 +174,7 @@ struct WorkoutList: View {
                 do {
                     let workout = try await workoutAPI.fetchWorkout(id: id)
                     let loaded = LoadedWorkout(
-                        id: String(id),
+                        id: id,
                         workout: workout,
                         source: NetworkWorkoutSource(workout: workout)
                     )
