@@ -28,3 +28,6 @@ Package.pins
 # macOS
 .DS_Store
 **/.DS_Store
+
+# Firebase - contains sensitive API keys, never commit
+GoogleService-Info.plist
