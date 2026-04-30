@@ -57,11 +57,11 @@
 		C10200022F315700000002 /* HeartRateZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10100012F315700000001 /* HeartRateZone.swift */; };
 		C10400042F315700000004 /* ZoneSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10300032F315700000003 /* ZoneSettings.swift */; };
 		C10600062F315700000006 /* HeartRateSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10500052F315700000005 /* HeartRateSettings.swift */; };
+		C20200022F315700000002 /* HeartRateZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20100012F315700000001 /* HeartRateZoneTests.swift */; };
+		D98855C569F1629F4B59E46A /* BluetoothPromptCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5824F2125D5416ECC63F426C /* BluetoothPromptCard.swift */; };
 		FB000004 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FB000002 /* FirebaseFirestore */; };
 		FB000005 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FB000003 /* FirebaseCore */; };
 		FC000002 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC000001 /* GoogleService-Info.plist */; };
-		C20200022F315700000002 /* HeartRateZoneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20100012F315700000001 /* HeartRateZoneTests.swift */; };
-		D98855C569F1629F4B59E46A /* BluetoothPromptCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5824F2125D5416ECC63F426C /* BluetoothPromptCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +75,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		34BF7A7D618BE80FE74D0ECA /* ci_post_clone.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; name = ci_post_clone.sh; path = ci_scripts/ci_post_clone.sh; sourceTree = "<group>"; };
 		5824F2125D5416ECC63F426C /* BluetoothPromptCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BluetoothPromptCard.swift; sourceTree = "<group>"; };
 		651526122F7D922A005E1734 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		652071312F217B1700EDFBA1 /* CardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStyle.swift; sourceTree = "<group>"; };
@@ -118,10 +119,10 @@
 		A2000004 /* TermsAndConditions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TermsAndConditions.txt; sourceTree = "<group>"; };
 		A2000006 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
 		A2000007 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
-		A4000001 /* WorkoutCave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCave.entitlements; sourceTree = "<group>"; };
 		A3000004 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		A3000006 /* WorkoutAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutAPI.swift; sourceTree = "<group>"; };
 		A3000008 /* NetworkWorkoutSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorkoutSource.swift; sourceTree = "<group>"; };
+		A4000001 /* WorkoutCave.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WorkoutCave.entitlements; sourceTree = "<group>"; };
 		B10300002F315700000003 /* WorkoutCaveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorkoutCaveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B10A00012F31570000000A /* WorkoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutTests.swift; sourceTree = "<group>"; };
 		B10B00022F31570000000B /* PowerTargetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerTargetTests.swift; sourceTree = "<group>"; };
@@ -276,6 +277,7 @@
 				A1000015 /* WorkoutCave */,
 				B10100112F315700000001 /* WorkoutCaveTests */,
 				A1000016 /* Products */,
+				D33DB4EC0CDA5C499B383EC0 /* ci_scripts */,
 			);
 			sourceTree = "<group>";
 		};
@@ -380,6 +382,15 @@
 			path = WorkoutCaveTests;
 			sourceTree = "<group>";
 		};
+		D33DB4EC0CDA5C499B383EC0 /* ci_scripts */ = {
+			isa = PBXGroup;
+			children = (
+				34BF7A7D618BE80FE74D0ECA /* ci_post_clone.sh */,
+			);
+			name = ci_scripts;
+			path = ci_scripts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -439,12 +450,12 @@
 				Base,
 			);
 			mainGroup = A1000014;
-			productRefGroup = A1000016 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
 			packageReferences = (
 				FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
+			productRefGroup = A1000016 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				A1000017 /* WorkoutCave */,
 				B10200172F315700000002 /* WorkoutCaveTests */,
@@ -539,30 +550,6 @@
 			targetProxy = B105002C2F315700000006 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FB000002 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		FB000003 /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A1000023 /* Debug */ = {
@@ -826,6 +813,29 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FB000002 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		FB000003 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FB000001 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A1000021 /* Project object */;
 }
